@@ -1,0 +1,661 @@
+[
+  {
+    "objectID": "managing-environment-revealjs.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
+    "href": "managing-environment-revealjs.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
+    "title": "Managing your computational environment",
+    "section": "Power of Python for research comes from rich ecosystem of third-party packages",
+    "text": "Power of Python for research comes from rich ecosystem of third-party packages\n\nThese include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!\n\n\nBut, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality)."
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
+    "href": "managing-environment-revealjs.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
+    "title": "Managing your computational environment",
+    "section": "Your results may depend on the specific versions and combination of packages you have installed.",
+    "text": "Your results may depend on the specific versions and combination of packages you have installed.\n\nThis is particularly important for research analysis."
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#as-a-rule-dont-install-packages-into-your-global-environment",
+    "href": "managing-environment-revealjs.html#as-a-rule-dont-install-packages-into-your-global-environment",
+    "title": "Managing your computational environment",
+    "section": "🚨 As a rule, don’t install packages into your global environment!",
+    "text": "🚨 As a rule, don’t install packages into your global environment!\n\n… even if the documentation says pip install x"
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#best-practice-use-virtual-environments",
+    "href": "managing-environment-revealjs.html#best-practice-use-virtual-environments",
+    "title": "Managing your computational environment",
+    "section": "Best practice: use virtual environments",
+    "text": "Best practice: use virtual environments\n\nVirtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.\nVirtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.\nThese are intended to be easy to set up, disposable, and replaceable."
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#creating-and-activating-a-virtual-environment",
+    "href": "managing-environment-revealjs.html#creating-and-activating-a-virtual-environment",
+    "title": "Managing your computational environment",
+    "section": "Creating and activating a virtual environment",
+    "text": "Creating and activating a virtual environment\npython3 -m venv .venv\n\nThis creates a new directory .venv with:\n\n\n.venv/bin with link to Python, pip, and activation scripts; and\n.venv/lib/site-packages where packages will be installed."
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#installing-packages",
+    "href": "managing-environment-revealjs.html#installing-packages",
+    "title": "Managing your computational environment",
+    "section": "Installing packages",
+    "text": "Installing packages\npip install &lt;package&gt;"
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#pip-family",
+    "href": "managing-environment-revealjs.html#pip-family",
+    "title": "Managing your computational environment",
+    "section": "pip family",
+    "text": "pip family\nTools that all work similarly to venv:\n\nvenv: comes with Python, simple\nvirtualenv: installable package with same interface as venv, but faster and with more options\nuv: written in Rust and extremely fast"
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#conda-family",
+    "href": "managing-environment-revealjs.html#conda-family",
+    "title": "Managing your computational environment",
+    "section": "Conda family",
+    "text": "Conda family\n\nConda is an open-source tool for managing virtual environments across your system, originally designed for Python package management but now supports a wide range of software (e.g., compiled C++ dependencies).\n\n\nVirtual environments created with Conda are not location-dependent like venv, but the same approach applies: do not install in the base/default environment.\n\n\nConda is recommended if you expect to need non-Python dependencies."
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#section",
+    "href": "managing-environment-revealjs.html#section",
+    "title": "Managing your computational environment",
+    "section": "",
+    "text": "conda config --set auto_activate_base false  # turn off the default environment\nconda env create -n some_name  # or use paths with `-p`\nconda activate some_name\nconda deactivate"
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#conda-based-package-managers",
+    "href": "managing-environment-revealjs.html#conda-based-package-managers",
+    "title": "Managing your computational environment",
+    "section": "Conda-based package managers",
+    "text": "Conda-based package managers\nSome alternatives to conda exist and offer some advantages, including speed:\n\nMiniconda: minimal Conda installation without all the packages that come with the full Anaconda distribution\nPixi: fast, Rust-based package manager and workflow tool Some other\nMicromamba: tiny version of Mamba, statically linked C++ binary"
+  },
+  {
+    "objectID": "managing-environment.html",
+    "href": "managing-environment.html",
+    "title": "Managing your computational environment",
+    "section": "",
+    "text": "These include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!\n\n\nBut, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality).\n\n\n\n\n\nThis is particularly important for research analysis.\n\n\n\n\n\n\n\n\n\n\n\n\n\nVirtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.\nVirtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.\nThese are intended to be easy to set up, disposable, and replaceable.\n\n\n\nOn a Mac or Linux machine, I recommend using the built-in venv module to create a virtual environment for your work, then install inside that using the pip installer.\nOn Windows, your best bet is probably the Anaconda Distribution. Anaconda comes with hundreds of scientific packages already, and also lets you set up system-wide virtual environments.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
+    "href": "managing-environment.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
+    "title": "Managing your computational environment",
+    "section": "",
+    "text": "These include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!\n\n\nBut, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality).",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
+    "href": "managing-environment.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
+    "title": "Managing your computational environment",
+    "section": "",
+    "text": "This is particularly important for research analysis.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#best-practice-use-virtual-environments",
+    "href": "managing-environment.html#best-practice-use-virtual-environments",
+    "title": "Managing your computational environment",
+    "section": "",
+    "text": "Virtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.\nVirtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.\nThese are intended to be easy to set up, disposable, and replaceable.\n\n\n\nOn a Mac or Linux machine, I recommend using the built-in venv module to create a virtual environment for your work, then install inside that using the pip installer.\nOn Windows, your best bet is probably the Anaconda Distribution. Anaconda comes with hundreds of scientific packages already, and also lets you set up system-wide virtual environments.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#creating-and-activating-a-virtual-environment",
+    "href": "managing-environment.html#creating-and-activating-a-virtual-environment",
+    "title": "Managing your computational environment",
+    "section": "Creating and activating a virtual environment",
+    "text": "Creating and activating a virtual environment\npython3 -m venv .venv\n\nThis creates a new directory .venv with:\n\n\n.venv/bin with link to Python, pip, and activation scripts; and\n.venv/lib/site-packages where packages will be installed.\n\n\n\nTo activate the environment, source the activation script:\n\nsource .venv/bin/activate\n\n\n\n\n\n\nTip\n\n\n\nTry this yourself. .venv/bin will be added to your PATH, and your shell will usually indicate you are “in” a virtual environment.\n\n\n\nTo leave the virtual environment, run the deactivate function:\n\ndeactivate\n\n\n\n\n\n\nNote\n\n\n\nClosing/terminating your shell will automatically deactivate the virtual environment, and you’ll need to manually activate whenever you start a new session.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#installing-packages",
+    "href": "managing-environment.html#installing-packages",
+    "title": "Managing your computational environment",
+    "section": "Installing packages",
+    "text": "Installing packages\npip install &lt;package&gt;",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#pip-family",
+    "href": "managing-environment.html#pip-family",
+    "title": "Managing your computational environment",
+    "section": "pip family",
+    "text": "pip family\nTools that all work similarly to venv:\n\nvenv: comes with Python, simple\nvirtualenv: installable package with same interface as venv, but faster and with more options\nuv: written in Rust and extremely fast\n\n\nIn addition, there are project management tools that both handle environments, packaging, production, etc.:\n\nHatch\nPoetry\nPipenv\n\n\nThese work a bit differently, but can be quite powerful particularly for locking specific versions of dependencies. Consider returning to these when we are thinking about packaging and distribution.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#conda-family",
+    "href": "managing-environment.html#conda-family",
+    "title": "Managing your computational environment",
+    "section": "Conda family",
+    "text": "Conda family\n\nConda is an open-source tool for managing virtual environments across your system, originally designed for Python package management but now supports a wide range of software (e.g., compiled C++ dependencies).\n\n\nVirtual environments created with Conda are not location-dependent like venv, but the same approach applies: do not install in the base/default environment.\n\n\nConda is recommended if you expect to need non-Python dependencies.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#section",
+    "href": "managing-environment.html#section",
+    "title": "Managing your computational environment",
+    "section": "",
+    "text": "conda config --set auto_activate_base false  # turn off the default environment\nconda env create -n some_name  # or use paths with `-p`\nconda activate some_name\nconda deactivate",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#conda-based-package-managers",
+    "href": "managing-environment.html#conda-based-package-managers",
+    "title": "Managing your computational environment",
+    "section": "Conda-based package managers",
+    "text": "Conda-based package managers\nSome alternatives to conda exist and offer some advantages, including speed:\n\nMiniconda: minimal Conda installation without all the packages that come with the full Anaconda distribution\nPixi: fast, Rust-based package manager and workflow tool Some other\nMicromamba: tiny version of Mamba, statically linked C++ binary",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Software Development for Research",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "version-control-revealjs.html#where-is-version-control-needed",
+    "href": "version-control-revealjs.html#where-is-version-control-needed",
+    "title": "Introduction to version control with Git",
+    "section": "Where is version control needed?",
+    "text": "Where is version control needed?\n\nBacking up changing files\nStoring and accessing an annotated history of changes\nManaging the merging of changes between different change sets"
+  },
+  {
+    "objectID": "version-control-revealjs.html#why-is-this-important",
+    "href": "version-control-revealjs.html#why-is-this-important",
+    "title": "Introduction to version control with Git",
+    "section": "Why is this important?",
+    "text": "Why is this important?\n\n\n\nImage credit: Jorge Cham, PhD Comics"
+  },
+  {
+    "objectID": "version-control-revealjs.html#saving-copies",
+    "href": "version-control-revealjs.html#saving-copies",
+    "title": "Introduction to version control with Git",
+    "section": "Saving copies",
+    "text": "Saving copies\n\n important_code.py\n\n\n important_code-2.py\n\n\n important_code-fix.py\n\n\n important_code-final.py\n\n\n important_code-final-4Apr.py"
+  },
+  {
+    "objectID": "version-control-revealjs.html#git-commits",
+    "href": "version-control-revealjs.html#git-commits",
+    "title": "Introduction to version control with Git",
+    "section": "Git commits",
+    "text": "Git commits\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py"
+  },
+  {
+    "objectID": "version-control-revealjs.html#types-of-version-control",
+    "href": "version-control-revealjs.html#types-of-version-control",
+    "title": "Introduction to version control with Git",
+    "section": "Types of version control",
+    "text": "Types of version control\n\nCentralized:\n\n\nConcurrent Version System (cvs)\nSubversion (svn)\nPerforce (p4)\n\n\nDistributed:\n\n\nDecentralized CVS (dcvs)\nmercurial (hg)\nbazaar (bzr)\nGit (git)"
+  },
+  {
+    "objectID": "version-control-revealjs.html#git",
+    "href": "version-control-revealjs.html#git",
+    "title": "Introduction to version control with Git",
+    "section": "Git",
+    "text": "Git\n\n\nGit is a knife whose handle is also a knife. – Philip Guo"
+  },
+  {
+    "objectID": "version-control-revealjs.html#section",
+    "href": "version-control-revealjs.html#section",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "$ git --help\n\n$ git config --global user.name \"Kyle Niemeyer\"\n$ git config --global user.email \"kyle.niemeyer@oregonstate.edu\"\n$ git config --global core.editor \"vim\""
+  },
+  {
+    "objectID": "version-control-revealjs.html#section-1",
+    "href": "version-control-revealjs.html#section-1",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "~ $ mkdir analysis_code\n~ $ cd analysis_code\n\n~/analysis_code $ git init\nInitialized empty Git repository in ~/analysis_code/.git/"
+  },
+  {
+    "objectID": "version-control-revealjs.html#section-2",
+    "href": "version-control-revealjs.html#section-2",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "~/analysis_code $ ls\n~/analysis_code $ ls -A\n.git\n\n~/analysis_code $ cd .git && ls -A\nHEAD    config    description    hooks    index    info    logs\n\n\n\n\n\n\n\nTip\n\n\nTry this yourself."
+  },
+  {
+    "objectID": "version-control-revealjs.html#adding-files",
+    "href": "version-control-revealjs.html#adding-files",
+    "title": "Introduction to version control with Git",
+    "section": "Adding files",
+    "text": "Adding files\n~/analysis_code $ touch README.md\n~/analysis_code $ git add README.md\n~/analysis_code $ git status\n\n\n\n\n\n\n\nTip\n\n\nTry this yourself."
+  },
+  {
+    "objectID": "version-control-revealjs.html#committing-changes",
+    "href": "version-control-revealjs.html#committing-changes",
+    "title": "Introduction to version control with Git",
+    "section": "Committing changes",
+    "text": "Committing changes\n\nSnapshot of repository = revision\n\n\nCommitting a revision:\n\n\nSaves current state with a unique ID (hash)\nNames you as the author\nAllows you to add a message\n\n~/analysis_code $ git commit\n\n\n\n\n\n\n\nTip\n\n\nTry this yourself."
+  },
+  {
+    "objectID": "version-control-revealjs.html#options-to-save-time",
+    "href": "version-control-revealjs.html#options-to-save-time",
+    "title": "Introduction to version control with Git",
+    "section": "Options to save time",
+    "text": "Options to save time\n~/analysis_code $ git commit -m \"This is my message\"\n~/analysis_code $ git commit -am \"This is my message \n                  committing all changes\""
+  },
+  {
+    "objectID": "version-control-revealjs.html#commit-messages",
+    "href": "version-control-revealjs.html#commit-messages",
+    "title": "Introduction to version control with Git",
+    "section": "Commit messages",
+    "text": "Commit messages\n\nBad commit message:\n\nFixed bug\n\nBetter commit message:\n\nFixed bug in mass calculation\n\nDue to incorrect density value, mass was being calculated\norders of magnitude larger than it should. The correct value\nof density fixed this problem."
+  },
+  {
+    "objectID": "version-control-revealjs.html#viewing-history-and-differences",
+    "href": "version-control-revealjs.html#viewing-history-and-differences",
+    "title": "Introduction to version control with Git",
+    "section": "Viewing history and differences",
+    "text": "Viewing history and differences\n~/analysis_code $ git log\n~/analysis_code $ git diff"
+  },
+  {
+    "objectID": "version-control-revealjs.html#undoing-work",
+    "href": "version-control-revealjs.html#undoing-work",
+    "title": "Introduction to version control with Git",
+    "section": "Undoing work",
+    "text": "Undoing work\n\nUn-add a file that has been staged:\n\n~/analysis_code $ git restore --staged &lt;filename&gt;\n\nReset all tracked files to previous commit:\n\n~/analysis_code $ git reset [mode] [commit]\n\nRemove uncommitted changes:\n\n~/analysis_code $ git checkout -- &lt;filename&gt;"
+  },
+  {
+    "objectID": "version-control-revealjs.html#branches",
+    "href": "version-control-revealjs.html#branches",
+    "title": "Introduction to version control with Git",
+    "section": "Branches",
+    "text": "Branches\n~/analysis_code $ git branch\n* main\n\n~/analysis_code $ git branch experimental\n~/analysis_code $ git branch\n  experimental\n* main\n\n~/analysis_code $ git branch new\n~/analysis_code $ git branch\n  experimental\n* main\n  new\n\n~/analysis_code $ git branch -d new\n~/analysis_code $ git branch\n  experimental\n* main\n\n~/analysis_code $ git switch experimental\n~/analysis_code $ git branch\n* experimental\n  main"
+  },
+  {
+    "objectID": "version-control-revealjs.html#merging-branches",
+    "href": "version-control-revealjs.html#merging-branches",
+    "title": "Introduction to version control with Git",
+    "section": "Merging branches",
+    "text": "Merging branches\n~/analysis_code $ git switch main\n~/analysis_code $ git merge experimental\n~/analysis_code $ git log"
+  },
+  {
+    "objectID": "version-control.html",
+    "href": "version-control.html",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "Backing up changing files\nStoring and accessing an annotated history of changes\nManaging the merging of changes between different change sets\n\n\n\n\n\n\n\nImage credit: Jorge Cham, PhD Comics\n\n\n\n\n\n\n important_code.py\n\n\n important_code-2.py\n\n\n important_code-fix.py\n\n\n important_code-final.py\n\n\n important_code-final-4Apr.py\n\n\n\n\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py\n\n\n\n\n\nCentralized:\n\n\nConcurrent Version System (cvs)\nSubversion (svn)\nPerforce (p4)\n\n\nDistributed:\n\n\nDecentralized CVS (dcvs)\nmercurial (hg)\nbazaar (bzr)\nGit (git)\n\n\n\n\n\n\nGit is a knife whose handle is also a knife. – Philip Guo\n\n\n\n\n\nImage credit: xkcd",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#where-is-version-control-needed",
+    "href": "version-control.html#where-is-version-control-needed",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "Backing up changing files\nStoring and accessing an annotated history of changes\nManaging the merging of changes between different change sets",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#why-is-this-important",
+    "href": "version-control.html#why-is-this-important",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "Image credit: Jorge Cham, PhD Comics",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#saving-copies",
+    "href": "version-control.html#saving-copies",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "important_code.py\n\n\n important_code-2.py\n\n\n important_code-fix.py\n\n\n important_code-final.py\n\n\n important_code-final-4Apr.py",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#git-commits",
+    "href": "version-control.html#git-commits",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "important_code.py\n\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#types-of-version-control",
+    "href": "version-control.html#types-of-version-control",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "Centralized:\n\n\nConcurrent Version System (cvs)\nSubversion (svn)\nPerforce (p4)\n\n\nDistributed:\n\n\nDecentralized CVS (dcvs)\nmercurial (hg)\nbazaar (bzr)\nGit (git)",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#git",
+    "href": "version-control.html#git",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "Git is a knife whose handle is also a knife. – Philip Guo\n\n\n\n\n\nImage credit: xkcd",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#section",
+    "href": "version-control.html#section",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "$ git --help\n\n$ git config --global user.name \"Kyle Niemeyer\"\n$ git config --global user.email \"kyle.niemeyer@oregonstate.edu\"\n$ git config --global core.editor \"vim\"",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#section-1",
+    "href": "version-control.html#section-1",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "~ $ mkdir analysis_code\n~ $ cd analysis_code\n\n~/analysis_code $ git init\nInitialized empty Git repository in ~/analysis_code/.git/",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#section-2",
+    "href": "version-control.html#section-2",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "~/analysis_code $ ls\n~/analysis_code $ ls -A\n.git\n\n~/analysis_code $ cd .git && ls -A\nHEAD    config    description    hooks    index    info    logs\n\n\n\n\n\n\nTip\n\n\n\nTry this yourself.",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#adding-files",
+    "href": "version-control.html#adding-files",
+    "title": "Introduction to version control with Git",
+    "section": "Adding files",
+    "text": "Adding files\n~/analysis_code $ touch README.md\n~/analysis_code $ git add README.md\n~/analysis_code $ git status\n\n\n\n\n\n\nTip\n\n\n\nTry this yourself.",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#committing-changes",
+    "href": "version-control.html#committing-changes",
+    "title": "Introduction to version control with Git",
+    "section": "Committing changes",
+    "text": "Committing changes\n\nSnapshot of repository = revision\n\n\nCommitting a revision:\n\n\nSaves current state with a unique ID (hash)\nNames you as the author\nAllows you to add a message\n\n~/analysis_code $ git commit\n\n\n\n\n\n\nTip\n\n\n\nTry this yourself.",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#options-to-save-time",
+    "href": "version-control.html#options-to-save-time",
+    "title": "Introduction to version control with Git",
+    "section": "Options to save time",
+    "text": "Options to save time\n~/analysis_code $ git commit -m \"This is my message\"\n~/analysis_code $ git commit -am \"This is my message \n                  committing all changes\"",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#commit-messages",
+    "href": "version-control.html#commit-messages",
+    "title": "Introduction to version control with Git",
+    "section": "Commit messages",
+    "text": "Commit messages\n\nBad commit message:\n\nFixed bug\n\nBetter commit message:\n\nFixed bug in mass calculation\n\nDue to incorrect density value, mass was being calculated\norders of magnitude larger than it should. The correct value\nof density fixed this problem.\n\n\n\n\nImage credit: xkcd",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#viewing-history-and-differences",
+    "href": "version-control.html#viewing-history-and-differences",
+    "title": "Introduction to version control with Git",
+    "section": "Viewing history and differences",
+    "text": "Viewing history and differences\n~/analysis_code $ git log\n~/analysis_code $ git diff",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#undoing-work",
+    "href": "version-control.html#undoing-work",
+    "title": "Introduction to version control with Git",
+    "section": "Undoing work",
+    "text": "Undoing work\n\nUn-add a file that has been staged:\n\n~/analysis_code $ git restore --staged &lt;filename&gt;\n\nReset all tracked files to previous commit:\n\n~/analysis_code $ git reset [mode] [commit]\n\nRemove uncommitted changes:\n\n~/analysis_code $ git checkout -- &lt;filename&gt;",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#branches",
+    "href": "version-control.html#branches",
+    "title": "Introduction to version control with Git",
+    "section": "Branches",
+    "text": "Branches\n~/analysis_code $ git branch\n* main\n\n~/analysis_code $ git branch experimental\n~/analysis_code $ git branch\n  experimental\n* main\n\n~/analysis_code $ git branch new\n~/analysis_code $ git branch\n  experimental\n* main\n  new\n\n~/analysis_code $ git branch -d new\n~/analysis_code $ git branch\n  experimental\n* main\n\n~/analysis_code $ git switch experimental\n~/analysis_code $ git branch\n* experimental\n  main",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "version-control.html#merging-branches",
+    "href": "version-control.html#merging-branches",
+    "title": "Introduction to version control with Git",
+    "section": "Merging branches",
+    "text": "Merging branches\n~/analysis_code $ git switch main\n~/analysis_code $ git merge experimental\n~/analysis_code $ git log",
+    "crumbs": [
+      "Introduction to version control with Git"
+    ]
+  },
+  {
+    "objectID": "getting-started.html",
+    "href": "getting-started.html",
+    "title": "Getting Started",
+    "section": "",
+    "text": "Learning computational skills to be successful in modern research\nDeveloping a software package from scratch for your research\n\n\n\n\n\nLearning how to program in Python\nThose who aren’t comfortable doing open-ended, self-directed work.\n\n\n\n\nNearly all research relies on software—even experimental—but researchers don’t get trained in best practices in the same way as experimental methods.\n\n\n\n\nComputational environment management\nVersion control\nCollaborative software development\nStructuring programs\nWorking with files\nImproving performance, parallelization\nReproducible research\nWriting about software, documentation\nSharing software openly, copyright",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#what-this-class-is-for",
+    "href": "getting-started.html#what-this-class-is-for",
+    "title": "Getting Started",
+    "section": "",
+    "text": "Learning computational skills to be successful in modern research\nDeveloping a software package from scratch for your research",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#what-this-class-isnt-for",
+    "href": "getting-started.html#what-this-class-isnt-for",
+    "title": "Getting Started",
+    "section": "",
+    "text": "Learning how to program in Python\nThose who aren’t comfortable doing open-ended, self-directed work.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#motivation",
+    "href": "getting-started.html#motivation",
+    "title": "Getting Started",
+    "section": "",
+    "text": "Nearly all research relies on software—even experimental—but researchers don’t get trained in best practices in the same way as experimental methods.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#what-are-we-going-to-learn-about",
+    "href": "getting-started.html#what-are-we-going-to-learn-about",
+    "title": "Getting Started",
+    "section": "",
+    "text": "Computational environment management\nVersion control\nCollaborative software development\nStructuring programs\nWorking with files\nImproving performance, parallelization\nReproducible research\nWriting about software, documentation\nSharing software openly, copyright",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#who-are-you-quick-introductions",
+    "href": "getting-started.html#who-are-you-quick-introductions",
+    "title": "Getting Started",
+    "section": "Who are you? Quick introductions",
+    "text": "Who are you? Quick introductions\n\nMajors / research areas?\nExperience level in Python / programming\nExperience level with command line\nMac, Linux, or Windows?",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#who-am-i",
+    "href": "getting-started.html#who-am-i",
+    "title": "Getting Started",
+    "section": "Who am I?",
+    "text": "Who am I?\n\nDr. Kyle Niemeyer, Associate Professor of Mechanical Engineering\nBackground: computational combustion modeling, fluid dynamics\nLanguages: Matlab -&gt; Fortran -&gt; C/C++/CUDA -&gt; Python",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#online-resources",
+    "href": "getting-started.html#online-resources",
+    "title": "Getting Started",
+    "section": "Online resources",
+    "text": "Online resources\n\nSyllabus: on Canvas\nGitHub organization: https://github.com/SoftwareDevEngResearch\nOther resources: linked on Canvas\nSlack chat room (linked on Canvas)",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#textbook",
+    "href": "getting-started.html#textbook",
+    "title": "Getting Started",
+    "section": "Textbook",
+    "text": "Textbook\n\nhttp://physics.codes/\nChapters 1–6 should be review",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started.html#project",
+    "href": "getting-started.html#project",
+    "title": "Getting Started",
+    "section": "Project",
+    "text": "Project\nMost of your work in the class will be centered around a project developing a new software package for your research.\nAssignments will focus on development stages for your software package.\nFirst assignment: project proposal, due January 17.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started-revealjs.html#what-this-class-is-for",
+    "href": "getting-started-revealjs.html#what-this-class-is-for",
+    "title": "Getting Started",
+    "section": "What this class is for:",
+    "text": "What this class is for:\n\nLearning computational skills to be successful in modern research\nDeveloping a software package from scratch for your research\n\n\n\nThis class is only intended for MS and PhD students working on thesis/dissertation research."
+  },
+  {
+    "objectID": "getting-started-revealjs.html#what-this-class-isnt-for",
+    "href": "getting-started-revealjs.html#what-this-class-isnt-for",
+    "title": "Getting Started",
+    "section": "What this class isn’t for:",
+    "text": "What this class isn’t for:\n\nLearning how to program in Python\nThose who aren’t comfortable doing open-ended, self-directed work.\n\n\n\nThough you will learn more about programming and Python, you absolutely need to have some skills already."
+  },
+  {
+    "objectID": "getting-started-revealjs.html#motivation",
+    "href": "getting-started-revealjs.html#motivation",
+    "title": "Getting Started",
+    "section": "Motivation",
+    "text": "Motivation\nNearly all research relies on software—even experimental—but researchers don’t get trained in best practices in the same way as experimental methods."
+  },
+  {
+    "objectID": "getting-started-revealjs.html#what-are-we-going-to-learn-about",
+    "href": "getting-started-revealjs.html#what-are-we-going-to-learn-about",
+    "title": "Getting Started",
+    "section": "What are we going to learn about?",
+    "text": "What are we going to learn about?\n\nComputational environment management\nVersion control\nCollaborative software development\nStructuring programs\nWorking with files\nImproving performance, parallelization\nReproducible research\nWriting about software, documentation\nSharing software openly, copyright"
+  },
+  {
+    "objectID": "getting-started-revealjs.html#anything-missing",
+    "href": "getting-started-revealjs.html#anything-missing",
+    "title": "Getting Started",
+    "section": "Anything missing?",
+    "text": "Anything missing?"
+  },
+  {
+    "objectID": "getting-started-revealjs.html#who-are-you-quick-introductions",
+    "href": "getting-started-revealjs.html#who-are-you-quick-introductions",
+    "title": "Getting Started",
+    "section": "Who are you? Quick introductions",
+    "text": "Who are you? Quick introductions\n\nMajors / research areas?\nExperience level in Python / programming\nExperience level with command line\nMac, Linux, or Windows?"
+  },
+  {
+    "objectID": "getting-started-revealjs.html#who-am-i",
+    "href": "getting-started-revealjs.html#who-am-i",
+    "title": "Getting Started",
+    "section": "Who am I?",
+    "text": "Who am I?\n\nDr. Kyle Niemeyer, Associate Professor of Mechanical Engineering\nBackground: computational combustion modeling, fluid dynamics\nLanguages: Matlab -&gt; Fortran -&gt; C/C++/CUDA -&gt; Python"
+  },
+  {
+    "objectID": "getting-started-revealjs.html#online-resources",
+    "href": "getting-started-revealjs.html#online-resources",
+    "title": "Getting Started",
+    "section": "Online resources",
+    "text": "Online resources\n\nSyllabus: on Canvas\nGitHub organization: https://github.com/SoftwareDevEngResearch\nOther resources: linked on Canvas\nSlack chat room (linked on Canvas)"
+  },
+  {
+    "objectID": "getting-started-revealjs.html#textbook",
+    "href": "getting-started-revealjs.html#textbook",
+    "title": "Getting Started",
+    "section": "Textbook",
+    "text": "Textbook\n\nhttp://physics.codes/\nChapters 1–6 should be review"
+  },
+  {
+    "objectID": "getting-started-revealjs.html#project",
+    "href": "getting-started-revealjs.html#project",
+    "title": "Getting Started",
+    "section": "Project",
+    "text": "Project\nMost of your work in the class will be centered around a project developing a new software package for your research.\nAssignments will focus on development stages for your software package.\nFirst assignment: project proposal, due January 17."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site",
+    "crumbs": [
+      "About"
+    ]
+  }
+]
