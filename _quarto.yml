@@ -4,6 +4,9 @@ project:
 
 toc: true
 
+execute: 
+  freeze: auto
+
 website:
   title: "Software Development for Research"
   sidebar:
