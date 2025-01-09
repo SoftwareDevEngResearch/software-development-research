@@ -19,6 +19,7 @@ website:
       - getting-started.ipynb
       - managing-environment.ipynb
       - version-control.ipynb
+      - remote-version-control.ipynb
 
 format:
   html:
