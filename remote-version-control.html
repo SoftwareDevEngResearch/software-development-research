@@ -9,7 +9,7 @@
 <meta name="author" content="Kyle Niemeyer">
 <meta name="dcterms.date" content="2025-01-08">
 
-<title>Introduction to version control with Git – Software Development for Research</title>
+<title>Remote version control with Git – Software Development for Research</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -116,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./version-control.html">Introduction to version control with Git</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./remote-version-control.html">Remote version control with Git</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -167,13 +167,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./version-control.html" class="sidebar-item-text sidebar-link active">
+  <a href="./version-control.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to version control with Git</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./remote-version-control.html" class="sidebar-item-text sidebar-link">
+  <a href="./remote-version-control.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Remote version control with Git</span></a>
   </div>
 </li>
@@ -187,38 +187,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-version-control" id="toc-introduction-to-version-control" class="nav-link active" data-scroll-target="#introduction-to-version-control">Introduction to version control</a>
+  <li><a href="#remote-version-control-i.e.-using-github-and-software-licenses" id="toc-remote-version-control-i.e.-using-github-and-software-licenses" class="nav-link active" data-scroll-target="#remote-version-control-i.e.-using-github-and-software-licenses">Remote version control (i.e., using GitHub) and Software Licenses</a>
   <ul class="collapse">
-  <li><a href="#where-is-version-control-needed" id="toc-where-is-version-control-needed" class="nav-link" data-scroll-target="#where-is-version-control-needed">Where is version control needed?</a></li>
-  <li><a href="#why-is-this-important" id="toc-why-is-this-important" class="nav-link" data-scroll-target="#why-is-this-important">Why is this important?</a></li>
-  <li><a href="#saving-copies" id="toc-saving-copies" class="nav-link" data-scroll-target="#saving-copies">Saving copies</a></li>
-  <li><a href="#git-commits" id="toc-git-commits" class="nav-link" data-scroll-target="#git-commits">Git commits</a></li>
-  <li><a href="#types-of-version-control" id="toc-types-of-version-control" class="nav-link" data-scroll-target="#types-of-version-control">Types of version control</a></li>
-  <li><a href="#git" id="toc-git" class="nav-link" data-scroll-target="#git">Git</a></li>
+  <li><a href="#topics-for-today" id="toc-topics-for-today" class="nav-link" data-scroll-target="#topics-for-today">Topics for today:</a></li>
+  <li><a href="#repositories" id="toc-repositories" class="nav-link" data-scroll-target="#repositories">Repositories</a>
+  <ul class="collapse">
+  <li><a href="#well-focus-on-github." id="toc-well-focus-on-github." class="nav-link" data-scroll-target="#well-focus-on-github.">We’ll focus on GitHub.</a></li>
   </ul></li>
-  <li><a href="#getting-started-with-git" id="toc-getting-started-with-git" class="nav-link" data-scroll-target="#getting-started-with-git">Getting started with Git</a>
+  <li><a href="#why-github" id="toc-why-github" class="nav-link" data-scroll-target="#why-github">Why GitHub?</a></li>
+  <li><a href="#workflow-with-account" id="toc-workflow-with-account" class="nav-link" data-scroll-target="#workflow-with-account">Workflow (with account)</a></li>
+  <li><a href="#alternatively-if-starting-new-project-you-can" id="toc-alternatively-if-starting-new-project-you-can" class="nav-link" data-scroll-target="#alternatively-if-starting-new-project-you-can">Alternatively, if starting new project, you can:</a></li>
+  </ul></li>
+  <li><a href="#creating-and-working-with-repositories" id="toc-creating-and-working-with-repositories" class="nav-link" data-scroll-target="#creating-and-working-with-repositories">Creating and working with repositories</a>
   <ul class="collapse">
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
-  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
-  <li><a href="#adding-files" id="toc-adding-files" class="nav-link" data-scroll-target="#adding-files">Adding files</a></li>
-  <li><a href="#committing-changes" id="toc-committing-changes" class="nav-link" data-scroll-target="#committing-changes">Committing changes</a></li>
-  <li><a href="#options-to-save-time" id="toc-options-to-save-time" class="nav-link" data-scroll-target="#options-to-save-time">Options to save time</a></li>
-  <li><a href="#commit-messages" id="toc-commit-messages" class="nav-link" data-scroll-target="#commit-messages">Commit messages</a></li>
-  <li><a href="#viewing-history-and-differences" id="toc-viewing-history-and-differences" class="nav-link" data-scroll-target="#viewing-history-and-differences">Viewing history and differences</a></li>
-  <li><a href="#undoing-work" id="toc-undoing-work" class="nav-link" data-scroll-target="#undoing-work">Undoing work</a></li>
-  <li><a href="#branches" id="toc-branches" class="nav-link" data-scroll-target="#branches">Branches</a></li>
-  <li><a href="#merging-branches" id="toc-merging-branches" class="nav-link" data-scroll-target="#merging-branches">Merging branches</a></li>
+  <li><a href="#lets-work-through-creating-a-repo" id="toc-lets-work-through-creating-a-repo" class="nav-link" data-scroll-target="#lets-work-through-creating-a-repo">Let’s work through creating a repo</a></li>
+  <li><a href="#create-and-push-new-repo" id="toc-create-and-push-new-repo" class="nav-link" data-scroll-target="#create-and-push-new-repo">Create and push new repo</a></li>
+  <li><a href="#cloning-a-repo" id="toc-cloning-a-repo" class="nav-link" data-scroll-target="#cloning-a-repo">Cloning a repo</a></li>
+  <li><a href="#forking-a-repo" id="toc-forking-a-repo" class="nav-link" data-scroll-target="#forking-a-repo">Forking a repo</a></li>
+  <li><a href="#collaborative-work-using-github" id="toc-collaborative-work-using-github" class="nav-link" data-scroll-target="#collaborative-work-using-github">Collaborative work using GitHub</a></li>
+  <li><a href="#do-this-yourself" id="toc-do-this-yourself" class="nav-link" data-scroll-target="#do-this-yourself">Do this yourself:</a></li>
+  <li><a href="#fetching-and-merging-remote-content" id="toc-fetching-and-merging-remote-content" class="nav-link" data-scroll-target="#fetching-and-merging-remote-content">Fetching and merging remote content</a></li>
+  <li><a href="#update-your-fork" id="toc-update-your-fork" class="nav-link" data-scroll-target="#update-your-fork">Update your fork</a></li>
+  <li><a href="#alternatively-use-github" id="toc-alternatively-use-github" class="nav-link" data-scroll-target="#alternatively-use-github">Alternatively, use GitHub</a></li>
+  <li><a href="#what-about-conflicts" id="toc-what-about-conflicts" class="nav-link" data-scroll-target="#what-about-conflicts">What about conflicts?</a></li>
+  <li><a href="#best-practices-for-collaborating-on-github" id="toc-best-practices-for-collaborating-on-github" class="nav-link" data-scroll-target="#best-practices-for-collaborating-on-github">Best practices for collaborating on GitHub</a></li>
+  </ul></li>
+  <li><a href="#some-issues-that-arise-when-using-github-pull-requests-licences" id="toc-some-issues-that-arise-when-using-github-pull-requests-licences" class="nav-link" data-scroll-target="#some-issues-that-arise-when-using-github-pull-requests-licences">(Some) issues that arise when using GitHub: Pull requests &amp; licences</a>
+  <ul class="collapse">
+  <li><a href="#pull-requests" id="toc-pull-requests" class="nav-link" data-scroll-target="#pull-requests">Pull Requests</a></li>
+  <li><a href="#example-pull-request-on-github" id="toc-example-pull-request-on-github" class="nav-link" data-scroll-target="#example-pull-request-on-github">Example Pull Request on GitHub</a></li>
+  <li><a href="#how-to-contribute-a-change-to-someone-elses-repository" id="toc-how-to-contribute-a-change-to-someone-elses-repository" class="nav-link" data-scroll-target="#how-to-contribute-a-change-to-someone-elses-repository">How to contribute a change to someone else’s repository</a></li>
+  <li><a href="#create-pull-request" id="toc-create-pull-request" class="nav-link" data-scroll-target="#create-pull-request">Create Pull Request</a></li>
+  <li><a href="#submitting-pull-requests" id="toc-submitting-pull-requests" class="nav-link" data-scroll-target="#submitting-pull-requests">Submitting Pull Requests</a></li>
+  </ul></li>
+  <li><a href="#software-licenses-copyright" id="toc-software-licenses-copyright" class="nav-link" data-scroll-target="#software-licenses-copyright">Software Licenses &amp; Copyright</a>
+  <ul class="collapse">
+  <li><a href="#important-notice" id="toc-important-notice" class="nav-link" data-scroll-target="#important-notice">Important notice</a>
+  <ul class="collapse">
+  <li><a href="#i-am-not-a-lawyer" id="toc-i-am-not-a-lawyer" class="nav-link" data-scroll-target="#i-am-not-a-lawyer">I AM NOT A LAWYER!</a></li>
+  <li><a href="#aka-ianal" id="toc-aka-ianal" class="nav-link" data-scroll-target="#aka-ianal">AKA: IANAL</a></li>
+  </ul></li>
+  <li><a href="#copyright" id="toc-copyright" class="nav-link" data-scroll-target="#copyright">Copyright</a></li>
+  <li><a href="#copyright-examples" id="toc-copyright-examples" class="nav-link" data-scroll-target="#copyright-examples">Copyright Examples</a></li>
+  <li><a href="#basic-copyright" id="toc-basic-copyright" class="nav-link" data-scroll-target="#basic-copyright">Basic Copyright</a></li>
+  <li><a href="#software-licenses" id="toc-software-licenses" class="nav-link" data-scroll-target="#software-licenses">Software Licenses</a></li>
+  <li><a href="#public-domain" id="toc-public-domain" class="nav-link" data-scroll-target="#public-domain">Public Domain</a></li>
+  <li><a href="#software-licenses-1" id="toc-software-licenses-1" class="nav-link" data-scroll-target="#software-licenses-1">Software Licenses</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="version-control-revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="remote-version-control-revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction to version control with Git</h1>
+<h1 class="title">Remote version control with Git</h1>
 </div>
 
 
@@ -254,263 +278,289 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction-to-version-control" class="level1">
-<h1>Introduction to version control</h1>
-<section id="where-is-version-control-needed" class="level2">
-<h2 class="anchored" data-anchor-id="where-is-version-control-needed">Where is version control needed?</h2>
+<section id="remote-version-control-i.e.-using-github-and-software-licenses" class="level1">
+<h1>Remote version control (i.e., using GitHub) and Software Licenses</h1>
+<section id="topics-for-today" class="level2">
+<h2 class="anchored" data-anchor-id="topics-for-today">Topics for today:</h2>
 <ul>
-<li>Backing up changing files</li>
-<li>Storing and accessing an annotated history of changes</li>
-<li>Managing the merging of changes between different change sets</li>
+<li>Backup up code (and any files) online</li>
+<li>Cloning and forking remote repositories</li>
+<li>Managing files in a collaboration</li>
+<li>Merging simultaneous changes</li>
+<li>Downloading open source code</li>
 </ul>
 </section>
-<section id="why-is-this-important" class="level2">
-<h2 class="anchored" data-anchor-id="why-is-this-important">Why is this important?</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="http://phdcomics.com/comics/archive.php?comicid=1323"><img src="./images/phd-comics-versions.gif" class="img-fluid figure-img" alt="Comic on file versions from PhD Comics https://phdcomics.com/comics/archive.php?comicid=1323"></a></p>
-<figcaption>Image credit: Jorge Cham, PhD Comics</figcaption>
-</figure>
-</div>
-</section>
-<section id="saving-copies" class="level2">
-<h2 class="anchored" data-anchor-id="saving-copies">Saving copies</h2>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code-2.py</code>
-</p>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code-fix.py</code>
-</p>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code-final.py</code>
-</p>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code-final-4Apr.py</code>
-</p>
-</section>
-<section id="git-commits" class="level2">
-<h2 class="anchored" data-anchor-id="git-commits">Git commits</h2>
-<p class="fragment current-visible">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-<p class="fragment current-visible">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-<p class="fragment current-visible">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-<p class="fragment current-visible">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-</section>
-<section id="types-of-version-control" class="level2">
-<h2 class="anchored" data-anchor-id="types-of-version-control">Types of version control</h2>
+<section id="repositories" class="level2">
+<h2 class="anchored" data-anchor-id="repositories">Repositories</h2>
+<p><a href="https://github.com"><img src="./images/GitHub_Logo.png" class="img-fluid" style="width:60.0%" alt="GitHub logo"></a> <a href="https://launchpad.net"><img src="./images/launchpad-logo.png" class="img-fluid" style="width:60.0%" alt="Launchpad logo"></a> <a href="https://sourceforge.net"><img src="./images/sourceforge-logo.jpeg" class="img-fluid" style="width:60.0%" alt="SourceForge logo"></a> <a href="https://about.gitlab.com"><img src="./images/gitlab-logo.svg" class="img-fluid" style="width:60.0%" alt="GitLab logo"></a></p>
 <div class="fragment">
-<p>Centralized:</p>
+<section id="well-focus-on-github." class="level3">
+<h3 class="anchored" data-anchor-id="well-focus-on-github.">We’ll focus on GitHub.</h3>
+</section>
 </div>
+</section>
+<section id="why-github" class="level2">
+<h2 class="anchored" data-anchor-id="why-github">Why GitHub?</h2>
 <ul>
-<li>Concurrent Version System (cvs)</li>
-<li>Subversion (svn)</li>
-<li>Perforce (p4)</li>
-</ul>
-<div class="fragment">
-<p>Distributed:</p>
-</div>
-<ul>
-<li>Decentralized CVS (dcvs)</li>
-<li>mercurial (hg)</li>
-<li>bazaar (bzr)</li>
-<li><strong>Git (git)</strong></li>
+<li>Nice landing page—renders README automatically</li>
+<li>Grabs information about LICENSE, programming language</li>
+<li>Supports issue tracking and wiki</li>
+<li>Network graphs, time history of commits</li>
+<li>User downloads</li>
+<li>Varying permissions (read, write, etc.)</li>
+<li>Nice web interface to browse, view, and edit code</li>
 </ul>
 </section>
-<section id="git" class="level2">
-<h2 class="anchored" data-anchor-id="git">Git</h2>
-<p><img src="./images/giant-swiss-army-knife.jpg" class="img-fluid" style="width:60.0%" alt="giant Swiss Army knife with far too many tools"></p>
-<blockquote class="blockquote">
-<p>Git is a knife whose handle is also a knife. – <a href="https://ixd.ucsd.edu/home/f16/index.php">Philip Guo</a></p>
-</blockquote>
+<section id="workflow-with-account" class="level2">
+<h2 class="anchored" data-anchor-id="workflow-with-account">Workflow (with account)</h2>
+<ol type="1">
+<li>Create space for repo on GitHub account</li>
+<li>Point to that remote repo from local copy</li>
+<li>Push repository to the remote location</li>
+<li>Continue working!</li>
+</ol>
+</section>
+<section id="alternatively-if-starting-new-project-you-can" class="level2">
+<h2 class="anchored" data-anchor-id="alternatively-if-starting-new-project-you-can">Alternatively, if starting new project, you can:</h2>
+<ol type="1">
+<li>Create a new repo on account</li>
+<li>Copy (clone) empty repo to local computer</li>
+<li>Prosper!</li>
+</ol>
+</section>
+</section>
+<section id="creating-and-working-with-repositories" class="level1">
+<h1>Creating and working with repositories</h1>
+<section id="lets-work-through-creating-a-repo" class="level2">
+<h2 class="anchored" data-anchor-id="lets-work-through-creating-a-repo">Let’s work through creating a repo</h2>
+<p><img src="./images/github-create-new-repo.png" class="img-fluid" style="width:90.0%" alt="GitHub screenshot"></p>
 <hr>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/xkcd-git.png" class="img-fluid figure-img" style="width:60.0%" alt="If that doesn't fix it, git.txt contains the phone number of a friend of mine who understands git. Just wait through a few minutes of 'It's really pretty simple, just think of branches as...' and eventually you'll learn the commands that will fix everything."></p>
-<figcaption>Image credit: <a href="https://xkcd.com/1597/">xkcd</a></figcaption>
-</figure>
-</div>
-</section>
-</section>
-<section id="getting-started-with-git" class="level1">
-<h1>Getting started with Git</h1>
+<p><img src="./images/new-repo-info.png" class="img-fluid" style="width:60.0%" alt="Screenshot of creating a new repo on GitHub"></p>
 <hr>
-<section id="section" class="level2 center">
-<h2 class="center anchored" data-anchor-id="section"></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git <span class="at">--help</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git config <span class="at">--global</span> user.name <span class="st">"Kyle Niemeyer"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git config <span class="at">--global</span> user.email <span class="st">"kyle.niemeyer@oregonstate.edu"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git config <span class="at">--global</span> core.editor <span class="st">"vim"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="./images/new-repo-info-filled.png" class="img-fluid" style="width:60.0%" alt="Screenshot of creating a new repo on GitHub with information filled"></p>
+<hr>
+<p><img src="./images/new-repo-empty.png" class="img-fluid" style="width:60.0%" alt="Screenshot of a new, empty repo on GitHub"></p>
 </section>
-<section id="section-1" class="level2 center">
-<h2 class="center anchored" data-anchor-id="section-1"></h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~</span> $ mkdir analysis_code</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~</span> $ cd analysis_code</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git init</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Initialized</span> empty Git repository in ~/analysis_code/.git/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="create-and-push-new-repo" class="level2">
+<h2 class="anchored" data-anchor-id="create-and-push-new-repo">Create and push new repo</h2>
+<p><img src="./images/github-push-remote.png" class="img-fluid" style="width:90.0%" alt="Pushing to a remote repo on GitHub"></p>
 </section>
-<section id="section-2" class="level2 center">
-<h2 class="center anchored" data-anchor-id="section-2"></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ ls</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ ls <span class="at">-A</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">.git</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ cd .git <span class="kw">&amp;&amp;</span> <span class="fu">ls</span> <span class="at">-A</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">HEAD</span>    config    description    hooks    index    info    logs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="fragment callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Try this yourself.</p>
-</div>
-</div>
-</section>
-<section id="adding-files" class="level2 center">
-<h2 class="center anchored" data-anchor-id="adding-files">Adding files</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ touch README.md</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git add README.md</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="fragment callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Try this yourself.</p>
-</div>
-</div>
-</section>
-<section id="committing-changes" class="level2">
-<h2 class="anchored" data-anchor-id="committing-changes">Committing changes</h2>
+<section id="cloning-a-repo" class="level2">
+<h2 class="anchored" data-anchor-id="cloning-a-repo">Cloning a repo</h2>
+<p><img src="./images/github-clone-repo.png" class="img-fluid" style="width:90.0%" alt="Cloning a repo from GitHub"></p>
+<hr>
 <div class="fragment">
-<p>Snapshot of repository = <strong>revision</strong></p>
+<p><strong>Clone</strong>: make local copy of any repository (Git)</p>
 </div>
 <div class="fragment">
-<p>Committing a revision:</p>
+<p><strong>Fork</strong>: Remote repository connected to/aware of the “upstream” repo it was cloned from (GitHub)</p>
+</div>
+</section>
+<section id="forking-a-repo" class="level2">
+<h2 class="anchored" data-anchor-id="forking-a-repo">Forking a repo</h2>
+<p><img src="./images/github-fork.png" class="img-fluid" style="width:90.0%" alt="Forking a repo on GitHub"></p>
+</section>
+<section id="collaborative-work-using-github" class="level2">
+<h2 class="anchored" data-anchor-id="collaborative-work-using-github">Collaborative work using GitHub</h2>
+<p><img src="./images/github-collaborate-forks.png" class="img-fluid" style="width:90.0%" alt="Collaborating with forks on GitHub"></p>
+<hr>
+<p><img src="./images/github-clone-repo.png" class="img-fluid" style="width:60.0%" alt="Cloning a repo from GitHub"></p>
+<div class="fragment">
+<p>How does Fran keep local repo up to date with the original?</p>
+</div>
+</section>
+<section id="do-this-yourself" class="level2">
+<h2 class="anchored" data-anchor-id="do-this-yourself">Do this yourself:</h2>
+<ol type="1">
+<li>Fork it: click “Fork” at <a href="https://github.com/SoftwareDevEngResearch/analysis_code">SoftwareDevEngResearch/analysis_code</a></li>
+<li>Clone your fork: <code>$ git clone https://github.com/[you]/analysis_code.git</code></li>
+<li>Create alias <code>upstream</code> for the remote repo:</li>
+</ol>
+<div class="fragment bash">
+<p>$ git remote add upstream<br>
+https://github.com/SoftwareDevEngResearch/analysis_code.git $ git remote -v</p>
+</div>
+</section>
+<section id="fetching-and-merging-remote-content" class="level2">
+<h2 class="anchored" data-anchor-id="fetching-and-merging-remote-content">Fetching and merging remote content</h2>
+<ol type="1">
+<li>In your cloned local repo, fetch the upstream repo history</li>
+<li>Then merge the <code>upstream</code> main branch into your main branch</li>
+<li>Look at the changes!</li>
+</ol>
+<div class="fragment bash">
+<p>$ git fetch upstream $ git merge upstream/main</p>
+</div>
+</section>
+<section id="update-your-fork" class="level2">
+<h2 class="anchored" data-anchor-id="update-your-fork">Update your fork</h2>
+<div class="fragment">
+<p>After merging upstream history, push your work to <code>origin main</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p>What if you (or someone else) made a change in your fork?</p>
+</div>
+<div class="fragment bash">
+<p>$ git pull</p>
+</div>
+<div class="fragment">
+<p><code>pull</code> = <code>fetch</code> &amp; <code>merge</code> for <code>origin main</code></p>
+</div>
+</section>
+<section id="alternatively-use-github" class="level2">
+<h2 class="anchored" data-anchor-id="alternatively-use-github">Alternatively, use GitHub</h2>
+<p><img src="./images/github-fetch-upstream.png" class="img-fluid" style="width:90.0%" alt="Fetch upstream on GitHub"></p>
+</section>
+<section id="what-about-conflicts" class="level2">
+<h2 class="anchored" data-anchor-id="what-about-conflicts">What about conflicts?</h2>
+<div class="fragment">
+<p>When fetching, merging, and/or pulling remote changes, you may encounter conflicts.</p>
+</div>
+<div class="fragment">
+<p>To solve: just follow the directions!</p>
+</div>
+<div class="fragment">
+<p>(In-class example)</p>
+</div>
+</section>
+<section id="best-practices-for-collaborating-on-github" class="level2">
+<h2 class="anchored" data-anchor-id="best-practices-for-collaborating-on-github">Best practices for collaborating on GitHub</h2>
+<div class="fragment">
+<p>For one-person projects:</p>
 </div>
 <ul>
-<li>Saves current state with a unique ID (hash)</li>
-<li>Names you as the author</li>
-<li>Allows you to add a message</li>
+<li>push and pull (to/from origin</li>
+<li>use branches, merge into main</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git commit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="fragment callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Try this yourself.</p>
-</div>
-</div>
-</section>
-<section id="options-to-save-time" class="level2 center">
-<h2 class="center anchored" data-anchor-id="options-to-save-time">Options to save time</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git commit <span class="at">-m</span> <span class="st">"This is my message"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git commit <span class="at">-am</span> <span class="st">"This is my message </span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="st">                  committing all changes"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="commit-messages" class="level2 center">
-<h2 class="center anchored" data-anchor-id="commit-messages">Commit messages</h2>
 <div class="fragment">
-<p>Bad commit message:</p>
+<p>For multi-person projects:</p>
 </div>
-<pre class="text fragment"><code>Fixed bug</code></pre>
+<ul>
+<li>Fork into a personal repo</li>
+<li>Use git fetch/merge to keep updated with upstream</li>
+<li>Push (and pull) to/from origin (your fork on GitHub)</li>
+<li>Contribute changes via pull requests on GitHub</li>
+</ul>
+</section>
+</section>
+<section id="some-issues-that-arise-when-using-github-pull-requests-licences" class="level1">
+<h1>(Some) issues that arise when using GitHub: Pull requests &amp; licences</h1>
+<section id="pull-requests" class="level2">
+<h2 class="anchored" data-anchor-id="pull-requests">Pull Requests</h2>
 <div class="fragment">
-<p>Better commit message:</p>
+<p>Modern, GitHub-based version of emailing someone a <strong>patch</strong></p>
 </div>
-<pre class="text fragment"><code>Fixed bug in mass calculation
-
-Due to incorrect density value, mass was being calculated
-orders of magnitude larger than it should. The correct value
-of density fixed this problem.</code></pre>
-<hr>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/xkcd-git_commit.png" class="img-fluid figure-img" style="width:50.0%" alt="Merge branch 'asdfasjkfdlas/alkdjf' into sdkjfls-final"></p>
-<figcaption>Image credit: <a href="https://xkcd.com/1296/">xkcd</a></figcaption>
-</figure>
+<div class="fragment">
+<p>Pull Requests (or PRs) consist of sequences of patches, based on a history of Git commits</p>
 </div>
 </section>
-<section id="viewing-history-and-differences" class="level2 center">
-<h2 class="center anchored" data-anchor-id="viewing-history-and-differences">Viewing history and differences</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="example-pull-request-on-github" class="level2">
+<h2 class="anchored" data-anchor-id="example-pull-request-on-github">Example Pull Request on GitHub</h2>
+<p><img src="./images/github-pull-request-example.png" class="img-fluid" style="width:90.0%" alt="Pull request example on GitHub"></p>
 </section>
-<section id="undoing-work" class="level2 center">
-<h2 class="center anchored" data-anchor-id="undoing-work">Undoing work</h2>
-<div class="fragment">
-<p>Un-add a file that has been staged:</p>
+<section id="how-to-contribute-a-change-to-someone-elses-repository" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-contribute-a-change-to-someone-elses-repository">How to contribute a change to someone else’s repository</h2>
+<ol type="1">
+<li>Fork the repo</li>
+<li>Clone your fork locally</li>
+<li>Create a new branch for your changes/fix</li>
+<li>Commit and push your changes</li>
+<li>Submit a Pull Request via GitHub</li>
+</ol>
+<div class="fragment bash">
+<p>$ git clone … $ git checkout -b newfix</p>
+<p>$ git commit -am “fixes problem in upstream project” $ git push origin newfix</p>
 </div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git restore <span class="at">--staged</span> <span class="op">&lt;</span>filename<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="fragment">
-<p>Reset all tracked files to previous commit:</p>
-</div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git reset <span class="pp">[</span><span class="ss">mode</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">commit</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="fragment">
-<p>Remove uncommitted changes:</p>
-</div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git checkout <span class="at">--</span> <span class="op">&lt;</span>filename<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="branches" class="level2">
-<h2 class="anchored" data-anchor-id="branches">Branches</h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> main</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch experimental</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">experimental</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> main</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch new</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">experimental</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> main</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="ex">new</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch <span class="at">-d</span> new</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="ex">experimental</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> main</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git switch experimental</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> experimental</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  <span class="ex">main</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="create-pull-request" class="level2">
+<h2 class="anchored" data-anchor-id="create-pull-request">Create Pull Request</h2>
+<p><img src="./images/github-create-pull-request.png" class="img-fluid" style="width:90.0%" alt="Create a Pull Request on GitHub"></p>
 </section>
-<section id="merging-branches" class="level2 center">
-<h2 class="center anchored" data-anchor-id="merging-branches">Merging branches</h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git switch main</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git merge experimental</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="submitting-pull-requests" class="level2">
+<h2 class="anchored" data-anchor-id="submitting-pull-requests">Submitting Pull Requests</h2>
+<div class="fragment">
+<p>Try to submit shorter Pull Requests when possible, as they are easier to review and merge</p>
+</div>
+<div class="fragment">
+<p>If the project uses testing, make sure to add a new test (or modify an existing one) to reflect your change. More on tests later!</p>
+</div>
+</section>
+</section>
+<section id="software-licenses-copyright" class="level1">
+<h1>Software Licenses &amp; Copyright</h1>
+<section id="important-notice" class="level2">
+<h2 class="anchored" data-anchor-id="important-notice">Important notice</h2>
+<section id="i-am-not-a-lawyer" class="level3">
+<h3 class="anchored" data-anchor-id="i-am-not-a-lawyer">I AM NOT A LAWYER!</h3>
+</section>
+<section id="aka-ianal" class="level3">
+<h3 class="anchored" data-anchor-id="aka-ianal">AKA: IANAL</h3>
+</section>
+</section>
+<section id="copyright" class="level2">
+<h2 class="anchored" data-anchor-id="copyright">Copyright</h2>
+<div class="fragment">
+<p>Facts and ideas are <strong>&gt;not copyrightable</strong>.</p>
+</div>
+<div class="fragment">
+<p><em>Expressions</em> of ideas are copyrightable.</p>
+</div>
+</section>
+<section id="copyright-examples" class="level2">
+<h2 class="anchored" data-anchor-id="copyright-examples">Copyright Examples</h2>
+<div class="fragment">
+<p>Game rules are not copyrightable (chess, Go, football, <em>Dungeons &amp; Dragons</em>)</p>
+</div>
+<div class="fragment">
+<p>Expressions of game rules <em>are</em> copyrightable.</p>
+</div>
+<div class="fragment">
+<p><img src="./images/dnd-handbook.jpg" alt="Dungeons &amp; Dragons Player's Handbook" height="300"></p>
+</div>
+</section>
+<section id="basic-copyright" class="level2">
+<h2 class="anchored" data-anchor-id="basic-copyright">Basic Copyright</h2>
+<div class="fragment">
+<p>“Right of First Publication”: copyright automatically goes to the first creator of any creative work</p>
+</div>
+<div class="fragment">
+<p>(Even if not explicitly specified)</p>
+</div>
+<div class="fragment">
+<p>Consequence: if you post software to GitHub without an explicit license, then you own the copyright—even if openly and publicly visible.</p>
+</div>
+<div class="fragment">
+<p>By default, no one else is legally allowed to use or modify your work.</p>
+</div>
+</section>
+<section id="software-licenses" class="level2">
+<h2 class="anchored" data-anchor-id="software-licenses">Software Licenses</h2>
+<p><strong>All</strong> software codes you make publicly available should be accompanied by a software license describing the terms by which others may use and/or modify your code.</p>
+</section>
+<section id="public-domain" class="level2">
+<h2 class="anchored" data-anchor-id="public-domain">Public Domain</h2>
+<div class="fragment">
+<p>Alternatively, you can put work into the <em>public domain</em>: “This work has been placed in the public domain.”</p>
+</div>
+<div class="fragment">
+<p>Free for anyone and everyone to use and modify.</p>
+</div>
+<div class="fragment">
+<p>Literature examples: Sherlock Holmes, Frankenstein</p>
+</div>
+<div class="fragment">
+<p>(There are some tricky issues internationally, however.)</p>
+</div>
+</section>
+<section id="software-licenses-1" class="level2">
+<h2 class="anchored" data-anchor-id="software-licenses-1">Software Licenses</h2>
+<div class="fragment">
+<p>Kinds of software licenses: proprietary, and free/open source (FOSS, FLOSS, OSS).</p>
+</div>
+<div class="fragment">
+<p><strong>Pick an existing license. Do not create your own.</strong></p>
+</div>
 
 
 </section>

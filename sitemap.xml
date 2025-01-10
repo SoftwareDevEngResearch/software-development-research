@@ -2,34 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/getting-started-revealjs.html</loc>
-    <lastmod>2025-01-07T01:42:10.771Z</lastmod>
+    <lastmod>2025-01-10T18:50:04.397Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/getting-started.html</loc>
-    <lastmod>2025-01-07T01:42:10.771Z</lastmod>
+    <lastmod>2025-01-10T18:50:04.397Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/about.html</loc>
-    <lastmod>2025-01-07T01:42:10.771Z</lastmod>
+    <lastmod>2025-01-10T18:50:04.397Z</lastmod>
   </url>
   <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/managing-environment-revealjs.html</loc>
-    <lastmod>2025-01-07T01:42:10.774Z</lastmod>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/remote-version-control-revealjs.html</loc>
+    <lastmod>2025-01-10T18:50:04.412Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/remote-version-control.html</loc>
+    <lastmod>2025-01-10T18:50:04.412Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/managing-environment.html</loc>
-    <lastmod>2025-01-07T01:42:10.774Z</lastmod>
+    <lastmod>2025-01-10T18:50:04.412Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/managing-environment-revealjs.html</loc>
+    <lastmod>2025-01-10T18:50:04.412Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/version-control.html</loc>
-    <lastmod>2025-01-07T01:42:10.775Z</lastmod>
+    <lastmod>2025-01-10T18:50:04.412Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/version-control-revealjs.html</loc>
-    <lastmod>2025-01-07T01:42:10.775Z</lastmod>
+    <lastmod>2025-01-10T18:50:04.412Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/index.html</loc>
-    <lastmod>2025-01-07T01:42:10.774Z</lastmod>
+    <lastmod>2025-01-10T18:50:04.411Z</lastmod>
   </url>
 </urlset>

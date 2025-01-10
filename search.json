@@ -180,74 +180,480 @@
     ]
   },
   {
-    "objectID": "managing-environment-revealjs.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
-    "href": "managing-environment-revealjs.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
-    "title": "Managing your computational environment",
-    "section": "Power of Python for research comes from rich ecosystem of third-party packages",
-    "text": "Power of Python for research comes from rich ecosystem of third-party packages\n\nThese include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!\n\n\nBut, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality)."
+    "objectID": "remote-version-control-revealjs.html#topics-for-today",
+    "href": "remote-version-control-revealjs.html#topics-for-today",
+    "title": "Remote version control with Git",
+    "section": "Topics for today:",
+    "text": "Topics for today:\n\nBackup up code (and any files) online\nCloning and forking remote repositories\nManaging files in a collaboration\nMerging simultaneous changes\nDownloading open source code"
   },
   {
-    "objectID": "managing-environment-revealjs.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
-    "href": "managing-environment-revealjs.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
-    "title": "Managing your computational environment",
-    "section": "Your results may depend on the specific versions and combination of packages you have installed.",
-    "text": "Your results may depend on the specific versions and combination of packages you have installed.\n\nThis is particularly important for research analysis."
+    "objectID": "remote-version-control-revealjs.html#repositories",
+    "href": "remote-version-control-revealjs.html#repositories",
+    "title": "Remote version control with Git",
+    "section": "Repositories",
+    "text": "Repositories\n   \n\nWe’ll focus on GitHub."
   },
   {
-    "objectID": "managing-environment-revealjs.html#as-a-rule-dont-install-packages-into-your-global-environment",
-    "href": "managing-environment-revealjs.html#as-a-rule-dont-install-packages-into-your-global-environment",
-    "title": "Managing your computational environment",
-    "section": "🚨 As a rule, don’t install packages into your global environment!",
-    "text": "🚨 As a rule, don’t install packages into your global environment!\n\n… even if the documentation says pip install x"
+    "objectID": "remote-version-control-revealjs.html#why-github",
+    "href": "remote-version-control-revealjs.html#why-github",
+    "title": "Remote version control with Git",
+    "section": "Why GitHub?",
+    "text": "Why GitHub?\n\nNice landing page—renders README automatically\nGrabs information about LICENSE, programming language\nSupports issue tracking and wiki\nNetwork graphs, time history of commits\nUser downloads\nVarying permissions (read, write, etc.)\nNice web interface to browse, view, and edit code"
   },
   {
-    "objectID": "managing-environment-revealjs.html#best-practice-use-virtual-environments",
-    "href": "managing-environment-revealjs.html#best-practice-use-virtual-environments",
-    "title": "Managing your computational environment",
-    "section": "Best practice: use virtual environments",
-    "text": "Best practice: use virtual environments\n\nVirtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.\nVirtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.\nThese are intended to be easy to set up, disposable, and replaceable."
+    "objectID": "remote-version-control-revealjs.html#workflow-with-account",
+    "href": "remote-version-control-revealjs.html#workflow-with-account",
+    "title": "Remote version control with Git",
+    "section": "Workflow (with account)",
+    "text": "Workflow (with account)\n\nCreate space for repo on GitHub account\nPoint to that remote repo from local copy\nPush repository to the remote location\nContinue working!"
   },
   {
-    "objectID": "managing-environment-revealjs.html#creating-and-activating-a-virtual-environment",
-    "href": "managing-environment-revealjs.html#creating-and-activating-a-virtual-environment",
-    "title": "Managing your computational environment",
-    "section": "Creating and activating a virtual environment",
-    "text": "Creating and activating a virtual environment\npython3 -m venv .venv\n\nThis creates a new directory .venv with:\n\n\n.venv/bin with link to Python, pip, and activation scripts; and\n.venv/lib/site-packages where packages will be installed."
+    "objectID": "remote-version-control-revealjs.html#alternatively-if-starting-new-project-you-can",
+    "href": "remote-version-control-revealjs.html#alternatively-if-starting-new-project-you-can",
+    "title": "Remote version control with Git",
+    "section": "Alternatively, if starting new project, you can:",
+    "text": "Alternatively, if starting new project, you can:\n\nCreate a new repo on account\nCopy (clone) empty repo to local computer\nProsper!"
   },
   {
-    "objectID": "managing-environment-revealjs.html#installing-packages",
-    "href": "managing-environment-revealjs.html#installing-packages",
-    "title": "Managing your computational environment",
-    "section": "Installing packages",
-    "text": "Installing packages\npip install &lt;package&gt;"
+    "objectID": "remote-version-control-revealjs.html#lets-work-through-creating-a-repo",
+    "href": "remote-version-control-revealjs.html#lets-work-through-creating-a-repo",
+    "title": "Remote version control with Git",
+    "section": "Let’s work through creating a repo",
+    "text": "Let’s work through creating a repo"
   },
   {
-    "objectID": "managing-environment-revealjs.html#pip-family",
-    "href": "managing-environment-revealjs.html#pip-family",
-    "title": "Managing your computational environment",
-    "section": "pip family",
-    "text": "pip family\nTools that all work similarly to venv:\n\nvenv: comes with Python, simple\nvirtualenv: installable package with same interface as venv, but faster and with more options\nuv: written in Rust and extremely fast"
+    "objectID": "remote-version-control-revealjs.html#create-and-push-new-repo",
+    "href": "remote-version-control-revealjs.html#create-and-push-new-repo",
+    "title": "Remote version control with Git",
+    "section": "Create and push new repo",
+    "text": "Create and push new repo"
   },
   {
-    "objectID": "managing-environment-revealjs.html#conda-family",
-    "href": "managing-environment-revealjs.html#conda-family",
-    "title": "Managing your computational environment",
-    "section": "Conda family",
-    "text": "Conda family\n\nConda is an open-source tool for managing virtual environments across your system, originally designed for Python package management but now supports a wide range of software (e.g., compiled C++ dependencies).\n\n\nVirtual environments created with Conda are not location-dependent like venv, but the same approach applies: do not install in the base/default environment.\n\n\nConda is recommended if you expect to need non-Python dependencies."
+    "objectID": "remote-version-control-revealjs.html#cloning-a-repo",
+    "href": "remote-version-control-revealjs.html#cloning-a-repo",
+    "title": "Remote version control with Git",
+    "section": "Cloning a repo",
+    "text": "Cloning a repo"
   },
   {
-    "objectID": "managing-environment-revealjs.html#section",
-    "href": "managing-environment-revealjs.html#section",
-    "title": "Managing your computational environment",
+    "objectID": "remote-version-control-revealjs.html#forking-a-repo",
+    "href": "remote-version-control-revealjs.html#forking-a-repo",
+    "title": "Remote version control with Git",
+    "section": "Forking a repo",
+    "text": "Forking a repo"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#collaborative-work-using-github",
+    "href": "remote-version-control-revealjs.html#collaborative-work-using-github",
+    "title": "Remote version control with Git",
+    "section": "Collaborative work using GitHub",
+    "text": "Collaborative work using GitHub"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#do-this-yourself",
+    "href": "remote-version-control-revealjs.html#do-this-yourself",
+    "title": "Remote version control with Git",
+    "section": "Do this yourself:",
+    "text": "Do this yourself:\n\nFork it: click “Fork” at SoftwareDevEngResearch/analysis_code\nClone your fork: $ git clone https://github.com/[you]/analysis_code.git\nCreate alias upstream for the remote repo:\n\n\n$ git remote add upstream\nhttps://github.com/SoftwareDevEngResearch/analysis_code.git $ git remote -v"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#fetching-and-merging-remote-content",
+    "href": "remote-version-control-revealjs.html#fetching-and-merging-remote-content",
+    "title": "Remote version control with Git",
+    "section": "Fetching and merging remote content",
+    "text": "Fetching and merging remote content\n\nIn your cloned local repo, fetch the upstream repo history\nThen merge the upstream main branch into your main branch\nLook at the changes!\n\n\n$ git fetch upstream $ git merge upstream/main"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#update-your-fork",
+    "href": "remote-version-control-revealjs.html#update-your-fork",
+    "title": "Remote version control with Git",
+    "section": "Update your fork",
+    "text": "Update your fork\n\nAfter merging upstream history, push your work to origin main:\n$ git push\n\n\nWhat if you (or someone else) made a change in your fork?\n\n\n$ git pull\n\n\npull = fetch & merge for origin main"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#alternatively-use-github",
+    "href": "remote-version-control-revealjs.html#alternatively-use-github",
+    "title": "Remote version control with Git",
+    "section": "Alternatively, use GitHub",
+    "text": "Alternatively, use GitHub"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#what-about-conflicts",
+    "href": "remote-version-control-revealjs.html#what-about-conflicts",
+    "title": "Remote version control with Git",
+    "section": "What about conflicts?",
+    "text": "What about conflicts?\n\nWhen fetching, merging, and/or pulling remote changes, you may encounter conflicts.\n\n\nTo solve: just follow the directions!\n\n\n(In-class example)"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#best-practices-for-collaborating-on-github",
+    "href": "remote-version-control-revealjs.html#best-practices-for-collaborating-on-github",
+    "title": "Remote version control with Git",
+    "section": "Best practices for collaborating on GitHub",
+    "text": "Best practices for collaborating on GitHub\n\nFor one-person projects:\n\n\npush and pull (to/from origin\nuse branches, merge into main\n\n\nFor multi-person projects:\n\n\nFork into a personal repo\nUse git fetch/merge to keep updated with upstream\nPush (and pull) to/from origin (your fork on GitHub)\nContribute changes via pull requests on GitHub"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#pull-requests",
+    "href": "remote-version-control-revealjs.html#pull-requests",
+    "title": "Remote version control with Git",
+    "section": "Pull Requests",
+    "text": "Pull Requests\n\nModern, GitHub-based version of emailing someone a patch\n\n\nPull Requests (or PRs) consist of sequences of patches, based on a history of Git commits"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#example-pull-request-on-github",
+    "href": "remote-version-control-revealjs.html#example-pull-request-on-github",
+    "title": "Remote version control with Git",
+    "section": "Example Pull Request on GitHub",
+    "text": "Example Pull Request on GitHub"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#how-to-contribute-a-change-to-someone-elses-repository",
+    "href": "remote-version-control-revealjs.html#how-to-contribute-a-change-to-someone-elses-repository",
+    "title": "Remote version control with Git",
+    "section": "How to contribute a change to someone else’s repository",
+    "text": "How to contribute a change to someone else’s repository\n\nFork the repo\nClone your fork locally\nCreate a new branch for your changes/fix\nCommit and push your changes\nSubmit a Pull Request via GitHub\n\n\n$ git clone … $ git checkout -b newfix\n$ git commit -am “fixes problem in upstream project” $ git push origin newfix"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#create-pull-request",
+    "href": "remote-version-control-revealjs.html#create-pull-request",
+    "title": "Remote version control with Git",
+    "section": "Create Pull Request",
+    "text": "Create Pull Request"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#submitting-pull-requests",
+    "href": "remote-version-control-revealjs.html#submitting-pull-requests",
+    "title": "Remote version control with Git",
+    "section": "Submitting Pull Requests",
+    "text": "Submitting Pull Requests\n\nTry to submit shorter Pull Requests when possible, as they are easier to review and merge\n\n\nIf the project uses testing, make sure to add a new test (or modify an existing one) to reflect your change. More on tests later!"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#important-notice",
+    "href": "remote-version-control-revealjs.html#important-notice",
+    "title": "Remote version control with Git",
+    "section": "Important notice",
+    "text": "Important notice\nI AM NOT A LAWYER!\nAKA: IANAL"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#copyright",
+    "href": "remote-version-control-revealjs.html#copyright",
+    "title": "Remote version control with Git",
+    "section": "Copyright",
+    "text": "Copyright\n\nFacts and ideas are &gt;not copyrightable.\n\n\nExpressions of ideas are copyrightable."
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#copyright-examples",
+    "href": "remote-version-control-revealjs.html#copyright-examples",
+    "title": "Remote version control with Git",
+    "section": "Copyright Examples",
+    "text": "Copyright Examples\n\nGame rules are not copyrightable (chess, Go, football, Dungeons & Dragons)\n\n\nExpressions of game rules are copyrightable."
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#basic-copyright",
+    "href": "remote-version-control-revealjs.html#basic-copyright",
+    "title": "Remote version control with Git",
+    "section": "Basic Copyright",
+    "text": "Basic Copyright\n\n“Right of First Publication”: copyright automatically goes to the first creator of any creative work\n\n\n(Even if not explicitly specified)\n\n\nConsequence: if you post software to GitHub without an explicit license, then you own the copyright—even if openly and publicly visible.\n\n\nBy default, no one else is legally allowed to use or modify your work."
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#software-licenses",
+    "href": "remote-version-control-revealjs.html#software-licenses",
+    "title": "Remote version control with Git",
+    "section": "Software Licenses",
+    "text": "Software Licenses\nAll software codes you make publicly available should be accompanied by a software license describing the terms by which others may use and/or modify your code."
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#public-domain",
+    "href": "remote-version-control-revealjs.html#public-domain",
+    "title": "Remote version control with Git",
+    "section": "Public Domain",
+    "text": "Public Domain\n\nAlternatively, you can put work into the public domain: “This work has been placed in the public domain.”\n\n\nFree for anyone and everyone to use and modify.\n\n\nLiterature examples: Sherlock Holmes, Frankenstein\n\n\n(There are some tricky issues internationally, however.)"
+  },
+  {
+    "objectID": "remote-version-control-revealjs.html#software-licenses-1",
+    "href": "remote-version-control-revealjs.html#software-licenses-1",
+    "title": "Remote version control with Git",
+    "section": "Software Licenses",
+    "text": "Software Licenses\n\nKinds of software licenses: proprietary, and free/open source (FOSS, FLOSS, OSS).\n\n\nPick an existing license. Do not create your own."
+  },
+  {
+    "objectID": "remote-version-control.html",
+    "href": "remote-version-control.html",
+    "title": "Remote version control with Git",
     "section": "",
-    "text": "conda config --set auto_activate_base false  # turn off the default environment\nconda env create -n some_name  # or use paths with `-p`\nconda activate some_name\nconda deactivate"
+    "text": "Backup up code (and any files) online\nCloning and forking remote repositories\nManaging files in a collaboration\nMerging simultaneous changes\nDownloading open source code\n\n\n\n\n   \n\n\n\n\n\n\n\n\n\nNice landing page—renders README automatically\nGrabs information about LICENSE, programming language\nSupports issue tracking and wiki\nNetwork graphs, time history of commits\nUser downloads\nVarying permissions (read, write, etc.)\nNice web interface to browse, view, and edit code\n\n\n\n\n\nCreate space for repo on GitHub account\nPoint to that remote repo from local copy\nPush repository to the remote location\nContinue working!\n\n\n\n\n\nCreate a new repo on account\nCopy (clone) empty repo to local computer\nProsper!",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
   },
   {
-    "objectID": "managing-environment-revealjs.html#conda-based-package-managers",
-    "href": "managing-environment-revealjs.html#conda-based-package-managers",
-    "title": "Managing your computational environment",
-    "section": "Conda-based package managers",
-    "text": "Conda-based package managers\nSome alternatives to conda exist and offer some advantages, including speed:\n\nMiniconda: minimal Conda installation without all the packages that come with the full Anaconda distribution\nPixi: fast, Rust-based package manager and workflow tool Some other\nMicromamba: tiny version of Mamba, statically linked C++ binary"
+    "objectID": "remote-version-control.html#topics-for-today",
+    "href": "remote-version-control.html#topics-for-today",
+    "title": "Remote version control with Git",
+    "section": "",
+    "text": "Backup up code (and any files) online\nCloning and forking remote repositories\nManaging files in a collaboration\nMerging simultaneous changes\nDownloading open source code",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#why-github",
+    "href": "remote-version-control.html#why-github",
+    "title": "Remote version control with Git",
+    "section": "",
+    "text": "Nice landing page—renders README automatically\nGrabs information about LICENSE, programming language\nSupports issue tracking and wiki\nNetwork graphs, time history of commits\nUser downloads\nVarying permissions (read, write, etc.)\nNice web interface to browse, view, and edit code",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#workflow-with-account",
+    "href": "remote-version-control.html#workflow-with-account",
+    "title": "Remote version control with Git",
+    "section": "",
+    "text": "Create space for repo on GitHub account\nPoint to that remote repo from local copy\nPush repository to the remote location\nContinue working!",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#alternatively-if-starting-new-project-you-can",
+    "href": "remote-version-control.html#alternatively-if-starting-new-project-you-can",
+    "title": "Remote version control with Git",
+    "section": "",
+    "text": "Create a new repo on account\nCopy (clone) empty repo to local computer\nProsper!",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#lets-work-through-creating-a-repo",
+    "href": "remote-version-control.html#lets-work-through-creating-a-repo",
+    "title": "Remote version control with Git",
+    "section": "Let’s work through creating a repo",
+    "text": "Let’s work through creating a repo",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#create-and-push-new-repo",
+    "href": "remote-version-control.html#create-and-push-new-repo",
+    "title": "Remote version control with Git",
+    "section": "Create and push new repo",
+    "text": "Create and push new repo",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#cloning-a-repo",
+    "href": "remote-version-control.html#cloning-a-repo",
+    "title": "Remote version control with Git",
+    "section": "Cloning a repo",
+    "text": "Cloning a repo\n\n\n\nClone: make local copy of any repository (Git)\n\n\nFork: Remote repository connected to/aware of the “upstream” repo it was cloned from (GitHub)",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#forking-a-repo",
+    "href": "remote-version-control.html#forking-a-repo",
+    "title": "Remote version control with Git",
+    "section": "Forking a repo",
+    "text": "Forking a repo",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#collaborative-work-using-github",
+    "href": "remote-version-control.html#collaborative-work-using-github",
+    "title": "Remote version control with Git",
+    "section": "Collaborative work using GitHub",
+    "text": "Collaborative work using GitHub\n\n\n\n\nHow does Fran keep local repo up to date with the original?",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#do-this-yourself",
+    "href": "remote-version-control.html#do-this-yourself",
+    "title": "Remote version control with Git",
+    "section": "Do this yourself:",
+    "text": "Do this yourself:\n\nFork it: click “Fork” at SoftwareDevEngResearch/analysis_code\nClone your fork: $ git clone https://github.com/[you]/analysis_code.git\nCreate alias upstream for the remote repo:\n\n\n$ git remote add upstream\nhttps://github.com/SoftwareDevEngResearch/analysis_code.git $ git remote -v",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#fetching-and-merging-remote-content",
+    "href": "remote-version-control.html#fetching-and-merging-remote-content",
+    "title": "Remote version control with Git",
+    "section": "Fetching and merging remote content",
+    "text": "Fetching and merging remote content\n\nIn your cloned local repo, fetch the upstream repo history\nThen merge the upstream main branch into your main branch\nLook at the changes!\n\n\n$ git fetch upstream $ git merge upstream/main",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#update-your-fork",
+    "href": "remote-version-control.html#update-your-fork",
+    "title": "Remote version control with Git",
+    "section": "Update your fork",
+    "text": "Update your fork\n\nAfter merging upstream history, push your work to origin main:\n$ git push\n\n\nWhat if you (or someone else) made a change in your fork?\n\n\n$ git pull\n\n\npull = fetch & merge for origin main",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#alternatively-use-github",
+    "href": "remote-version-control.html#alternatively-use-github",
+    "title": "Remote version control with Git",
+    "section": "Alternatively, use GitHub",
+    "text": "Alternatively, use GitHub",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#what-about-conflicts",
+    "href": "remote-version-control.html#what-about-conflicts",
+    "title": "Remote version control with Git",
+    "section": "What about conflicts?",
+    "text": "What about conflicts?\n\nWhen fetching, merging, and/or pulling remote changes, you may encounter conflicts.\n\n\nTo solve: just follow the directions!\n\n\n(In-class example)",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#best-practices-for-collaborating-on-github",
+    "href": "remote-version-control.html#best-practices-for-collaborating-on-github",
+    "title": "Remote version control with Git",
+    "section": "Best practices for collaborating on GitHub",
+    "text": "Best practices for collaborating on GitHub\n\nFor one-person projects:\n\n\npush and pull (to/from origin\nuse branches, merge into main\n\n\nFor multi-person projects:\n\n\nFork into a personal repo\nUse git fetch/merge to keep updated with upstream\nPush (and pull) to/from origin (your fork on GitHub)\nContribute changes via pull requests on GitHub",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#pull-requests",
+    "href": "remote-version-control.html#pull-requests",
+    "title": "Remote version control with Git",
+    "section": "Pull Requests",
+    "text": "Pull Requests\n\nModern, GitHub-based version of emailing someone a patch\n\n\nPull Requests (or PRs) consist of sequences of patches, based on a history of Git commits",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#example-pull-request-on-github",
+    "href": "remote-version-control.html#example-pull-request-on-github",
+    "title": "Remote version control with Git",
+    "section": "Example Pull Request on GitHub",
+    "text": "Example Pull Request on GitHub",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#how-to-contribute-a-change-to-someone-elses-repository",
+    "href": "remote-version-control.html#how-to-contribute-a-change-to-someone-elses-repository",
+    "title": "Remote version control with Git",
+    "section": "How to contribute a change to someone else’s repository",
+    "text": "How to contribute a change to someone else’s repository\n\nFork the repo\nClone your fork locally\nCreate a new branch for your changes/fix\nCommit and push your changes\nSubmit a Pull Request via GitHub\n\n\n$ git clone … $ git checkout -b newfix\n$ git commit -am “fixes problem in upstream project” $ git push origin newfix",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#create-pull-request",
+    "href": "remote-version-control.html#create-pull-request",
+    "title": "Remote version control with Git",
+    "section": "Create Pull Request",
+    "text": "Create Pull Request",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#submitting-pull-requests",
+    "href": "remote-version-control.html#submitting-pull-requests",
+    "title": "Remote version control with Git",
+    "section": "Submitting Pull Requests",
+    "text": "Submitting Pull Requests\n\nTry to submit shorter Pull Requests when possible, as they are easier to review and merge\n\n\nIf the project uses testing, make sure to add a new test (or modify an existing one) to reflect your change. More on tests later!",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#important-notice",
+    "href": "remote-version-control.html#important-notice",
+    "title": "Remote version control with Git",
+    "section": "Important notice",
+    "text": "Important notice\n\nI AM NOT A LAWYER!\n\n\nAKA: IANAL",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#copyright",
+    "href": "remote-version-control.html#copyright",
+    "title": "Remote version control with Git",
+    "section": "Copyright",
+    "text": "Copyright\n\nFacts and ideas are &gt;not copyrightable.\n\n\nExpressions of ideas are copyrightable.",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#copyright-examples",
+    "href": "remote-version-control.html#copyright-examples",
+    "title": "Remote version control with Git",
+    "section": "Copyright Examples",
+    "text": "Copyright Examples\n\nGame rules are not copyrightable (chess, Go, football, Dungeons & Dragons)\n\n\nExpressions of game rules are copyrightable.",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#basic-copyright",
+    "href": "remote-version-control.html#basic-copyright",
+    "title": "Remote version control with Git",
+    "section": "Basic Copyright",
+    "text": "Basic Copyright\n\n“Right of First Publication”: copyright automatically goes to the first creator of any creative work\n\n\n(Even if not explicitly specified)\n\n\nConsequence: if you post software to GitHub without an explicit license, then you own the copyright—even if openly and publicly visible.\n\n\nBy default, no one else is legally allowed to use or modify your work.",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#software-licenses",
+    "href": "remote-version-control.html#software-licenses",
+    "title": "Remote version control with Git",
+    "section": "Software Licenses",
+    "text": "Software Licenses\nAll software codes you make publicly available should be accompanied by a software license describing the terms by which others may use and/or modify your code.",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#public-domain",
+    "href": "remote-version-control.html#public-domain",
+    "title": "Remote version control with Git",
+    "section": "Public Domain",
+    "text": "Public Domain\n\nAlternatively, you can put work into the public domain: “This work has been placed in the public domain.”\n\n\nFree for anyone and everyone to use and modify.\n\n\nLiterature examples: Sherlock Holmes, Frankenstein\n\n\n(There are some tricky issues internationally, however.)",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
+  },
+  {
+    "objectID": "remote-version-control.html#software-licenses-1",
+    "href": "remote-version-control.html#software-licenses-1",
+    "title": "Remote version control with Git",
+    "section": "Software Licenses",
+    "text": "Software Licenses\n\nKinds of software licenses: proprietary, and free/open source (FOSS, FLOSS, OSS).\n\n\nPick an existing license. Do not create your own.",
+    "crumbs": [
+      "Remote version control with Git"
+    ]
   },
   {
     "objectID": "managing-environment.html",
@@ -348,6 +754,76 @@
     "crumbs": [
       "Managing your computational environment"
     ]
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
+    "href": "managing-environment-revealjs.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
+    "title": "Managing your computational environment",
+    "section": "Power of Python for research comes from rich ecosystem of third-party packages",
+    "text": "Power of Python for research comes from rich ecosystem of third-party packages\n\nThese include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!\n\n\nBut, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality)."
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
+    "href": "managing-environment-revealjs.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
+    "title": "Managing your computational environment",
+    "section": "Your results may depend on the specific versions and combination of packages you have installed.",
+    "text": "Your results may depend on the specific versions and combination of packages you have installed.\n\nThis is particularly important for research analysis."
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#as-a-rule-dont-install-packages-into-your-global-environment",
+    "href": "managing-environment-revealjs.html#as-a-rule-dont-install-packages-into-your-global-environment",
+    "title": "Managing your computational environment",
+    "section": "🚨 As a rule, don’t install packages into your global environment!",
+    "text": "🚨 As a rule, don’t install packages into your global environment!\n\n… even if the documentation says pip install x"
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#best-practice-use-virtual-environments",
+    "href": "managing-environment-revealjs.html#best-practice-use-virtual-environments",
+    "title": "Managing your computational environment",
+    "section": "Best practice: use virtual environments",
+    "text": "Best practice: use virtual environments\n\nVirtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.\nVirtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.\nThese are intended to be easy to set up, disposable, and replaceable."
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#creating-and-activating-a-virtual-environment",
+    "href": "managing-environment-revealjs.html#creating-and-activating-a-virtual-environment",
+    "title": "Managing your computational environment",
+    "section": "Creating and activating a virtual environment",
+    "text": "Creating and activating a virtual environment\npython3 -m venv .venv\n\nThis creates a new directory .venv with:\n\n\n.venv/bin with link to Python, pip, and activation scripts; and\n.venv/lib/site-packages where packages will be installed."
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#installing-packages",
+    "href": "managing-environment-revealjs.html#installing-packages",
+    "title": "Managing your computational environment",
+    "section": "Installing packages",
+    "text": "Installing packages\npip install &lt;package&gt;"
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#pip-family",
+    "href": "managing-environment-revealjs.html#pip-family",
+    "title": "Managing your computational environment",
+    "section": "pip family",
+    "text": "pip family\nTools that all work similarly to venv:\n\nvenv: comes with Python, simple\nvirtualenv: installable package with same interface as venv, but faster and with more options\nuv: written in Rust and extremely fast"
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#conda-family",
+    "href": "managing-environment-revealjs.html#conda-family",
+    "title": "Managing your computational environment",
+    "section": "Conda family",
+    "text": "Conda family\n\nConda is an open-source tool for managing virtual environments across your system, originally designed for Python package management but now supports a wide range of software (e.g., compiled C++ dependencies).\n\n\nVirtual environments created with Conda are not location-dependent like venv, but the same approach applies: do not install in the base/default environment.\n\n\nConda is recommended if you expect to need non-Python dependencies."
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#section",
+    "href": "managing-environment-revealjs.html#section",
+    "title": "Managing your computational environment",
+    "section": "",
+    "text": "conda config --set auto_activate_base false  # turn off the default environment\nconda env create -n some_name  # or use paths with `-p`\nconda activate some_name\nconda deactivate"
+  },
+  {
+    "objectID": "managing-environment-revealjs.html#conda-based-package-managers",
+    "href": "managing-environment-revealjs.html#conda-based-package-managers",
+    "title": "Managing your computational environment",
+    "section": "Conda-based package managers",
+    "text": "Conda-based package managers\nSome alternatives to conda exist and offer some advantages, including speed:\n\nMiniconda: minimal Conda installation without all the packages that come with the full Anaconda distribution\nPixi: fast, Rust-based package manager and workflow tool Some other\nMicromamba: tiny version of Mamba, statically linked C++ binary"
   },
   {
     "objectID": "version-control.html",
