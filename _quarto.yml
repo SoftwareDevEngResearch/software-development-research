@@ -20,6 +20,7 @@ website:
       - managing-environment.ipynb
       - version-control.ipynb
       - remote-version-control.ipynb
+      - classes-objects.ipynb
 
 format:
   html:
