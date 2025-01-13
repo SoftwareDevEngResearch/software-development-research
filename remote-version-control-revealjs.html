@@ -225,7 +225,7 @@ Kyle Niemeyer
 </section>
 <section id="repositories" class="slide level2">
 <h2>Repositories</h2>
-<p><a href="https://github.com"><img data-src="./images/GitHub_Logo.png" style="width:60.0%" alt="GitHub logo"></a> <a href="https://launchpad.net"><img data-src="./images/launchpad-logo.png" style="width:60.0%" alt="Launchpad logo"></a> <a href="https://sourceforge.net"><img data-src="./images/sourceforge-logo.jpeg" style="width:60.0%" alt="SourceForge logo"></a> <a href="https://about.gitlab.com"><img data-src="./images/gitlab-logo.svg" style="width:60.0%" alt="GitLab logo"></a></p>
+<p><a href="https://github.com"><img data-src="./images/GitHub_Logo.png" style="width:25.0%" alt="GitHub logo"></a> <a href="https://launchpad.net"><img data-src="./images/launchpad-logo.png" style="width:25.0%" alt="Launchpad logo"></a> <a href="https://sourceforge.net"><img data-src="./images/sourceforge-logo.jpeg" style="width:25.0%" alt="SourceForge logo"></a> <a href="https://about.gitlab.com"><img data-src="./images/gitlab-logo.svg" style="width:25.0%" alt="GitLab logo"></a></p>
 <div class="fragment">
 <h3 id="well-focus-on-github.">We’ll focus on GitHub.</h3>
 </div>
@@ -288,8 +288,8 @@ Kyle Niemeyer
 <h2>Cloning a repo</h2>
 
 <img data-src="./images/github-clone-repo.png" style="width:90.0%" alt="Cloning a repo from GitHub" class="r-stretch"></section>
-<section class="slide level2">
-
+<section id="terminology" class="slide level2">
+<h2>Terminology</h2>
 <div class="fragment">
 <p><strong>Clone</strong>: make local copy of any repository (Git)</p>
 </div>
@@ -319,10 +319,9 @@ Kyle Niemeyer
 <li class="fragment">Clone your fork: <code>$ git clone https://github.com/[you]/analysis_code.git</code></li>
 <li class="fragment">Create alias <code>upstream</code> for the remote repo:</li>
 </ol>
-<div class="fragment bash">
-<p>$ git remote add upstream<br>
-https://github.com/SoftwareDevEngResearch/analysis_code.git $ git remote -v</p>
-</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a></a><span class="ex">$</span> git remote add upstream <span class="dt">\</span></span>
+<span id="cb1-2"><a></a>https://github.com/SoftwareDevEngResearch/analysis_code.git</span>
+<span id="cb1-3"><a></a><span class="ex">$</span> git remote <span class="at">-v</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="fetching-and-merging-remote-content" class="slide level2">
 <h2>Fetching and merging remote content</h2>
@@ -331,22 +330,19 @@ https://github.com/SoftwareDevEngResearch/analysis_code.git $ git remote -v</p>
 <li class="fragment">Then merge the <code>upstream</code> main branch into your main branch</li>
 <li class="fragment">Look at the changes!</li>
 </ol>
-<div class="fragment bash">
-<p>$ git fetch upstream $ git merge upstream/main</p>
-</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a></a><span class="ex">$</span> git fetch upstream</span>
+<span id="cb2-2"><a></a><span class="ex">$</span> git merge upstream/main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="update-your-fork" class="slide level2">
 <h2>Update your fork</h2>
 <div class="fragment">
 <p>After merging upstream history, push your work to <code>origin main</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a></a><span class="ex">$</span> git push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a></a><span class="ex">$</span> git push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>What if you (or someone else) made a change in your fork?</p>
 </div>
-<div class="fragment bash">
-<p>$ git pull</p>
-</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a></a><span class="ex">$</span> git pull</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p><code>pull</code> = <code>fetch</code> &amp; <code>merge</code> for <code>origin main</code></p>
 </div>
@@ -367,10 +363,10 @@ https://github.com/SoftwareDevEngResearch/analysis_code.git $ git remote -v</p>
 <p>(In-class example)</p>
 </div>
 </section>
-<section id="best-practices-for-collaborating-on-github" class="slide level2">
-<h2>Best practices for collaborating on GitHub</h2>
+<section id="best-practices-for-collaborating" class="slide level2">
+<h2>Best practices for collaborating</h2>
 <div class="fragment">
-<p>For one-person projects:</p>
+<p>For solo projects:</p>
 </div>
 <ul>
 <li class="fragment">push and pull (to/from origin</li>
@@ -413,10 +409,11 @@ https://github.com/SoftwareDevEngResearch/analysis_code.git $ git remote -v</p>
 <li class="fragment">Commit and push your changes</li>
 <li class="fragment">Submit a Pull Request via GitHub</li>
 </ol>
-<div class="fragment bash">
-<p>$ git clone … $ git checkout -b newfix</p>
-<p>$ git commit -am “fixes problem in upstream project” $ git push origin newfix</p>
-</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a></a><span class="ex">$</span> git clone ...</span>
+<span id="cb5-2"><a></a><span class="ex">$</span> git checkout <span class="at">-b</span> newfix</span>
+<span id="cb5-3"><a></a></span>
+<span id="cb5-4"><a></a><span class="ex">$</span> git commit <span class="at">-am</span> <span class="st">"fixes problem in upstream project"</span></span>
+<span id="cb5-5"><a></a><span class="ex">$</span> git push origin newfix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="create-pull-request" class="slide level2">
 <h2>Create Pull Request</h2>
@@ -444,7 +441,7 @@ https://github.com/SoftwareDevEngResearch/analysis_code.git $ git remote -v</p>
 <section id="copyright" class="slide level2">
 <h2>Copyright</h2>
 <div class="fragment">
-<p>Facts and ideas are <strong>&gt;not copyrightable</strong>.</p>
+<p>Facts and ideas are <strong>not copyrightable</strong>.</p>
 </div>
 <div class="fragment">
 <p><em>Expressions</em> of ideas are copyrightable.</p>
@@ -490,7 +487,7 @@ https://github.com/SoftwareDevEngResearch/analysis_code.git $ git remote -v</p>
 <p>Free for anyone and everyone to use and modify.</p>
 </div>
 <div class="fragment">
-<p>Literature examples: Sherlock Holmes, Frankenstein</p>
+<p>Literature examples: <em>Sherlock Holmes</em>, <em>Frankenstein</em></p>
 </div>
 <div class="fragment">
 <p>(There are some tricky issues internationally, however.)</p>
@@ -504,9 +501,71 @@ https://github.com/SoftwareDevEngResearch/analysis_code.git $ git remote -v</p>
 <div class="fragment">
 <p><strong>Pick an existing license. Do not create your own.</strong></p>
 </div>
-
-
+</section>
+<section id="software-licenses-2" class="slide level2">
+<h2>Software Licenses</h2>
+<div class="fragment">
+<p>FOSS categories: permissive, and “copyleft”</p>
+</div>
+<div class="fragment">
+<p><strong>Permissive</strong> licenses: BSD 3-clause, MIT; allow further distribution under any license</p>
+</div>
+<div class="fragment">
+<p><strong>Copyleft</strong> licenses: GPL; require modifications to be shared under the same license (“viral”)</p>
+</div>
+</section>
+<section id="httpschoosealicense.com" class="slide level2">
+<h2><a href="https://choosealicense.com" class="uri">https://choosealicense.com</a></h2>
+<p><a href="https://choosealicense.com"><img data-src="./images/choosealicense.com.png" alt="&quot;ChooseALicense.com"></a></p>
+</section>
+<section id="open-source-initiative-licenses" class="slide level2">
+<h2>Open Source Initiative licenses</h2>
+<p><a href="https://opensource.org/licenses"><img data-src="./images/open-source-initiative-licenses.png" style="width:75.0%" alt="Open Source Initiative Licenses &amp; Standards"></a></p>
+</section>
+<section id="which-license-to-use" class="slide level2">
+<h2>Which license to use?</h2>
+<div class="fragment">
+<p>When in doubt, use a permissive license like the BSD 3-clause or MIT licenses.</p>
+</div>
+</section>
+<section id="copyrighting-other-creative-works-creative-commons" class="slide level2">
+<h2>Copyrighting other creative works: Creative Commons</h2>
+<ul>
+<li class="fragment">BY: Attribution</li>
+<li class="fragment">SA: ShareAlike</li>
+<li class="fragment">ND: NoDerivatives</li>
+<li class="fragment">NC: NonCommercial</li>
+</ul>
+<div class="fragment">
+<p>Licenses: CC BY, CC BY-SA, CC BY-NC, CC BY-NC-NC</p>
+</div>
+<div class="fragment">
+<p><a href="https://creativecommons.org/share-your-work/">Choose a license</a></p>
+</div>
+</section>
+<section id="beyond-copyright-licenses" class="slide level2">
+<h2>Beyond copyright &amp; licenses</h2>
+<div class="fragment">
+<p><strong>Patents</strong>: cover ideas and concepts; modern issues with “patent trolls”</p>
+</div>
+<div class="fragment">
+<p><strong>Trademarks</strong>: symbols that represent a business or organization</p>
+</div>
+<div class="fragment">
+<p><strong>Export control</strong>: government may forbid the transfer of source code (and data, ideas) to another country or foreign national without permission</p>
+</div>
+<div class="fragment">
+<p><strong>HIPAA compliance</strong>: software that deals with human patients must be anonymized</p>
+</div>
 </section></section>
+<section id="long-story-short" class="title-slide slide level1 center">
+<h1>Long story short:</h1>
+<div class="fragment">
+<p>Pick a license when creating a project, and put as <code>LICENSE.txt</code> in your repo.</p>
+</div>
+
+
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
