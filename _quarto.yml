@@ -21,6 +21,7 @@ website:
       - version-control.ipynb
       - remote-version-control.ipynb
       - classes-objects.ipynb
+      - files-command-line.ipynb
 
 format:
   html:
