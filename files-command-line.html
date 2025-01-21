@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kyle Niemeyer">
+<meta name="dcterms.date" content="2025-01-22">
+
+<title>Intro to files and command-line inputs in Python – Software Development for Research</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e4c8fad3e406d8bb7577731c69eecfb3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./files-command-line.html">Intro to files and command-line inputs in Python</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Software Development for Research</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting Started</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./managing-environment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Managing your computational environment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./version-control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to version control with Git</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./remote-version-control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Remote version control with Git</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./classes-objects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Brief intro to object-oriented programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./files-command-line.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Intro to files and command-line inputs in Python</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#working-with-files-in-python-including-hdf5" id="toc-working-with-files-in-python-including-hdf5" class="nav-link active" data-scroll-target="#working-with-files-in-python-including-hdf5">Working with files in Python, including HDF5</a>
+  <ul class="collapse">
+  <li><a href="#situations-for-working-with-files" id="toc-situations-for-working-with-files" class="nav-link" data-scroll-target="#situations-for-working-with-files">Situations for working with files:</a></li>
+  <li><a href="#saving-or-loading-data-file-handle-object" id="toc-saving-or-loading-data-file-handle-object" class="nav-link" data-scroll-target="#saving-or-loading-data-file-handle-object">Saving or loading data: file handle object</a></li>
+  <li><a href="#file-handle-methods" id="toc-file-handle-methods" class="nav-link" data-scroll-target="#file-handle-methods">File handle methods</a></li>
+  <li><a href="#example-read-in-matrix" id="toc-example-read-in-matrix" class="nav-link" data-scroll-target="#example-read-in-matrix">Example: read in matrix</a></li>
+  <li><a href="#how-to-do-this-better" id="toc-how-to-do-this-better" class="nav-link" data-scroll-target="#how-to-do-this-better">How to do this better?</a></li>
+  <li><a href="#file-modes" id="toc-file-modes" class="nav-link" data-scroll-target="#file-modes">File modes</a></li>
+  <li><a href="#more-complicated-example-read-in-matrix-and-add" id="toc-more-complicated-example-read-in-matrix-and-add" class="nav-link" data-scroll-target="#more-complicated-example-read-in-matrix-and-add">More-complicated example: read in matrix and add</a></li>
+  </ul></li>
+  <li><a href="#quick-intro-to-hdf5" id="toc-quick-intro-to-hdf5" class="nav-link" data-scroll-target="#quick-intro-to-hdf5">Quick intro to HDF5</a>
+  <ul class="collapse">
+  <li><a href="#hdf-hierarchical-data-format" id="toc-hdf-hierarchical-data-format" class="nav-link" data-scroll-target="#hdf-hierarchical-data-format">HDF: Hierarchical data format</a></li>
+  <li><a href="#hdf5-hierarchical-data-format-version-5" id="toc-hdf5-hierarchical-data-format-version-5" class="nav-link" data-scroll-target="#hdf5-hierarchical-data-format-version-5">HDF5: Hierarchical Data Format, version 5</a></li>
+  <li><a href="#using-pytables-for-hdf5" id="toc-using-pytables-for-hdf5" class="nav-link" data-scroll-target="#using-pytables-for-hdf5">Using PyTables for HDF5</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#getting-started-with-hdf5-files" id="toc-getting-started-with-hdf5-files" class="nav-link" data-scroll-target="#getting-started-with-hdf5-files">Getting started with HDF5 files</a></li>
+  <li><a href="#hdf5-file-modes" id="toc-hdf5-file-modes" class="nav-link" data-scroll-target="#hdf5-file-modes">HDF5 file modes</a></li>
+  <li><a href="#hdf5-basics" id="toc-hdf5-basics" class="nav-link" data-scroll-target="#hdf5-basics">HDF5 basics</a></li>
+  <li><a href="#creating-nodes-arrays-and-tables" id="toc-creating-nodes-arrays-and-tables" class="nav-link" data-scroll-target="#creating-nodes-arrays-and-tables">Creating nodes, arrays, and tables</a></li>
+  <li><a href="#creating-nodes-arrays-and-tables-1" id="toc-creating-nodes-arrays-and-tables-1" class="nav-link" data-scroll-target="#creating-nodes-arrays-and-tables-1">Creating nodes, arrays, and tables</a></li>
+  <li><a href="#arrays-tables-preserve-original-flavor" id="toc-arrays-tables-preserve-original-flavor" class="nav-link" data-scroll-target="#arrays-tables-preserve-original-flavor">Arrays &amp; tables preserve original flavor</a></li>
+  <li><a href="#can-create-rows-and-append-to-tables" id="toc-can-create-rows-and-append-to-tables" class="nav-link" data-scroll-target="#can-create-rows-and-append-to-tables">Can create rows and append to tables</a></li>
+  <li><a href="#accessing-this-table" id="toc-accessing-this-table" class="nav-link" data-scroll-target="#accessing-this-table">Accessing this table</a></li>
+  <li><a href="#hierarchy-layout" id="toc-hierarchy-layout" class="nav-link" data-scroll-target="#hierarchy-layout">Hierarchy layout</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
+  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3"></a></li>
+  <li><a href="#more-complicated-topics" id="toc-more-complicated-topics" class="nav-link" data-scroll-target="#more-complicated-topics">More complicated topics</a></li>
+  </ul></li>
+  <li><a href="#creating-command-line-interfaces-for-python-programs-with-argparse" id="toc-creating-command-line-interfaces-for-python-programs-with-argparse" class="nav-link" data-scroll-target="#creating-command-line-interfaces-for-python-programs-with-argparse">Creating command-line interfaces for Python programs with argparse</a>
+  <ul class="collapse">
+  <li><a href="#command-line-interfaces" id="toc-command-line-interfaces" class="nav-link" data-scroll-target="#command-line-interfaces">Command-line interfaces</a></li>
+  <li><a href="#simple-example" id="toc-simple-example" class="nav-link" data-scroll-target="#simple-example">Simple example</a></li>
+  <li><a href="#optional-arguments" id="toc-optional-arguments" class="nav-link" data-scroll-target="#optional-arguments">Optional arguments</a></li>
+  <li><a href="#optional-arguments-1" id="toc-optional-arguments-1" class="nav-link" data-scroll-target="#optional-arguments-1">Optional arguments</a></li>
+  <li><a href="#more-complex-input" id="toc-more-complex-input" class="nav-link" data-scroll-target="#more-complex-input">More complex input</a></li>
+  <li><a href="#example-yaml-input-file" id="toc-example-yaml-input-file" class="nav-link" data-scroll-target="#example-yaml-input-file">Example YAML input file</a></li>
+  </ul></li>
+  <li><a href="#takehome-messages" id="toc-takehome-messages" class="nav-link" data-scroll-target="#takehome-messages">Takehome messages</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="files-command-line-revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Intro to files and command-line inputs in Python</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Kyle Niemeyer </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Oregon State University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 22, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="working-with-files-in-python-including-hdf5" class="level1">
+<h1>Working with files in Python, including HDF5</h1>
+<section id="situations-for-working-with-files" class="level2">
+<h2 class="anchored" data-anchor-id="situations-for-working-with-files">Situations for working with files:</h2>
+<ul>
+<li>Collaborator emails you raw data, want to look at the results</li>
+<li>You want to email a collaborator data from Python</li>
+<li>You need to use external code that takes input or data file (potentially 100s/1000s of times); want to automate generation of input files from data</li>
+<li>An external program writes out one or more results files, and you want to read and perform analysis</li>
+<li>You want to keep an intermediate calculation for debugging or validation</li>
+</ul>
+</section>
+<section id="saving-or-loading-data-file-handle-object" class="level2">
+<h2 class="anchored" data-anchor-id="saving-or-loading-data-file-handle-object">Saving or loading data: file handle object</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="bu">open</span>(<span class="st">'data.txt'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>This <strong>does</strong>:</p>
+</div>
+<ul>
+<li>Make sure <code>data.txt</code> exists</li>
+<li>Create new handle to this file</li>
+<li>Set cursor position <code>pos</code> to start of the file, <code>pos = 0</code></li>
+</ul>
+<div class="fragment">
+<p>This <strong>does not</strong> read any of the file into memory, write anything to the file, or close the file.</p>
+</div>
+</section>
+<section id="file-handle-methods" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="file-handle-methods">File handle methods</h2>
+<ul>
+<li><code>f.read(n=-1)</code>: Reads in <code>n</code> bytes; if <code>n=-1</code> or not present, read entire rest of file.</li>
+<li><code>f.readline()</code>: Read next full line, return string with newline character.</li>
+<li><code>f.readlines()</code>: Reads entire rest of file, returns list of strings (with newlines).</li>
+<li><code>f.seek(pos)</code>: Move file cursor to specified position.</li>
+<li><code>f.tell()</code>: Return current position in file.</li>
+<li><code>f.write(s)</code>: Insert string <code>s</code> at current position.</li>
+<li><code>f.flush()</code>: Perform all pending write operations.</li>
+<li><code>f.close()</code>: Close file (no more reading or writing).</li>
+</ul>
+</section>
+<section id="example-read-in-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="example-read-in-matrix">Example: read in matrix</h2>
+<p><code>matrix.txt</code> contents:</p>
+<pre class="text"><code>1,4,15,9
+0,11,7,3
+2,8,12,13
+14,5,10,6</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="bu">open</span>(<span class="st">'matrix.txt'</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>matrix <span class="op">=</span> []</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> f.readlines():</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> [<span class="bu">int</span>(x) <span class="cf">for</span> x <span class="kw">in</span> line.split(<span class="st">','</span>)]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    matrix.append(row)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>f.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>Make sure to close the file!</p>
+</div>
+</section>
+<section id="how-to-do-this-better" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-do-this-better">How to do this better?</h2>
+<p>Use context manager &amp; <code>with</code> to automatically close:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'matrix.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> f.readlines()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>matrix <span class="op">=</span> np.array([[<span class="bu">int</span>(x) <span class="cf">for</span> x <span class="kw">in</span> line.split(<span class="st">','</span>)]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                  <span class="cf">for</span> line <span class="kw">in</span> lines]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>… actually, this example can be even easier:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>matrix <span class="op">=</span> np.genfromtxt(<span class="st">'matrix.txt'</span>, delimiter<span class="op">=</span><span class="st">','</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="file-modes" class="level2">
+<h2 class="anchored" data-anchor-id="file-modes">File modes</h2>
+<p>When opening a file, by default it opens in read-only mode. Other file modes:</p>
+<ul>
+<li><code>'r'</code>: Read-only, no writing. Starts at <code>pos = 0</code>.</li>
+<li><code>'w'</code>: Write. Creates file if it doesn’t exist (if it does, contents are deleted). Starts at <code>pos = 0</code>.</li>
+<li><code>'a'</code>: Append. Opens file for writing but does not delete contents; creates file if it doesn’t exist. Starting <code>pos</code> is end of file.</li>
+<li><code>'+'</code>: Update. Opens for reading and writing, does not delete current contents. Starts at <code>pos = 0</code>.</li>
+</ul>
+</section>
+<section id="more-complicated-example-read-in-matrix-and-add" class="level2">
+<h2 class="anchored" data-anchor-id="more-complicated-example-read-in-matrix-and-add">More-complicated example: read in matrix and add</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'matrix.txt'</span>, <span class="st">'r+'</span>) <span class="im">as</span> f:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    orig <span class="op">=</span> f.read()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    f.seek(<span class="dv">0</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    f.write(<span class="st">'0,0,0,0</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    f.write(orig)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    f.write(<span class="st">'</span><span class="ch">\n</span><span class="st">1,1,1,1'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="quick-intro-to-hdf5" class="level1">
+<h1>Quick intro to HDF5</h1>
+<section id="hdf-hierarchical-data-format" class="level2">
+<h2 class="anchored" data-anchor-id="hdf-hierarchical-data-format">HDF: Hierarchical data format</h2>
+<div class="fragment">
+<p>Basic idea: better to store structured, numerical data in binary formats over plain-text ASCII files. Why? Smaller.</p>
+</div>
+<pre class="text fragment"><code># small ints        # medium ints
+42   (4 bytes)      123456   (4 bytes)
+'42' (2 bytes)      '123456' (6 bytes)
+
+# near-int floats   # e-notation floats
+12.34   (8 bytes)   42.424242E+42   (8 bytes)
+'12.34' (5 bytes)   '42.424242E+42' (13 bytes)</code></pre>
+<div class="fragment">
+<p>Also, faster I/O, since binary files save in native format.</p>
+</div>
+</section>
+<section id="hdf5-hierarchical-data-format-version-5" class="level2">
+<h2 class="anchored" data-anchor-id="hdf5-hierarchical-data-format-version-5">HDF5: Hierarchical Data Format, version 5</h2>
+<div class="fragment">
+<p>HDF5 files (<code>.hdf5</code>, <code>.h5</code>) store data in binary format.</p>
+</div>
+<div class="fragment">
+<p>HDF5 provides database features like storing many datasets, user-defined metadata, optimized I/O, and ability to query contents.</p>
+</div>
+<div class="fragment">
+<p>HDF5 is a filesystem in a file: provides nested tree structure for datasets.</p>
+</div>
+</section>
+<section id="using-pytables-for-hdf5" class="level2">
+<h2 class="anchored" data-anchor-id="using-pytables-for-hdf5">Using PyTables for HDF5</h2>
+<p><code>import tables as tb</code></p>
+<div class="fragment">
+<p>PyTables provides five basic dataset classes:</p>
+</div>
+<ul>
+<li><code>Array</code>: homogeneous components, fixed size; great for numerical data</li>
+<li><code>CArray</code>: chunked arrays</li>
+<li><code>EArray</code>: extendable arrays</li>
+<li><code>VLArray</code>: variable-length arrays</li>
+<li><code>Table</code>: structured collection of records whose values are stored in fixed-length fields</li>
+</ul>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<p>Constructs need to be composed of atomic types:</p>
+<ul>
+<li><code>bool</code>: true or false type</li>
+<li><code>int</code>: signed integer types</li>
+<li><code>uint</code>: unsigned integer types</li>
+<li><code>float</code>: floating-point types</li>
+<li><code>complex</code>: complex floating-point types</li>
+<li><code>string</code>: fixed-length raw string type</li>
+</ul>
+<div class="fragment">
+<p>Also: Groups, links, and hidden nodes</p>
+</div>
+</section>
+<section id="getting-started-with-hdf5-files" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started-with-hdf5-files">Getting started with HDF5 files</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tables <span class="im">as</span> tb</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>h5file <span class="op">=</span> tb.open_file(<span class="st">'/path/to/file'</span>, <span class="st">'a'</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>… or, better yet:</p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tables <span class="im">as</span> tb</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tb.open_file(<span class="st">'/path/to/file'</span>, <span class="st">'a'</span>) <span class="im">as</span> h5file:</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="hdf5-file-modes" class="level2">
+<h2 class="anchored" data-anchor-id="hdf5-file-modes">HDF5 file modes</h2>
+<ul>
+<li><code>'r'</code>: Read-only; no data can be modified.</li>
+<li><code>'w'</code>: Write; create a new file (delete existing file with that name).</li>
+<li><code>'a'</code>: Append; open existing file for reading or writing, or create new file.</li>
+<li><code>'r+'</code>: Similar to <code>a</code>, but file must exist.</li>
+</ul>
+</section>
+<section id="hdf5-basics" class="level2">
+<h2 class="anchored" data-anchor-id="hdf5-basics">HDF5 basics</h2>
+<div class="fragment">
+<p>HDF5 files: all nodes stem from root node: <code>/</code> or <code>h5file.root</code></p>
+</div>
+<div class="fragment">
+<p><em>Natural naming</em>: can access subnodes as attributes of “parent” nodes, like <code>h5file.root.a_group.some_data</code></p>
+</div>
+<div class="fragment">
+<p>(all relevant nodes in the tree must have names that are valid Python variable names)</p>
+</div>
+</section>
+<section id="creating-nodes-arrays-and-tables" class="level2">
+<h2 class="anchored" data-anchor-id="creating-nodes-arrays-and-tables">Creating nodes, arrays, and tables</h2>
+<div class="fragment">
+<p>Create and access a group on the root node:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>h5file.create_group(h5file.root, <span class="st">'a_group'</span>, <span class="st">"My Group"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>h5file.root.a_group</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p>Datasets: arrays and tables, each with a corresponding <code>create</code> method:</p>
+</div>
+<ul>
+<li>Arrays are fixed size, must be created with data.</li>
+<li>Tables have a set data type but are variable length, so we can append to them after creation.</li>
+</ul>
+</section>
+<section id="creating-nodes-arrays-and-tables-1" class="level2">
+<h2 class="anchored" data-anchor-id="creating-nodes-arrays-and-tables-1">Creating nodes, arrays, and tables</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># integer array</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>h5file.create_array(h5file.root.a_group, <span class="st">'arthur_count'</span>, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">3</span>])</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># tables need descriptions</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> np.dtype([(<span class="st">'id'</span>, <span class="bu">int</span>), (<span class="st">'name'</span>, <span class="st">'S10'</span>)])</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>knights <span class="op">=</span> np.array([(<span class="dv">42</span>, <span class="st">'Lancelot'</span>), (<span class="dv">12</span>, <span class="st">'Bedivere'</span>)], dtype<span class="op">=</span>dt)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>h5file.create_table(h5file.root, <span class="st">'knights'</span>, dt)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>h5file.root.knights.append(knights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>Hierarchy at this point:</p>
+<pre class="text"><code>/
+|-- a_group/
+|   |-- arther_count
+|
+|-- knights</code></pre>
+</div>
+</section>
+<section id="arrays-tables-preserve-original-flavor" class="level2">
+<h2 class="anchored" data-anchor-id="arrays-tables-preserve-original-flavor">Arrays &amp; tables preserve original flavor</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>h5file.root.a_group.arthur_count[:]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(h5file.root.a_group.arthur_count[:])</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(h5file.root.a_group.arthur_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>h5file.root.knights[<span class="dv">1</span>] <span class="co"># pull out second row</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>h5file.root.knights[:<span class="dv">1</span>] <span class="co"># slice the first row</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> (h5file.root.knights.cols.<span class="bu">id</span>[:] <span class="op">&lt;</span> <span class="dv">28</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>h5file.root.knights[mask] <span class="co"># create mask and apply to table</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Fancy index the second and first rows, in that order</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>h5file.root.knights[([<span class="dv">1</span>, <span class="dv">0</span>],)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>Memory mapping: pull in data from disk only as needed; HDF5 takes care of this automatically</p>
+</div>
+</section>
+<section id="can-create-rows-and-append-to-tables" class="level2">
+<h2 class="anchored" data-anchor-id="can-create-rows-and-append-to-tables">Can create rows and append to tables</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>table_def <span class="op">=</span> {<span class="st">'time'</span>: tables.Float64Col(pos<span class="op">=</span><span class="dv">0</span>),</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>             <span class="st">'temperature'</span>: tables.Float64Col(pos<span class="op">=</span><span class="dv">1</span>),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>             <span class="st">'pressure'</span>: tables.Float64Col(pos<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>             }</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tables.open_file(filename, mode<span class="op">=</span><span class="st">'w'</span>, title<span class="op">=</span><span class="st">"Table title"</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                      ) <span class="im">as</span> h5file:</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    table <span class="op">=</span> h5file.create_table(where<span class="op">=</span>h5file.root,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                                name<span class="op">=</span><span class="st">'simulation'</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                                description<span class="op">=</span>table_def</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                                )</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># sim is an object representing a simulation</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    timestep <span class="op">=</span> table.row</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save initial conditions</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    timestep[<span class="st">'time'</span>] <span class="op">=</span> sim.time</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    timestep[<span class="st">'temperature'</span>] <span class="op">=</span> sim.temperature</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    timestep[<span class="st">'pressure'</span>] <span class="op">=</span> sim.pressure</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    timestep.append()</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Main time integration loop</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> sim.time <span class="op">&lt;</span> time_end:</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>        sim.step() <span class="co"># perform a single integration step</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Save new timestep information</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>        timestep[<span class="st">'time'</span>] <span class="op">=</span> sim.time</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>        timestep[<span class="st">'temperature'</span>] <span class="op">=</span> sim.temperature</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>        timestep[<span class="st">'pressure'</span>] <span class="op">=</span> sim.pressure</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add ``timestep`` to table</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>        timestep.append()</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    table.flush()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="accessing-this-table" class="level2">
+<h2 class="anchored" data-anchor-id="accessing-this-table">Accessing this table</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tables.open_file(filename, <span class="st">'r'</span>) <span class="im">as</span> h5file:</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Load Table with Group name simulation</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    table <span class="op">=</span> h5file.root.simulation</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    time <span class="op">=</span> table.col(<span class="st">'time'</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    pressure <span class="op">=</span> table.col(<span class="st">'pressure'</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    temperature <span class="op">=</span> table.col(<span class="st">'temperature'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>These are NumPy arrays!</p>
+</div>
+</section>
+<section id="hierarchy-layout" class="level2">
+<h2 class="anchored" data-anchor-id="hierarchy-layout">Hierarchy layout</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># particles:  id, kind,       velocity</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>particles <span class="op">=</span> [(<span class="dv">42</span>, <span class="st">'electron'</span>, <span class="fl">72.0</span>),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>             (<span class="dv">43</span>, <span class="st">'proton'</span>, <span class="fl">0.1</span>),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>             (<span class="dv">44</span>, <span class="st">'electron'</span>, <span class="fl">76.8</span>),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>             (<span class="dv">45</span>, <span class="st">'neutron'</span>, <span class="fl">0.39</span>),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>             (<span class="dv">46</span>, <span class="st">'neutron'</span>, <span class="fl">0.72</span>),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>             (<span class="dv">47</span>, <span class="st">'neutron'</span>, <span class="fl">0.55</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>             (<span class="dv">48</span>, <span class="st">'proton'</span>, <span class="fl">0.18</span>),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>             (<span class="dv">49</span>, <span class="st">'neutron'</span>, <span class="fl">0.23</span>),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>             ...</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>             ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>If we know we want to look at neutral and charged particles separately, then why search through all the particles all the time?</p>
+</div>
+</section>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1"></h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>neutral <span class="op">=</span> [(<span class="dv">45</span>, <span class="st">'neutron'</span>,  <span class="fl">0.39</span>),</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">46</span>, <span class="st">'neutron'</span>,  <span class="fl">0.72</span>),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">47</span>, <span class="st">'neutron'</span>,  <span class="fl">0.55</span>),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">49</span>, <span class="st">'neutron'</span>,  <span class="fl">0.23</span>),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>           ...</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>           ]</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>charged <span class="op">=</span> [(<span class="dv">42</span>, <span class="st">'electron'</span>, <span class="fl">72.0</span>),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">43</span>, <span class="st">'proton'</span>, <span class="fl">0.1</span>),</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">44</span>, <span class="st">'electron'</span>, <span class="fl">76.8</span>),</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">48</span>, <span class="st">'proton'</span>, <span class="fl">0.18</span>),</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>           ...</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>           ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>But now <code>kind</code> is redundant in the <code>neutral</code> table. Let’s delete this column and rely on the structure of the tables together to dictate which table refers to what.</p>
+</div>
+</section>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2"></h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>neutral <span class="op">=</span> [(<span class="dv">45</span>, <span class="fl">0.39</span>),</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">46</span>, <span class="fl">0.72</span>),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">47</span>, <span class="fl">0.55</span>),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">49</span>, <span class="fl">0.23</span>),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>           ...</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>           ]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>charged <span class="op">=</span> [(<span class="dv">42</span>, <span class="st">'electron'</span>, <span class="fl">72.0</span>),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">43</span>, <span class="st">'proton'</span>, <span class="fl">0.1</span>),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">44</span>, <span class="st">'electron'</span>, <span class="fl">76.8</span>),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>           (<span class="dv">48</span>, <span class="st">'proton'</span>, <span class="fl">0.18</span>),</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>           ...</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>           ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>We are embedding information directly into the semantics of the hierarchy.</p>
+</div>
+</section>
+<section id="section-3" class="level2">
+<h2 class="anchored" data-anchor-id="section-3"></h2>
+<div class="fragment">
+<p>We could add another layer that distinguishes the particles based on detector:</p>
+</div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode text python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">/</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="op">|--</span> detector1<span class="op">/</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="op">|</span>   <span class="op">|--</span> neutral</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="op">|</span>   <span class="op">|--</span> charged</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="op">|</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="op">|--</span> detector2<span class="op">/</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="op">|</span>   <span class="op">|--</span> neutral</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="op">|</span>   <span class="op">|--</span> charged</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>Data should be broken up like this to improve access time speeds. This is more efficient because there are: fewer rows to search, fewer rows to pull from disk, and fewer columns in description (decreases size of rows).</p>
+</div>
+</section>
+<section id="more-complicated-topics" class="level2">
+<h2 class="anchored" data-anchor-id="more-complicated-topics">More complicated topics</h2>
+<ul>
+<li>Chunking, in-core and out-of-core operations, querying, compression.</li>
+<li>other binary format: <a href="https://docs.unidata.ucar.edu/netcdf-c/current/">NetCDF</a>, flat (meaning non-hierarchical) array-oriented format also used in scientific computing. netCDF-4 builds on HDF5, though.</li>
+</ul>
+</section>
+</section>
+<section id="creating-command-line-interfaces-for-python-programs-with-argparse" class="level1">
+<h1>Creating command-line interfaces for Python programs with argparse</h1>
+<section id="command-line-interfaces" class="level2">
+<h2 class="anchored" data-anchor-id="command-line-interfaces">Command-line interfaces</h2>
+<div class="fragment">
+<p>Rather than only calling your package from another Python code, you can (fairly easily)create a command-line interface.</p>
+</div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">myprogram</span> <span class="at">--help</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="ex">myprogram</span> <span class="at">--input</span> inputfile.txt <span class="at">--output</span> output.h5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>You can and should also use these to change inputs or settings to your programs without modifying code.</p>
+</div>
+</section>
+<section id="simple-example" class="level2">
+<h2 class="anchored" data-anchor-id="simple-example">Simple example</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># contents of example.py</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import the necessary packages</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> argparse</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># construct the argument parse and parse the arguments</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>parser <span class="op">=</span> argparse.ArgumentParser(</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'This is a simple command-line program.'</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>parser.add_argument(<span class="st">'-n'</span>, <span class="st">'--name'</span>, required<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">help</span><span class="op">=</span><span class="st">'name of the user'</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>args <span class="op">=</span> parser.parse_args(sys.argv[<span class="dv">1</span>:])</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co"># display a friendly message to the user</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hi there </span><span class="sc">{}</span><span class="st">, it's nice to meet you!"</span>.<span class="bu">format</span>(args.name))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python example.py <span class="at">--help</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python example.py <span class="at">--name</span> Kyle</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="optional-arguments" class="level2">
+<h2 class="anchored" data-anchor-id="optional-arguments">Optional arguments</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>parser.add_argument(<span class="st">'-c'</span>, <span class="st">'--count'</span>, action<span class="op">=</span><span class="st">'store_true'</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                    default<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">help</span><span class="op">=</span><span class="st">'Count number of characters in name'</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>args <span class="op">=</span> parser.parse_args(sys.argv[<span class="dv">1</span>:])</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hi there </span><span class="sc">{}</span><span class="st">, it's nice to meet you!"</span>.<span class="bu">format</span>(args.name))</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> args.count:</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Name length: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="bu">len</span>(args.name)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python example.py <span class="at">--help</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python example.py <span class="at">--name</span> Kyle <span class="at">-c</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="optional-arguments-1" class="level2">
+<h2 class="anchored" data-anchor-id="optional-arguments-1">Optional arguments</h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>parser.add_argument(<span class="st">'-a'</span>, <span class="st">'--age'</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                    default<span class="op">=</span><span class="dv">25</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">type</span><span class="op">=</span><span class="bu">int</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">help</span><span class="op">=</span><span class="st">'Age of person'</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>args <span class="op">=</span> parser.parse_args(sys.argv[<span class="dv">1</span>:])</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hi there </span><span class="sc">{}</span><span class="st">, it's nice to meet you!"</span>.<span class="bu">format</span>(args.name))</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> args.count:</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Name length: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="bu">len</span>(args.name)))</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Age: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(args.age))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python example.py <span class="at">--help</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python example.py <span class="at">--name</span> Kyle <span class="at">--age</span> 31</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="more-complex-input" class="level2">
+<h2 class="anchored" data-anchor-id="more-complex-input">More complex input</h2>
+<div class="fragment">
+<p>For larger/more complex input, may be better to use an input file.</p>
+</div>
+<div class="fragment">
+<p>YAML is a good option for this: use pyyaml (<code>import yaml</code>)</p>
+</div>
+</section>
+<section id="example-yaml-input-file" class="level2">
+<h2 class="anchored" data-anchor-id="example-yaml-input-file">Example YAML input file</h2>
+<p><code>input.yaml</code>:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode yaml fragment code-with-copy"><code class="sourceCode yaml"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">case</span><span class="kw">:</span><span class="at"> square cavity</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">resolution</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.01</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">velocities</span><span class="kw">:</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fl">1.0</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fl">10.0</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fl">100.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python fragment code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yaml</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'input.yaml'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    inputs <span class="op">=</span> yaml.safe_load(f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<p>Returns a dictionary</p>
+</div>
+</section>
+</section>
+<section id="takehome-messages" class="level1">
+<h1>Takehome messages</h1>
+<ul>
+<li>If you need to store numerical data, use HDF5 instead of plaintext.</li>
+<li>Consider implementing a command-line interface for your program, possibly in combination with more complex YAML configuration/input files.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/SoftwareDevEngResearch\.github\.io\/software-development-research\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
