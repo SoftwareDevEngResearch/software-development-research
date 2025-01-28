@@ -22,6 +22,7 @@ website:
       - remote-version-control.ipynb
       - classes-objects.ipynb
       - files-command-line.ipynb
+      - packaging-distribution.ipynb
 
 format:
   html:
