@@ -1,59 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/getting-started-revealjs.html</loc>
-    <lastmod>2025-01-21T21:08:48.226Z</lastmod>
-  </url>
-  <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/getting-started.html</loc>
-    <lastmod>2025-01-21T21:08:48.226Z</lastmod>
-  </url>
-  <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/classes-objects-revealjs.html</loc>
-    <lastmod>2025-01-21T21:08:48.225Z</lastmod>
-  </url>
-  <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/classes-objects.html</loc>
-    <lastmod>2025-01-21T21:08:48.225Z</lastmod>
-  </url>
-  <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/about.html</loc>
-    <lastmod>2025-01-21T21:08:48.225Z</lastmod>
-  </url>
-  <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/remote-version-control-revealjs.html</loc>
-    <lastmod>2025-01-21T21:08:48.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/remote-version-control.html</loc>
-    <lastmod>2025-01-21T21:08:48.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/managing-environment.html</loc>
-    <lastmod>2025-01-21T21:08:48.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/managing-environment-revealjs.html</loc>
-    <lastmod>2025-01-21T21:08:48.249Z</lastmod>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/version-control-revealjs.html</loc>
+    <lastmod>2025-01-28T20:00:38.761Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/version-control.html</loc>
-    <lastmod>2025-01-21T21:08:48.250Z</lastmod>
+    <lastmod>2025-01-28T20:00:38.761Z</lastmod>
   </url>
   <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/version-control-revealjs.html</loc>
-    <lastmod>2025-01-21T21:08:48.250Z</lastmod>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/packaging-distribution-revealjs.html</loc>
+    <lastmod>2025-01-28T20:00:38.760Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/packaging-distribution.html</loc>
+    <lastmod>2025-01-28T20:00:38.760Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/index.html</loc>
-    <lastmod>2025-01-21T21:08:48.249Z</lastmod>
+    <lastmod>2025-01-28T20:00:38.760Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/managing-environment-revealjs.html</loc>
+    <lastmod>2025-01-28T20:00:38.760Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/managing-environment.html</loc>
+    <lastmod>2025-01-28T20:00:38.760Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/about.html</loc>
+    <lastmod>2025-01-28T20:00:38.730Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/classes-objects.html</loc>
+    <lastmod>2025-01-28T20:00:38.730Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/classes-objects-revealjs.html</loc>
+    <lastmod>2025-01-28T20:00:38.730Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/remote-version-control.html</loc>
+    <lastmod>2025-01-28T20:00:38.761Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/remote-version-control-revealjs.html</loc>
+    <lastmod>2025-01-28T20:00:38.761Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/files-command-line.html</loc>
-    <lastmod>2025-01-21T21:08:48.226Z</lastmod>
+    <lastmod>2025-01-28T20:00:38.730Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/files-command-line-revealjs.html</loc>
-    <lastmod>2025-01-21T21:08:48.226Z</lastmod>
+    <lastmod>2025-01-28T20:00:38.730Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/getting-started.html</loc>
+    <lastmod>2025-01-28T20:00:38.730Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/getting-started-revealjs.html</loc>
+    <lastmod>2025-01-28T20:00:38.730Z</lastmod>
   </url>
 </urlset>
