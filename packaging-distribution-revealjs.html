@@ -11,7 +11,7 @@
 
   <meta name="author" content="Kyle Niemeyer">
   <meta name="dcterms.date" content="2025-01-29">
-  <title>Software Development for Research – Getting Started</title>
+  <title>Software Development for Research – Packaging and distributing your Python code</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -193,8 +193,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Getting Started</h1>
-  <p class="subtitle">Packaging and distributing your Python code</p>
+  <h1 class="title">Packaging and distributing your Python code</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -391,99 +390,6 @@ A Python module which can contain submodules or recursively, subpackages.
 </div>
 </section></section>
 <section>
-<section id="notebook-to-installable-package-1" class="title-slide slide level1 center">
-<h1>Notebook to installable package</h1>
-
-</section>
-<section id="hypothetical-workflow-for-a-researcher-1" class="slide level2 smaller">
-<h2>Hypothetical workflow for a researcher</h2>
-<ol type="1">
-<li class="fragment">Work on idea for paper with collaborators</li>
-<li class="fragment">Do exploratory analysis in scripts and Jupyter ecosystem</li>
-<li class="fragment">As research progresses, need to write more-complicated functions and workflows</li>
-<li class="fragment">Code begins to sprawl across multiple directories</li>
-<li class="fragment">Software dependencies begin to become more complicated</li>
-<li class="fragment">The code “works on my machine”, but what about your collaborators?</li>
-</ol>
-<div class="r-fit-text fragment">
-<p><strong>People heroically press forward, but this is painful, and not reusable</strong></p>
-</div>
-</section>
-<section id="section-1" class="slide level2 smaller">
-<h2></h2>
-<p>Imagine you start with a Jupyter notebook that looks like this:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python fragment number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-2"><a></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
-<span id="cb5-3"><a></a></span>
-<span id="cb5-4"><a></a><span class="co"># Rosenbrock function</span></span>
-<span id="cb5-5"><a></a><span class="kw">def</span> rosen(x):</span>
-<span id="cb5-6"><a></a>    <span class="co">"""The Rosenbrock function"""</span></span>
-<span id="cb5-7"><a></a>    <span class="cf">return</span> <span class="bu">sum</span>(<span class="fl">100.0</span> <span class="op">*</span> (x[<span class="dv">1</span>:] <span class="op">-</span> x[:<span class="op">-</span><span class="dv">1</span>] <span class="op">**</span> <span class="fl">2.0</span>) <span class="op">**</span> <span class="fl">2.0</span> <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> x[:<span class="op">-</span><span class="dv">1</span>]) <span class="op">**</span> <span class="fl">2.0</span>)</span>
-<span id="cb5-8"><a></a></span>
-<span id="cb5-9"><a></a><span class="kw">def</span> rosen_der(x):</span>
-<span id="cb5-10"><a></a>    <span class="co">"""Gradient of the Rosenbrock function"""</span></span>
-<span id="cb5-11"><a></a>    xm <span class="op">=</span> x[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb5-12"><a></a>    xm_m1 <span class="op">=</span> x[:<span class="op">-</span><span class="dv">2</span>]</span>
-<span id="cb5-13"><a></a>    xm_p1 <span class="op">=</span> x[<span class="dv">2</span>:]</span>
-<span id="cb5-14"><a></a>    der <span class="op">=</span> np.zeros_like(x)</span>
-<span id="cb5-15"><a></a>    der[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">200</span> <span class="op">*</span> (xm <span class="op">-</span> xm_m1<span class="op">**</span><span class="dv">2</span>) <span class="op">-</span> <span class="dv">400</span> <span class="op">*</span> (xm_p1 <span class="op">-</span> xm<span class="op">**</span><span class="dv">2</span>) <span class="op">*</span> xm <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> xm)</span>
-<span id="cb5-16"><a></a>    der[<span class="dv">0</span>] <span class="op">=</span> <span class="op">-</span><span class="dv">400</span> <span class="op">*</span> x[<span class="dv">0</span>] <span class="op">*</span> (x[<span class="dv">1</span>] <span class="op">-</span> x[<span class="dv">0</span>] <span class="op">**</span> <span class="dv">2</span>) <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> x[<span class="dv">0</span>])</span>
-<span id="cb5-17"><a></a>    der[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">200</span> <span class="op">*</span> (x[<span class="op">-</span><span class="dv">1</span>] <span class="op">-</span> x[<span class="op">-</span><span class="dv">2</span>] <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb5-18"><a></a>    <span class="cf">return</span> der</span>
-<span id="cb5-19"><a></a></span>
-<span id="cb5-20"><a></a><span class="co"># Minimization of the Rosenbrock function with some initial guess</span></span>
-<span id="cb5-21"><a></a>x0 <span class="op">=</span> np.array([<span class="fl">1.3</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>, <span class="fl">1.2</span>])</span>
-<span id="cb5-22"><a></a>result <span class="op">=</span> minimize(rosen, x0, method<span class="op">=</span><span class="st">"BFGS"</span>, jac<span class="op">=</span>rosen_der, options<span class="op">=</span>{<span class="st">"disp"</span>: <span class="va">True</span>})</span>
-<span id="cb5-23"><a></a>optimized_params <span class="op">=</span> result.x</span>
-<span id="cb5-24"><a></a><span class="bu">print</span>(optimized_params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="reusable-science-step-by-step-3" class="slide level2">
-<h2>Reusable science, step by step</h2>
-<p>We can convert our notebook code into a simple importable module an and example calling it:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a></a><span class="ex">$</span> tree edit-sys-path </span>
-<span id="cb6-2"><a></a><span class="ex">edit-sys-path</span></span>
-<span id="cb6-3"><a></a><span class="ex">├──</span> code</span>
-<span id="cb6-4"><a></a><span class="ex">│&nbsp;&nbsp;</span> └── utils.py</span>
-<span id="cb6-5"><a></a><span class="ex">└──</span> example.py</span>
-<span id="cb6-6"><a></a></span>
-<span id="cb6-7"><a></a><span class="ex">2</span> directories, 2 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="reusable-science-step-by-step-4" class="slide level2">
-<h2>Reusable science, step by step</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="co"># example.py</span></span>
-<span id="cb7-2"><a></a><span class="im">import</span> sys</span>
-<span id="cb7-3"><a></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb7-4"><a></a></span>
-<span id="cb7-5"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-6"><a></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
-<span id="cb7-7"><a></a></span>
-<span id="cb7-8"><a></a><span class="co"># Make ./code/utils.py visible to sys.path</span></span>
-<span id="cb7-9"><a></a><span class="co"># sys.path position 1 should be after cwd and before activated virtual environment</span></span>
-<span id="cb7-10"><a></a>sys.path.insert(<span class="dv">1</span>, <span class="bu">str</span>(Path().cwd() <span class="op">/</span> <span class="st">"code"</span>))</span>
-<span id="cb7-11"><a></a><span class="im">from</span> utils <span class="im">import</span> rosen, rosen_der</span>
-<span id="cb7-12"><a></a></span>
-<span id="cb7-13"><a></a>x0 <span class="op">=</span> np.array([<span class="fl">1.3</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>, <span class="fl">1.2</span>])</span>
-<span id="cb7-14"><a></a>result <span class="op">=</span> minimize(rosen, x0, method<span class="op">=</span><span class="st">"BFGS"</span>, jac<span class="op">=</span>rosen_der, options<span class="op">=</span>{<span class="st">"disp"</span>: <span class="va">True</span>})</span>
-<span id="cb7-15"><a></a>optimized_params <span class="op">=</span> result.x</span>
-<span id="cb7-16"><a></a><span class="bu">print</span>(optimized_params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="reusable-science-step-by-step-5" class="slide level2">
-<h2>Reusable science, step by step</h2>
-<ul>
-<li class="fragment">This is <strong>already better</strong> than having everything in a single massive file!</li>
-<li class="fragment">However, now things are tied to this relative path on your computer:</li>
-</ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python fragment number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a><span class="co"># Make ./code/utils.py visible to sys.path</span></span>
-<span id="cb8-2"><a></a>sys.path.insert(<span class="dv">1</span>, <span class="bu">str</span>(Path(<span class="va">__file__</span>).parent <span class="op">/</span> <span class="st">"code"</span>))</span>
-<span id="cb8-3"><a></a><span class="im">from</span> utils <span class="im">import</span> rosen, rosen_der</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="fragment">
-<p>and are brittle to refactoring and change; plus, not very portable to others.</p>
-</div>
-<ul>
-<li class="fragment">But we can do better!</li>
-</ul>
-</section></section>
-<section>
 <section id="packaging-your-code" class="title-slide slide level1 center">
 <h1>Packaging your code</h1>
 
@@ -494,9 +400,9 @@ A Python module which can contain submodules or recursively, subpackages.
 <li class="fragment">The goal is for your code to be installable, and distributable.</li>
 <li class="fragment">Per the Zen of Python, this should be straightforward, right?</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a></a><span class="ex">$</span> python3 <span class="at">-c</span> <span class="st">'import this'</span> <span class="kw">|</span> <span class="fu">grep</span> obvious</span>
-<span id="cb9-2"><a></a><span class="ex">There</span> should be one-- and preferably only one <span class="at">--obvious</span> way to do it.</span>
-<span id="cb9-3"><a></a><span class="ex">Although</span> that way may not be obvious at first unless you<span class="st">'re Dutch.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a></a><span class="ex">$</span> python3 <span class="at">-c</span> <span class="st">'import this'</span> <span class="kw">|</span> <span class="fu">grep</span> obvious</span>
+<span id="cb5-2"><a></a><span class="ex">There</span> should be one-- and preferably only one <span class="at">--obvious</span> way to do it.</span>
+<span id="cb5-3"><a></a><span class="ex">Although</span> that way may not be obvious at first unless you<span class="st">'re Dutch.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="next-steps-packaging-your-code-1" class="slide level2">
 <h2>Next steps: packaging your code</h2>
@@ -552,20 +458,20 @@ A Python module which can contain submodules or recursively, subpackages.
 <section id="simple-packaging-example" class="slide level2">
 <h2>Simple packaging example</h2>
 <p>Modern <a href="https://peps.python.org/pep-0518/">PEP 518</a> compliant build backends just need a single file: <a href="https://packaging.python.org/en/latest/guides/writing-pyproject-toml/"><code>pyproject.toml</code></a></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="ex">$</span> tree simple_packaging</span>
-<span id="cb10-2"><a></a><span class="ex">simple-packaging</span></span>
-<span id="cb10-3"><a></a><span class="ex">├──</span> LICENSE</span>
-<span id="cb10-4"><a></a><span class="ex">├──</span> README.md</span>
-<span id="cb10-5"><a></a><span class="ex">├──</span> pyproject.toml</span>
-<span id="cb10-6"><a></a><span class="ex">├──</span> src</span>
-<span id="cb10-7"><a></a><span class="ex">│&nbsp;&nbsp;</span> └── rosen</span>
-<span id="cb10-8"><a></a><span class="ex">│&nbsp;&nbsp;</span>     ├── __init__.py</span>
-<span id="cb10-9"><a></a><span class="ex">│&nbsp;&nbsp;</span>     ├── _version.py</span>
-<span id="cb10-10"><a></a><span class="ex">│&nbsp;&nbsp;</span>     └── example.py</span>
-<span id="cb10-11"><a></a><span class="ex">└──</span> tests</span>
-<span id="cb10-12"><a></a>    <span class="ex">└──</span> test_example.py</span>
-<span id="cb10-13"><a></a></span>
-<span id="cb10-14"><a></a><span class="ex">4</span> directories, 7 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a></a><span class="ex">$</span> tree simple_packaging</span>
+<span id="cb6-2"><a></a><span class="ex">simple-packaging</span></span>
+<span id="cb6-3"><a></a><span class="ex">├──</span> LICENSE</span>
+<span id="cb6-4"><a></a><span class="ex">├──</span> README.md</span>
+<span id="cb6-5"><a></a><span class="ex">├──</span> pyproject.toml</span>
+<span id="cb6-6"><a></a><span class="ex">├──</span> src</span>
+<span id="cb6-7"><a></a><span class="ex">│&nbsp;&nbsp;</span> └── rosen</span>
+<span id="cb6-8"><a></a><span class="ex">│&nbsp;&nbsp;</span>     ├── __init__.py</span>
+<span id="cb6-9"><a></a><span class="ex">│&nbsp;&nbsp;</span>     ├── _version.py</span>
+<span id="cb6-10"><a></a><span class="ex">│&nbsp;&nbsp;</span>     └── example.py</span>
+<span id="cb6-11"><a></a><span class="ex">└──</span> tests</span>
+<span id="cb6-12"><a></a>    <span class="ex">└──</span> test_example.py</span>
+<span id="cb6-13"><a></a></span>
+<span id="cb6-14"><a></a><span class="ex">4</span> directories, 7 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="simple-packaging-example-pyproject.toml" class="slide level2 smaller">
 <h2>Simple packaging example: <code>pyproject.toml</code></h2>
@@ -578,93 +484,93 @@ A Python module which can contain submodules or recursively, subpackages.
 <section id="simple-packaging-example-pyproject.toml-1" class="slide level2">
 <h2>Simple packaging example: <code>pyproject.toml</code></h2>
 <p>Defining how your project should get <strong>built</strong>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource toml fragment number-lines code-with-copy"><code class="sourceCode toml"><span id="cb11-1"><a></a><span class="kw">[build-system]</span></span>
-<span id="cb11-2"><a></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span></span>
-<span id="cb11-3"><a></a>    <span class="st">"hatchling&gt;=1.13.0"</span><span class="op">,</span></span>
-<span id="cb11-4"><a></a>    <span class="st">"hatch-vcs&gt;=0.3.0"</span><span class="op">,</span></span>
-<span id="cb11-5"><a></a><span class="op">]</span></span>
-<span id="cb11-6"><a></a><span class="dt">build-backend</span> <span class="op">=</span> <span class="st">"hatchling.build"</span></span>
-<span id="cb11-7"><a></a><span class="dt">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource toml fragment number-lines code-with-copy"><code class="sourceCode toml"><span id="cb7-1"><a></a><span class="kw">[build-system]</span></span>
+<span id="cb7-2"><a></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb7-3"><a></a>    <span class="st">"hatchling&gt;=1.13.0"</span><span class="op">,</span></span>
+<span id="cb7-4"><a></a>    <span class="st">"hatch-vcs&gt;=0.3.0"</span><span class="op">,</span></span>
+<span id="cb7-5"><a></a><span class="op">]</span></span>
+<span id="cb7-6"><a></a><span class="dt">build-backend</span> <span class="op">=</span> <span class="st">"hatchling.build"</span></span>
+<span id="cb7-7"><a></a><span class="dt">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="simple-packaging-example-pyproject.toml-2" class="slide level2">
 <h2>Simple packaging example: <code>pyproject.toml</code></h2>
 <p>Defining project <strong>metadata</strong> and <strong>requirements</strong>/<strong>dependencies</strong>:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource toml fragment number-lines code-with-copy"><code class="sourceCode toml"><span id="cb12-1"><a></a><span class="kw">[project]</span></span>
-<span id="cb12-2"><a></a><span class="dt">name</span> <span class="op">=</span> <span class="st">"rosen"</span></span>
-<span id="cb12-3"><a></a><span class="dt">dynamic</span> <span class="op">=</span> <span class="op">[</span><span class="st">"version"</span><span class="op">]</span></span>
-<span id="cb12-4"><a></a><span class="dt">description</span> <span class="op">=</span> <span class="st">"Example package for demonstration"</span></span>
-<span id="cb12-5"><a></a><span class="dt">readme</span> <span class="op">=</span> <span class="st">"README.md"</span></span>
-<span id="cb12-6"><a></a><span class="dt">license</span> <span class="op">=</span> <span class="op">{ </span><span class="dt">text</span><span class="op"> =</span> <span class="st">"BSD-3-Clause"</span><span class="op"> }</span>  <span class="co"># SPDX short identifier</span></span>
-<span id="cb12-7"><a></a><span class="dt">authors</span> <span class="op">=</span> <span class="op">[</span></span>
-<span id="cb12-8"><a></a>  <span class="op">{ </span><span class="dt">name</span><span class="op"> =</span> <span class="st">"Kyle Niemeyer"</span><span class="op">, </span><span class="dt">email</span><span class="op"> =</span> <span class="st">"kyle.niemeyer@oregonstate.edu"</span><span class="op"> },</span></span>
-<span id="cb12-9"><a></a><span class="op">]</span></span>
-<span id="cb12-10"><a></a><span class="dt">requires-python</span> <span class="op">=</span> <span class="st">"&gt;=3.8"</span></span>
-<span id="cb12-11"><a></a></span>
-<span id="cb12-12"><a></a><span class="dt">dependencies</span> <span class="op">=</span> <span class="op">[</span></span>
-<span id="cb12-13"><a></a>    <span class="st">"scipy&gt;=1.6.0"</span><span class="op">,</span></span>
-<span id="cb12-14"><a></a>    <span class="st">"numpy"</span><span class="op">,</span>  <span class="co"># compatible versions controlled through scipy</span></span>
-<span id="cb12-15"><a></a><span class="op">]</span></span>
-<span id="cb12-16"><a></a><span class="dt">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource toml fragment number-lines code-with-copy"><code class="sourceCode toml"><span id="cb8-1"><a></a><span class="kw">[project]</span></span>
+<span id="cb8-2"><a></a><span class="dt">name</span> <span class="op">=</span> <span class="st">"rosen"</span></span>
+<span id="cb8-3"><a></a><span class="dt">dynamic</span> <span class="op">=</span> <span class="op">[</span><span class="st">"version"</span><span class="op">]</span></span>
+<span id="cb8-4"><a></a><span class="dt">description</span> <span class="op">=</span> <span class="st">"Example package for demonstration"</span></span>
+<span id="cb8-5"><a></a><span class="dt">readme</span> <span class="op">=</span> <span class="st">"README.md"</span></span>
+<span id="cb8-6"><a></a><span class="dt">license</span> <span class="op">=</span> <span class="op">{ </span><span class="dt">text</span><span class="op"> =</span> <span class="st">"BSD-3-Clause"</span><span class="op"> }</span>  <span class="co"># SPDX short identifier</span></span>
+<span id="cb8-7"><a></a><span class="dt">authors</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb8-8"><a></a>  <span class="op">{ </span><span class="dt">name</span><span class="op"> =</span> <span class="st">"Kyle Niemeyer"</span><span class="op">, </span><span class="dt">email</span><span class="op"> =</span> <span class="st">"kyle.niemeyer@oregonstate.edu"</span><span class="op"> },</span></span>
+<span id="cb8-9"><a></a><span class="op">]</span></span>
+<span id="cb8-10"><a></a><span class="dt">requires-python</span> <span class="op">=</span> <span class="st">"&gt;=3.8"</span></span>
+<span id="cb8-11"><a></a></span>
+<span id="cb8-12"><a></a><span class="dt">dependencies</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb8-13"><a></a>    <span class="st">"scipy&gt;=1.6.0"</span><span class="op">,</span></span>
+<span id="cb8-14"><a></a>    <span class="st">"numpy"</span><span class="op">,</span>  <span class="co"># compatible versions controlled through scipy</span></span>
+<span id="cb8-15"><a></a><span class="op">]</span></span>
+<span id="cb8-16"><a></a><span class="dt">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="simple-packaging-example-pyproject.toml-3" class="slide level2">
 <h2>Simple packaging example: <code>pyproject.toml</code></h2>
 <p>Configuring <strong>tooling options</strong> and <strong>interactions</strong> with other tools:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource toml fragment number-lines code-with-copy"><code class="sourceCode toml"><span id="cb13-1"><a></a><span class="kw">[tool.hatch.version]</span></span>
-<span id="cb13-2"><a></a><span class="dt">source</span> <span class="op">=</span> <span class="st">"vcs"</span></span>
-<span id="cb13-3"><a></a></span>
-<span id="cb13-4"><a></a><span class="kw">[tool.hatch.version.raw-options]</span></span>
-<span id="cb13-5"><a></a><span class="dt">local_scheme</span> <span class="op">=</span> <span class="st">"no-local-version"</span></span>
-<span id="cb13-6"><a></a><span class="co"># Need to give root as we aren't at the same level as the git repo</span></span>
-<span id="cb13-7"><a></a><span class="dt">root</span> <span class="op">=</span> <span class="st">".."</span></span>
-<span id="cb13-8"><a></a></span>
-<span id="cb13-9"><a></a><span class="kw">[tool.hatch.build.hooks.vcs]</span></span>
-<span id="cb13-10"><a></a><span class="dt">version-file</span> <span class="op">=</span> <span class="st">"src/rosen/_version.py"</span></span>
-<span id="cb13-11"><a></a><span class="dt">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource toml fragment number-lines code-with-copy"><code class="sourceCode toml"><span id="cb9-1"><a></a><span class="kw">[tool.hatch.version]</span></span>
+<span id="cb9-2"><a></a><span class="dt">source</span> <span class="op">=</span> <span class="st">"vcs"</span></span>
+<span id="cb9-3"><a></a></span>
+<span id="cb9-4"><a></a><span class="kw">[tool.hatch.version.raw-options]</span></span>
+<span id="cb9-5"><a></a><span class="dt">local_scheme</span> <span class="op">=</span> <span class="st">"no-local-version"</span></span>
+<span id="cb9-6"><a></a><span class="co"># Need to give root as we aren't at the same level as the git repo</span></span>
+<span id="cb9-7"><a></a><span class="dt">root</span> <span class="op">=</span> <span class="st">".."</span></span>
+<span id="cb9-8"><a></a></span>
+<span id="cb9-9"><a></a><span class="kw">[tool.hatch.build.hooks.vcs]</span></span>
+<span id="cb9-10"><a></a><span class="dt">version-file</span> <span class="op">=</span> <span class="st">"src/rosen/_version.py"</span></span>
+<span id="cb9-11"><a></a><span class="dt">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="simple-packaging-example-installing-your-code" class="slide level2 smaller">
 <h2>Simple packaging example: Installing your code</h2>
 <p>You can now locally install your package into your Python virtual environment!</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a></a><span class="ex">$</span> cd simple_packaging</span>
-<span id="cb14-2"><a></a><span class="ex">$</span> pip install <span class="at">--upgrade</span> pip wheel</span>
-<span id="cb14-3"><a></a><span class="ex">$</span> pip install .</span>
-<span id="cb14-4"><a></a><span class="ex">Successfully</span> built rosen</span>
-<span id="cb14-5"><a></a><span class="ex">Installing</span> collected packages: rosen</span>
-<span id="cb14-6"><a></a><span class="ex">Successfully</span> installed rosen-0.0.2.dev1</span>
-<span id="cb14-7"><a></a><span class="ex">$</span> pip show rosen</span>
-<span id="cb14-8"><a></a><span class="ex">Name:</span> rosen</span>
-<span id="cb14-9"><a></a><span class="ex">Version:</span> 0.0.2.dev1</span>
-<span id="cb14-10"><a></a><span class="ex">Summary:</span> Example package for demonstration</span>
-<span id="cb14-11"><a></a><span class="ex">Home-page:</span> https://github.com/SoftwareDevEngResearch/packaging-examples</span>
-<span id="cb14-12"><a></a><span class="ex">Author:</span> </span>
-<span id="cb14-13"><a></a><span class="ex">Author-email:</span> Kyle Niemeyer <span class="op">&lt;</span>kyle.niemeyer@oregonstate.edu<span class="op">&gt;</span></span>
-<span id="cb14-14"><a></a><span class="ex">License:</span> BSD-3-Clause</span>
-<span id="cb14-15"><a></a><span class="ex">Location:</span> <span class="pp">***</span>/.venv/lib/python3.13/site-packages</span>
-<span id="cb14-16"><a></a><span class="ex">Requires:</span> numpy, scipy</span>
-<span id="cb14-17"><a></a><span class="ex">Required-by:</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="ex">$</span> cd simple_packaging</span>
+<span id="cb10-2"><a></a><span class="ex">$</span> pip install <span class="at">--upgrade</span> pip wheel</span>
+<span id="cb10-3"><a></a><span class="ex">$</span> pip install .</span>
+<span id="cb10-4"><a></a><span class="ex">Successfully</span> built rosen</span>
+<span id="cb10-5"><a></a><span class="ex">Installing</span> collected packages: rosen</span>
+<span id="cb10-6"><a></a><span class="ex">Successfully</span> installed rosen-0.0.2.dev1</span>
+<span id="cb10-7"><a></a><span class="ex">$</span> pip show rosen</span>
+<span id="cb10-8"><a></a><span class="ex">Name:</span> rosen</span>
+<span id="cb10-9"><a></a><span class="ex">Version:</span> 0.0.2.dev1</span>
+<span id="cb10-10"><a></a><span class="ex">Summary:</span> Example package for demonstration</span>
+<span id="cb10-11"><a></a><span class="ex">Home-page:</span> https://github.com/SoftwareDevEngResearch/packaging-examples</span>
+<span id="cb10-12"><a></a><span class="ex">Author:</span> </span>
+<span id="cb10-13"><a></a><span class="ex">Author-email:</span> Kyle Niemeyer <span class="op">&lt;</span>kyle.niemeyer@oregonstate.edu<span class="op">&gt;</span></span>
+<span id="cb10-14"><a></a><span class="ex">License:</span> BSD-3-Clause</span>
+<span id="cb10-15"><a></a><span class="ex">Location:</span> <span class="pp">***</span>/.venv/lib/python3.13/site-packages</span>
+<span id="cb10-16"><a></a><span class="ex">Requires:</span> numpy, scipy</span>
+<span id="cb10-17"><a></a><span class="ex">Required-by:</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="simple-packaging-example-installing-your-code-1" class="slide level2">
 <h2>Simple packaging example: Installing your code</h2>
 <p>and use it anywhere</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="co"># example.py</span></span>
-<span id="cb15-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb15-3"><a></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
-<span id="cb15-4"><a></a></span>
-<span id="cb15-5"><a></a><span class="co"># We can now import our code</span></span>
-<span id="cb15-6"><a></a><span class="im">from</span> rosen.example <span class="im">import</span> rosen, rosen_der</span>
-<span id="cb15-7"><a></a></span>
-<span id="cb15-8"><a></a>x0 <span class="op">=</span> np.array([<span class="fl">1.3</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>, <span class="fl">1.2</span>])</span>
-<span id="cb15-9"><a></a>result <span class="op">=</span> minimize(rosen, x0, method<span class="op">=</span><span class="st">"BFGS"</span>,</span>
-<span id="cb15-10"><a></a>                  jac<span class="op">=</span>rosen_der, options<span class="op">=</span>{<span class="st">"disp"</span>: <span class="va">True</span>})</span>
-<span id="cb15-11"><a></a>optimized_params <span class="op">=</span> result.x</span>
-<span id="cb15-12"><a></a><span class="co"># array([1.00000004, 1.0000001 , 1.00000021, 1.00000044, 1.00000092])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="co"># example.py</span></span>
+<span id="cb11-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-3"><a></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb11-4"><a></a></span>
+<span id="cb11-5"><a></a><span class="co"># We can now import our code</span></span>
+<span id="cb11-6"><a></a><span class="im">from</span> rosen.example <span class="im">import</span> rosen, rosen_der</span>
+<span id="cb11-7"><a></a></span>
+<span id="cb11-8"><a></a>x0 <span class="op">=</span> np.array([<span class="fl">1.3</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>, <span class="fl">1.2</span>])</span>
+<span id="cb11-9"><a></a>result <span class="op">=</span> minimize(rosen, x0, method<span class="op">=</span><span class="st">"BFGS"</span>,</span>
+<span id="cb11-10"><a></a>                  jac<span class="op">=</span>rosen_der, options<span class="op">=</span>{<span class="st">"disp"</span>: <span class="va">True</span>})</span>
+<span id="cb11-11"><a></a>optimized_params <span class="op">=</span> result.x</span>
+<span id="cb11-12"><a></a><span class="co"># array([1.00000004, 1.0000001 , 1.00000021, 1.00000044, 1.00000092])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="packaging-doesnt-slow-down-development" class="slide level2">
 <h2>Packaging doesn’t slow down development</h2>
 <p><a href="https://peps.python.org/pep-0518/">PEP 518</a> compliant build backends allow for “<a href="https://pip.pypa.io/en/latest/topics/local-project-installs/#editable-installs">editable installs</a>”</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a></a><span class="ex">$</span> python <span class="at">-m</span> pip install <span class="at">--upgrade</span> <span class="at">--editable</span> .</span>
-<span id="cb16-2"><a></a><span class="ex">$</span> python <span class="at">-m</span> pip show rosen <span class="kw">|</span> <span class="fu">grep</span> <span class="at">--ignore-case</span> <span class="st">'location'</span></span>
-<span id="cb16-3"><a></a><span class="ex">Location:</span> <span class="pp">***</span>/lib/python3.12/site-packages</span>
-<span id="cb16-4"><a></a><span class="ex">Editable</span> project location: <span class="pp">***</span>/examples/simple_packaging</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a></a><span class="ex">$</span> python <span class="at">-m</span> pip install <span class="at">--upgrade</span> <span class="at">--editable</span> .</span>
+<span id="cb12-2"><a></a><span class="ex">$</span> python <span class="at">-m</span> pip show rosen <span class="kw">|</span> <span class="fu">grep</span> <span class="at">--ignore-case</span> <span class="st">'location'</span></span>
+<span id="cb12-3"><a></a><span class="ex">Location:</span> <span class="pp">***</span>/lib/python3.12/site-packages</span>
+<span id="cb12-4"><a></a><span class="ex">Editable</span> project location: <span class="pp">***</span>/examples/simple_packaging</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>Editable installs add the files in the development directory to Python’s import path. (Only need to re-installation if you change the project metadata.)</p>
 </div>
@@ -675,79 +581,79 @@ A Python module which can contain submodules or recursively, subpackages.
 <section id="packaging-compiled-extensions" class="slide level2">
 <h2>Packaging compiled extensions</h2>
 <p>With modern packaging infrastructure, packaging compiled extensions requires small extra work!</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a></a><span class="ex">$</span> tree compiled_packaging</span>
-<span id="cb17-2"><a></a><span class="ex">compiled-packaging</span></span>
-<span id="cb17-3"><a></a><span class="ex">├──</span> CMakeLists.txt</span>
-<span id="cb17-4"><a></a><span class="ex">├──</span> LICENSE</span>
-<span id="cb17-5"><a></a><span class="ex">├──</span> README.md</span>
-<span id="cb17-6"><a></a><span class="ex">├──</span> pyproject.toml</span>
-<span id="cb17-7"><a></a><span class="ex">├──</span> src</span>
-<span id="cb17-8"><a></a><span class="ex">│&nbsp;&nbsp;</span> ├── basic_math.cpp</span>
-<span id="cb17-9"><a></a><span class="ex">│&nbsp;&nbsp;</span> └── rosen_cpp</span>
-<span id="cb17-10"><a></a><span class="ex">│&nbsp;&nbsp;</span>     ├── __init__.py</span>
-<span id="cb17-11"><a></a><span class="ex">│&nbsp;&nbsp;</span>     └── example.py</span>
-<span id="cb17-12"><a></a><span class="ex">└──</span> tests</span>
-<span id="cb17-13"><a></a>    <span class="ex">└──</span> test_example.py</span>
-<span id="cb17-14"><a></a></span>
-<span id="cb17-15"><a></a><span class="ex">4</span> directories, 8 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a></a><span class="ex">$</span> tree compiled_packaging</span>
+<span id="cb13-2"><a></a><span class="ex">compiled-packaging</span></span>
+<span id="cb13-3"><a></a><span class="ex">├──</span> CMakeLists.txt</span>
+<span id="cb13-4"><a></a><span class="ex">├──</span> LICENSE</span>
+<span id="cb13-5"><a></a><span class="ex">├──</span> README.md</span>
+<span id="cb13-6"><a></a><span class="ex">├──</span> pyproject.toml</span>
+<span id="cb13-7"><a></a><span class="ex">├──</span> src</span>
+<span id="cb13-8"><a></a><span class="ex">│&nbsp;&nbsp;</span> ├── basic_math.cpp</span>
+<span id="cb13-9"><a></a><span class="ex">│&nbsp;&nbsp;</span> └── rosen_cpp</span>
+<span id="cb13-10"><a></a><span class="ex">│&nbsp;&nbsp;</span>     ├── __init__.py</span>
+<span id="cb13-11"><a></a><span class="ex">│&nbsp;&nbsp;</span>     └── example.py</span>
+<span id="cb13-12"><a></a><span class="ex">└──</span> tests</span>
+<span id="cb13-13"><a></a>    <span class="ex">└──</span> test_example.py</span>
+<span id="cb13-14"><a></a></span>
+<span id="cb13-15"><a></a><span class="ex">4</span> directories, 8 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="packaging-compiled-extensions-1" class="slide level2">
 <h2>Packaging compiled extensions</h2>
 <p>In <code>pyproject.toml</code>:</p>
 <p>Swap build system to <a href="https://scikit-build-core.readthedocs.io/"><code>scikit-build-core</code></a> + <a href="https://github.com/pybind/pybind11"><code>pybind11</code></a></p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource toml fragment number-lines code-with-copy"><code class="sourceCode toml"><span id="cb18-1"><a></a><span class="kw">[build-system]</span></span>
-<span id="cb18-2"><a></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span></span>
-<span id="cb18-3"><a></a>  <span class="st">"scikit-build-core"</span><span class="op">,</span></span>
-<span id="cb18-4"><a></a>  <span class="st">"pybind11"</span></span>
-<span id="cb18-5"><a></a>  <span class="op">]</span></span>
-<span id="cb18-6"><a></a><span class="dt">build-backend</span> <span class="op">=</span> <span class="st">"scikit_build_core.build"</span></span>
-<span id="cb18-7"><a></a><span class="dt">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource toml fragment number-lines code-with-copy"><code class="sourceCode toml"><span id="cb14-1"><a></a><span class="kw">[build-system]</span></span>
+<span id="cb14-2"><a></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb14-3"><a></a>  <span class="st">"scikit-build-core"</span><span class="op">,</span></span>
+<span id="cb14-4"><a></a>  <span class="st">"pybind11"</span></span>
+<span id="cb14-5"><a></a>  <span class="op">]</span></span>
+<span id="cb14-6"><a></a><span class="dt">build-backend</span> <span class="op">=</span> <span class="st">"scikit_build_core.build"</span></span>
+<span id="cb14-7"><a></a><span class="dt">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="packaging-compiled-extensions-2" class="slide level2">
 <h2>Packaging compiled extensions</h2>
 <p><a href="https://cliutils.gitlab.io/modern-cmake/"><code>CMakeLists.txt</code></a>:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource cmake fragment number-lines code-with-copy"><code class="sourceCode cmake"><span id="cb19-1"><a></a><span class="co"># Specify CMake version and project language</span></span>
-<span id="cb19-2"><a></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> <span class="dt">3.15</span>...<span class="dt">3.30</span>)</span>
-<span id="cb19-3"><a></a><span class="kw">project</span>(<span class="dv">${SKBUILD_PROJECT_NAME}</span> <span class="ot">LANGUAGES</span> <span class="ot">CXX</span>)</span>
-<span id="cb19-4"><a></a></span>
-<span id="cb19-5"><a></a><span class="co"># Setup pybind11</span></span>
-<span id="cb19-6"><a></a><span class="kw">set</span>(PYBIND11_FINDPYTHON <span class="ot">ON</span>)</span>
-<span id="cb19-7"><a></a><span class="kw">find_package</span>(pybind11 <span class="ot">CONFIG</span> <span class="ot">REQUIRED</span>)</span>
-<span id="cb19-8"><a></a></span>
-<span id="cb19-9"><a></a><span class="co"># Add the pybind11 module to build targets</span></span>
-<span id="cb19-10"><a></a><span class="fu">pybind11_add_module</span>(basic_math MODULE src/basic_math.cpp)</span>
-<span id="cb19-11"><a></a><span class="kw">install</span>(<span class="ot">TARGETS</span> <span class="bn">basic_math</span> <span class="ot">DESTINATION</span> <span class="dv">${SKBUILD_PROJECT_NAME}</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cmake fragment number-lines code-with-copy"><code class="sourceCode cmake"><span id="cb15-1"><a></a><span class="co"># Specify CMake version and project language</span></span>
+<span id="cb15-2"><a></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> <span class="dt">3.15</span>...<span class="dt">3.30</span>)</span>
+<span id="cb15-3"><a></a><span class="kw">project</span>(<span class="dv">${SKBUILD_PROJECT_NAME}</span> <span class="ot">LANGUAGES</span> <span class="ot">CXX</span>)</span>
+<span id="cb15-4"><a></a></span>
+<span id="cb15-5"><a></a><span class="co"># Setup pybind11</span></span>
+<span id="cb15-6"><a></a><span class="kw">set</span>(PYBIND11_FINDPYTHON <span class="ot">ON</span>)</span>
+<span id="cb15-7"><a></a><span class="kw">find_package</span>(pybind11 <span class="ot">CONFIG</span> <span class="ot">REQUIRED</span>)</span>
+<span id="cb15-8"><a></a></span>
+<span id="cb15-9"><a></a><span class="co"># Add the pybind11 module to build targets</span></span>
+<span id="cb15-10"><a></a><span class="fu">pybind11_add_module</span>(basic_math MODULE src/basic_math.cpp)</span>
+<span id="cb15-11"><a></a><span class="kw">install</span>(<span class="ot">TARGETS</span> <span class="bn">basic_math</span> <span class="ot">DESTINATION</span> <span class="dv">${SKBUILD_PROJECT_NAME}</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="packaging-compiled-extensions-3" class="slide level2">
 <h2>Packaging compiled extensions</h2>
 <p><code>src/basic_math.cpp</code>:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp fragment number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a></a><span class="pp">#include </span><span class="im">&lt;pybind11/pybind11.h&gt;</span></span>
-<span id="cb20-2"><a></a></span>
-<span id="cb20-3"><a></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> i<span class="op">,</span> <span class="dt">int</span> j<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> i <span class="op">+</span> j<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb20-4"><a></a></span>
-<span id="cb20-5"><a></a><span class="kw">namespace</span> py <span class="op">=</span> pybind11<span class="op">;</span></span>
-<span id="cb20-6"><a></a></span>
-<span id="cb20-7"><a></a>PYBIND11_MODULE<span class="op">(</span>basic_math<span class="op">,</span> m<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb20-8"><a></a>  m<span class="op">.</span>def<span class="op">(</span><span class="st">"add"</span><span class="op">,</span> <span class="op">&amp;</span>add<span class="op">,</span> <span class="st">R"pbdoc(</span></span>
-<span id="cb20-9"><a></a><span class="vs">      Add two numbers</span></span>
-<span id="cb20-10"><a></a><span class="vs">  </span><span class="st">)pbdoc"</span><span class="op">);</span></span>
-<span id="cb20-11"><a></a><span class="op">...</span></span>
-<span id="cb20-12"><a></a></span>
-<span id="cb20-13"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp fragment number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a></a><span class="pp">#include </span><span class="im">&lt;pybind11/pybind11.h&gt;</span></span>
+<span id="cb16-2"><a></a></span>
+<span id="cb16-3"><a></a><span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> i<span class="op">,</span> <span class="dt">int</span> j<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> i <span class="op">+</span> j<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb16-4"><a></a></span>
+<span id="cb16-5"><a></a><span class="kw">namespace</span> py <span class="op">=</span> pybind11<span class="op">;</span></span>
+<span id="cb16-6"><a></a></span>
+<span id="cb16-7"><a></a>PYBIND11_MODULE<span class="op">(</span>basic_math<span class="op">,</span> m<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-8"><a></a>  m<span class="op">.</span>def<span class="op">(</span><span class="st">"add"</span><span class="op">,</span> <span class="op">&amp;</span>add<span class="op">,</span> <span class="st">R"pbdoc(</span></span>
+<span id="cb16-9"><a></a><span class="vs">      Add two numbers</span></span>
+<span id="cb16-10"><a></a><span class="vs">  </span><span class="st">)pbdoc"</span><span class="op">);</span></span>
+<span id="cb16-11"><a></a><span class="op">...</span></span>
+<span id="cb16-12"><a></a></span>
+<span id="cb16-13"><a></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="packaging-compiled-extensions-installing" class="slide level2">
 <h2>Packaging compiled extensions: Installing</h2>
 <p>Installing locally is the same as for the pure-Python example:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a></a><span class="ex">$</span> cd simple_packaging</span>
-<span id="cb21-2"><a></a><span class="ex">$</span> pip install <span class="at">--upgrade</span> pip wheel</span>
-<span id="cb21-3"><a></a><span class="ex">$</span> pip install .</span>
-<span id="cb21-4"><a></a><span class="ex">Successfully</span> built rosen-cpp</span>
-<span id="cb21-5"><a></a><span class="ex">Installing</span> collected packages: rosen-cpp</span>
-<span id="cb21-6"><a></a><span class="ex">Successfully</span> installed rosen-cpp-0.0.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a></a><span class="ex">$</span> cd simple_packaging</span>
+<span id="cb17-2"><a></a><span class="ex">$</span> pip install <span class="at">--upgrade</span> pip wheel</span>
+<span id="cb17-3"><a></a><span class="ex">$</span> pip install .</span>
+<span id="cb17-4"><a></a><span class="ex">Successfully</span> built rosen-cpp</span>
+<span id="cb17-5"><a></a><span class="ex">Installing</span> collected packages: rosen-cpp</span>
+<span id="cb17-6"><a></a><span class="ex">Successfully</span> installed rosen-cpp-0.0.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Module name is that given in C++:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource python fragment number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a><span class="im">from</span> rosen_cpp <span class="im">import</span> basic_math</span>
-<span id="cb22-2"><a></a>basic_math.add(<span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb22-3"><a></a><span class="co"># 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource python fragment number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a><span class="im">from</span> rosen_cpp <span class="im">import</span> basic_math</span>
+<span id="cb18-2"><a></a>basic_math.add(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb18-3"><a></a><span class="co"># 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
 <section>
 <section id="distributing-packages" class="title-slide slide level1 center">
@@ -757,13 +663,13 @@ A Python module which can contain submodules or recursively, subpackages.
 <section id="going-further-distributing-packages" class="slide level2 smaller">
 <h2>Going further: Distributing packages</h2>
 <p>If your code is publicly available on the WWW in a Git repository, you’ve already done a version of distribution!</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a></a><span class="co"># pip install "git+https://example.com/repo/project.git@branch#subdirectory=path"</span></span>
-<span id="cb23-2"><a></a><span class="ex">$</span> pip install <span class="dt">\</span></span>
-<span id="cb23-3"><a></a>  <span class="st">"git+https://github.com/SoftwareDevEngResearch/packaging-examples.git#subdirectory=simple_packaging"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a></a><span class="co"># Works for pure-Python packages</span></span>
-<span id="cb24-2"><a></a><span class="ex">$</span> pip install <span class="at">--upgrade</span> <span class="st">"git+https://github.com/scikit-hep/pyhf.git"</span></span>
-<span id="cb24-3"><a></a><span class="co"># as well as packages with compiled extensions</span></span>
-<span id="cb24-4"><a></a><span class="ex">$</span> pip install <span class="at">--upgrade</span> <span class="st">"git+https://github.com/scikit-hep/iminuit.git"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a></a><span class="co"># pip install "git+https://example.com/repo/project.git@branch#subdirectory=path"</span></span>
+<span id="cb19-2"><a></a><span class="ex">$</span> pip install <span class="dt">\</span></span>
+<span id="cb19-3"><a></a>  <span class="st">"git+https://github.com/SoftwareDevEngResearch/packaging-examples.git#subdirectory=simple_packaging"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a></a><span class="co"># Works for pure-Python packages</span></span>
+<span id="cb20-2"><a></a><span class="ex">$</span> pip install <span class="at">--upgrade</span> <span class="st">"git+https://github.com/scikit-hep/pyhf.git"</span></span>
+<span id="cb20-3"><a></a><span class="co"># as well as packages with compiled extensions</span></span>
+<span id="cb20-4"><a></a><span class="ex">$</span> pip install <span class="at">--upgrade</span> <span class="st">"git+https://github.com/scikit-hep/iminuit.git"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="going-further-distributing-packages-1" class="slide level2">
 <h2>Going further: Distributing packages</h2>
@@ -782,20 +688,20 @@ A Python module which can contain submodules or recursively, subpackages.
 <section id="going-further-distributing-packages-2" class="slide level2">
 <h2>Going further: Distributing packages</h2>
 <p>To create these <strong>distributions</strong> from source code, rely on our package <strong>build backend</strong> (e.g., <a href="https://hatch.pypa.io/"><code>hatchling</code></a>) and <strong>build frontend</strong> tool like <a href="https://pypa-build.readthedocs.io/en/stable/"><code>build</code></a></p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a></a><span class="ex">$</span> pip install <span class="at">--upgrade</span> build</span>
-<span id="cb25-2"><a></a><span class="ex">$</span> python <span class="at">-m</span> build .</span>
-<span id="cb25-3"><a></a><span class="ex">*</span> Creating venv isolated environment...</span>
-<span id="cb25-4"><a></a><span class="ex">*</span> Installing packages in isolated environment... <span class="er">(</span><span class="ex">hatch-vcs</span><span class="op">&gt;</span>=0.3.0, hatchling<span class="op">&gt;</span>=1.13.0<span class="kw">)</span></span>
-<span id="cb25-5"><a></a><span class="ex">*</span> Getting build dependencies for sdist...</span>
-<span id="cb25-6"><a></a><span class="ex">*</span> Building sdist...</span>
-<span id="cb25-7"><a></a><span class="ex">*</span> Building wheel from sdist</span>
-<span id="cb25-8"><a></a><span class="ex">*</span> Creating venv isolated environment...</span>
-<span id="cb25-9"><a></a><span class="ex">*</span> Installing packages in isolated environment... <span class="er">(</span><span class="ex">hatch-vcs</span><span class="op">&gt;</span>=0.3.0, hatchling<span class="op">&gt;</span>=1.13.0<span class="kw">)</span></span>
-<span id="cb25-10"><a></a><span class="ex">*</span> Getting build dependencies for wheel...</span>
-<span id="cb25-11"><a></a><span class="ex">*</span> Building wheel...</span>
-<span id="cb25-12"><a></a><span class="ex">Successfully</span> built rosen-0.0.1.tar.gz and rosen-0.0.1-py3-none-any.whl</span>
-<span id="cb25-13"><a></a><span class="ex">$</span> ls dist</span>
-<span id="cb25-14"><a></a><span class="ex">rosen-0.0.1-py3-none-any.whl</span>  rosen-0.0.1.tar.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a></a><span class="ex">$</span> pip install <span class="at">--upgrade</span> build</span>
+<span id="cb21-2"><a></a><span class="ex">$</span> python <span class="at">-m</span> build .</span>
+<span id="cb21-3"><a></a><span class="ex">*</span> Creating venv isolated environment...</span>
+<span id="cb21-4"><a></a><span class="ex">*</span> Installing packages in isolated environment... <span class="er">(</span><span class="ex">hatch-vcs</span><span class="op">&gt;</span>=0.3.0, hatchling<span class="op">&gt;</span>=1.13.0<span class="kw">)</span></span>
+<span id="cb21-5"><a></a><span class="ex">*</span> Getting build dependencies for sdist...</span>
+<span id="cb21-6"><a></a><span class="ex">*</span> Building sdist...</span>
+<span id="cb21-7"><a></a><span class="ex">*</span> Building wheel from sdist</span>
+<span id="cb21-8"><a></a><span class="ex">*</span> Creating venv isolated environment...</span>
+<span id="cb21-9"><a></a><span class="ex">*</span> Installing packages in isolated environment... <span class="er">(</span><span class="ex">hatch-vcs</span><span class="op">&gt;</span>=0.3.0, hatchling<span class="op">&gt;</span>=1.13.0<span class="kw">)</span></span>
+<span id="cb21-10"><a></a><span class="ex">*</span> Getting build dependencies for wheel...</span>
+<span id="cb21-11"><a></a><span class="ex">*</span> Building wheel...</span>
+<span id="cb21-12"><a></a><span class="ex">Successfully</span> built rosen-0.0.1.tar.gz and rosen-0.0.1-py3-none-any.whl</span>
+<span id="cb21-13"><a></a><span class="ex">$</span> ls dist</span>
+<span id="cb21-14"><a></a><span class="ex">rosen-0.0.1-py3-none-any.whl</span>  rosen-0.0.1.tar.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="going-further-distributing-packages-3" class="slide level2">
 <h2>Going further: Distributing packages</h2>
@@ -845,17 +751,17 @@ A Python module which can contain submodules or recursively, subpackages.
 <section id="versioning-with-hatch-git" class="slide level2">
 <h2>Versioning with <code>hatch</code> &amp; <code>git</code></h2>
 <p>We actually already set up our <code>hatch</code> build system to automatically version our package based on <code>git</code>:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource toml fragment number-lines code-with-copy"><code class="sourceCode toml"><span id="cb26-1"><a></a><span class="kw">[tool.hatch.version]</span></span>
-<span id="cb26-2"><a></a><span class="dt">source</span> <span class="op">=</span> <span class="st">"vcs"</span></span>
-<span id="cb26-3"><a></a></span>
-<span id="cb26-4"><a></a><span class="kw">[tool.hatch.version.raw-options]</span></span>
-<span id="cb26-5"><a></a><span class="dt">local_scheme</span> <span class="op">=</span> <span class="st">"no-local-version"</span></span>
-<span id="cb26-6"><a></a><span class="co"># Need to give root as we aren't at the same level as the git repo</span></span>
-<span id="cb26-7"><a></a><span class="dt">root</span> <span class="op">=</span> <span class="st">".."</span></span>
-<span id="cb26-8"><a></a></span>
-<span id="cb26-9"><a></a><span class="kw">[tool.hatch.build.hooks.vcs]</span></span>
-<span id="cb26-10"><a></a><span class="dt">version-file</span> <span class="op">=</span> <span class="st">"src/rosen/_version.py"</span></span>
-<span id="cb26-11"><a></a><span class="dt">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource toml fragment number-lines code-with-copy"><code class="sourceCode toml"><span id="cb22-1"><a></a><span class="kw">[tool.hatch.version]</span></span>
+<span id="cb22-2"><a></a><span class="dt">source</span> <span class="op">=</span> <span class="st">"vcs"</span></span>
+<span id="cb22-3"><a></a></span>
+<span id="cb22-4"><a></a><span class="kw">[tool.hatch.version.raw-options]</span></span>
+<span id="cb22-5"><a></a><span class="dt">local_scheme</span> <span class="op">=</span> <span class="st">"no-local-version"</span></span>
+<span id="cb22-6"><a></a><span class="co"># Need to give root as we aren't at the same level as the git repo</span></span>
+<span id="cb22-7"><a></a><span class="dt">root</span> <span class="op">=</span> <span class="st">".."</span></span>
+<span id="cb22-8"><a></a></span>
+<span id="cb22-9"><a></a><span class="kw">[tool.hatch.build.hooks.vcs]</span></span>
+<span id="cb22-10"><a></a><span class="dt">version-file</span> <span class="op">=</span> <span class="st">"src/rosen/_version.py"</span></span>
+<span id="cb22-11"><a></a><span class="dt">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>This tells <code>hatch</code> to look at the latest <code>git</code> tag and use that as the version number, stored in the automatically generated file <code>src/rosen/_version.py</code>.</p>
 </div>
@@ -863,8 +769,8 @@ A Python module which can contain submodules or recursively, subpackages.
 <section id="versioning-with-hatch-git-1" class="slide level2">
 <h2>Versioning with <code>hatch</code> &amp; <code>git</code></h2>
 <p>To document a new version, simply create a new <code>git</code> tag:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a></a><span class="ex">$</span> git tag v0.x.y <span class="at">-m</span> <span class="st">"version 0.x.y"</span></span>
-<span id="cb27-2"><a></a><span class="ex">$</span> git push <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource bash fragment number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a></a><span class="ex">$</span> git tag v0.x.y <span class="at">-m</span> <span class="st">"version 0.x.y"</span></span>
+<span id="cb23-2"><a></a><span class="ex">$</span> git push <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>This will automatically update the version number in <code>src/rosen/_version.py</code> when next building the package.</p>
 </div>
@@ -872,29 +778,29 @@ A Python module which can contain submodules or recursively, subpackages.
 <section id="good-idea-keep-a-changelog" class="slide level2 smaller">
 <h2>Good idea: keep a <code>CHANGELOG</code></h2>
 <p>Use a <a href="https://keepachangelog.com/"><code>CHANGELOG</code></a> file to document changes in your package over time.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource markdown fragment number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a></a><span class="fu"># Changelog</span></span>
-<span id="cb28-2"><a></a>All notable changes to this project will be documented in this file.</span>
-<span id="cb28-3"><a></a></span>
-<span id="cb28-4"><a></a>The format is based on <span class="co">[</span><span class="ot">Keep a Changelog</span><span class="co">](http://keepachangelog.com/en/1.0.0/)</span></span>
-<span id="cb28-5"><a></a>and this project adheres to <span class="co">[</span><span class="ot">Semantic Versioning</span><span class="co">](http://semver.org/spec/v2.0.0.html)</span>.</span>
-<span id="cb28-6"><a></a></span>
-<span id="cb28-7"><a></a><span class="fu">## [Unreleased]</span></span>
-<span id="cb28-8"><a></a></span>
-<span id="cb28-9"><a></a><span class="fu">## [0.0.2] - 2014-07-10</span></span>
-<span id="cb28-10"><a></a><span class="fu">### Added</span></span>
-<span id="cb28-11"><a></a><span class="ss">- </span>Explanation of the recommended reverse chronological release ordering.</span>
-<span id="cb28-12"><a></a></span>
-<span id="cb28-13"><a></a><span class="fu">## 0.0.1 - 2014-05-31</span></span>
-<span id="cb28-14"><a></a><span class="fu">### Added</span></span>
-<span id="cb28-15"><a></a><span class="ss">- </span>This CHANGELOG file to hopefully serve as an evolving example of a</span>
-<span id="cb28-16"><a></a>  standardized open source project CHANGELOG.</span>
-<span id="cb28-17"><a></a><span class="ss">- </span>CNAME file to enable GitHub Pages custom domain</span>
-<span id="cb28-18"><a></a><span class="ss">- </span>README now contains answers to common questions about CHANGELOGs</span>
-<span id="cb28-19"><a></a><span class="ss">- </span>Good examples and basic guidelines, including proper date formatting.</span>
-<span id="cb28-20"><a></a><span class="ss">- </span>Counter-examples: "What makes unicorns cry?"</span>
-<span id="cb28-21"><a></a></span>
-<span id="cb28-22"><a></a><span class="ot">[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.2...HEAD</span></span>
-<span id="cb28-23"><a></a><span class="ot">[0.0.2]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.1...v0.0.2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource markdown fragment number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a></a><span class="fu"># Changelog</span></span>
+<span id="cb24-2"><a></a>All notable changes to this project will be documented in this file.</span>
+<span id="cb24-3"><a></a></span>
+<span id="cb24-4"><a></a>The format is based on <span class="co">[</span><span class="ot">Keep a Changelog</span><span class="co">](http://keepachangelog.com/en/1.0.0/)</span></span>
+<span id="cb24-5"><a></a>and this project adheres to <span class="co">[</span><span class="ot">Semantic Versioning</span><span class="co">](http://semver.org/spec/v2.0.0.html)</span>.</span>
+<span id="cb24-6"><a></a></span>
+<span id="cb24-7"><a></a><span class="fu">## [Unreleased]</span></span>
+<span id="cb24-8"><a></a></span>
+<span id="cb24-9"><a></a><span class="fu">## [0.0.2] - 2014-07-10</span></span>
+<span id="cb24-10"><a></a><span class="fu">### Added</span></span>
+<span id="cb24-11"><a></a><span class="ss">- </span>Explanation of the recommended reverse chronological release ordering.</span>
+<span id="cb24-12"><a></a></span>
+<span id="cb24-13"><a></a><span class="fu">## 0.0.1 - 2014-05-31</span></span>
+<span id="cb24-14"><a></a><span class="fu">### Added</span></span>
+<span id="cb24-15"><a></a><span class="ss">- </span>This CHANGELOG file to hopefully serve as an evolving example of a</span>
+<span id="cb24-16"><a></a>  standardized open source project CHANGELOG.</span>
+<span id="cb24-17"><a></a><span class="ss">- </span>CNAME file to enable GitHub Pages custom domain</span>
+<span id="cb24-18"><a></a><span class="ss">- </span>README now contains answers to common questions about CHANGELOGs</span>
+<span id="cb24-19"><a></a><span class="ss">- </span>Good examples and basic guidelines, including proper date formatting.</span>
+<span id="cb24-20"><a></a><span class="ss">- </span>Counter-examples: "What makes unicorns cry?"</span>
+<span id="cb24-21"><a></a></span>
+<span id="cb24-22"><a></a><span class="ot">[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.2...HEAD</span></span>
+<span id="cb24-23"><a></a><span class="ot">[0.0.2]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.1...v0.0.2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
 <section id="takeaways" class="title-slide slide level1 center">
 <h1>Takeaways</h1>

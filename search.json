@@ -301,759 +301,674 @@
   {
     "objectID": "packaging-distribution-revealjs.html#hypothetical-workflow-for-a-researcher",
     "href": "packaging-distribution-revealjs.html#hypothetical-workflow-for-a-researcher",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Hypothetical workflow for a researcher",
     "text": "Hypothetical workflow for a researcher\n\nWork on idea for paper with collaborators\nDo exploratory analysis in scripts and Jupyter ecosystem\nAs research progresses, need to write more-complicated functions and workflows\nCode begins to sprawl across multiple directories\nSoftware dependencies begin to become more complicated\nThe code “works on my machine”, but what about your collaborators?\n\n\nPeople heroically press forward, but this is painful, and not reusable"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#section",
     "href": "packaging-distribution-revealjs.html#section",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "",
     "text": "Imagine you start with a Jupyter notebook that looks like this:\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# Rosenbrock function\ndef rosen(x):\n    \"\"\"The Rosenbrock function\"\"\"\n    return sum(100.0 * (x[1:] - x[:-1] ** 2.0) ** 2.0 + (1 - x[:-1]) ** 2.0)\n\ndef rosen_der(x):\n    \"\"\"Gradient of the Rosenbrock function\"\"\"\n    xm = x[1:-1]\n    xm_m1 = x[:-2]\n    xm_p1 = x[2:]\n    der = np.zeros_like(x)\n    der[1:-1] = 200 * (xm - xm_m1**2) - 400 * (xm_p1 - xm**2) * xm - 2 * (1 - xm)\n    der[0] = -400 * x[0] * (x[1] - x[0] ** 2) - 2 * (1 - x[0])\n    der[-1] = 200 * (x[-1] - x[-2] ** 2)\n    return der\n\n# Minimization of the Rosenbrock function with some initial guess\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\", jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\nprint(optimized_params)"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#reusable-science-step-by-step",
     "href": "packaging-distribution-revealjs.html#reusable-science-step-by-step",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Reusable science, step by step",
     "text": "Reusable science, step by step\nWe can convert our notebook code into a simple importable module an and example calling it:\n$ tree edit-sys-path \nedit-sys-path\n├── code\n│   └── utils.py\n└── example.py\n\n2 directories, 2 files"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#reusable-science-step-by-step-1",
     "href": "packaging-distribution-revealjs.html#reusable-science-step-by-step-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Reusable science, step by step",
     "text": "Reusable science, step by step\n# example.py\nimport sys\nfrom pathlib import Path\n\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# Make ./code/utils.py visible to sys.path\n# sys.path position 1 should be after cwd and before activated virtual environment\nsys.path.insert(1, str(Path().cwd() / \"code\"))\nfrom utils import rosen, rosen_der\n\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\", jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\nprint(optimized_params)"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#reusable-science-step-by-step-2",
     "href": "packaging-distribution-revealjs.html#reusable-science-step-by-step-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Reusable science, step by step",
     "text": "Reusable science, step by step\n\nThis is already better than having everything in a single massive file!\nHowever, now things are tied to this relative path on your computer:\n\n# Make ./code/utils.py visible to sys.path\nsys.path.insert(1, str(Path(__file__).parent / \"code\"))\nfrom utils import rosen, rosen_der\n\nand are brittle to refactoring and change; plus, not very portable to others.\n\n\nBut we can do better!"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#what-is-a-python-package",
     "href": "packaging-distribution-revealjs.html#what-is-a-python-package",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "What is a Python package?",
     "text": "What is a Python package?\n\nFirst, let’s define module.\n\n\nFrom https://docs.python.org/3/glossary.html#term-module:\n\n\nmodule\n\nAn object that serves as an organizational unit of Python code. Modules have a namespace containing arbitrary Python objects. Modules are loaded into Python by the process of importing.\n\n\nSee also package."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#what-is-a-python-package-1",
     "href": "packaging-distribution-revealjs.html#what-is-a-python-package-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "What is a Python package?",
     "text": "What is a Python package?\nDeconstructing that definition:\n\nWhen I write import modulename I am loading a module\nBut we also talk about “importing a package”! This seems to imply a package is a kind of module.\nThe module can contain “arbitrary Python objects”, which could include other modules.\nIt’s almost like we need a special name for a “module that can contain other modules”…\nWhen loading a module, its name gets added to the namespace, a collection of currently defined names and objects they reference: numpy.random.default_rng"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#aside-why-does-python-have-modules",
     "href": "packaging-distribution-revealjs.html#aside-why-does-python-have-modules",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Aside: why does Python have modules?",
     "text": "Aside: why does Python have modules?\n\nBecause it’s good for your code to be modular.\n\n\n\nSource: https://realpython.com/python-modules-packages/"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#where-do-modules-come-from",
     "href": "packaging-distribution-revealjs.html#where-do-modules-come-from",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Where do modules come from?",
     "text": "Where do modules come from?\n\nThe standard library\n\nPython code\nCompiled C code\n\nA local file that ends in `.py (confusingly, also called a “module”)\nThird-party libraries that you pip install or conda install (i.e., packages)\nA local package"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#what-is-a-python-package-2",
     "href": "packaging-distribution-revealjs.html#what-is-a-python-package-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "What is a Python package?",
     "text": "What is a Python package?\nWe spent all that time defining module, now we can define package:\n\nFrom https://docs.python.org/3/glossary.html#term-package:\n\n\npackage\n\nA Python module which can contain submodules or recursively, subpackages."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#package-can-have-multiple-meanings",
     "href": "packaging-distribution-revealjs.html#package-can-have-multiple-meanings",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "“Package” can have multiple meanings!",
     "text": "“Package” can have multiple meanings!\nTwo main usages:\n\nimport package: the one we talked about, when you write import packagename. We’ll start by making this.\ndistribution package: the actual artifact that gets downloaded off the internet and stored somewhere, like when you run pip install package. We’ll make these too."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#when-should-i-turn-my-code-into-a-package",
     "href": "packaging-distribution-revealjs.html#when-should-i-turn-my-code-into-a-package",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "When should I turn my code into a package?",
     "text": "When should I turn my code into a package?\nTwo common cases for research code:\n\nCode that goes with a research article; mainly used to reproduce the results, AKA a (computational) project or a research compendium.\nA generalized tool or library that other researchers can use\n\n\nNot all packages intended to reproduce a paper’s results need the full infrastructure we will discuss (documentation website, continuous integration, etc.)."
   },
   {
-    "objectID": "packaging-distribution-revealjs.html#hypothetical-workflow-for-a-researcher-1",
-    "href": "packaging-distribution-revealjs.html#hypothetical-workflow-for-a-researcher-1",
-    "title": "Getting Started",
-    "section": "Hypothetical workflow for a researcher",
-    "text": "Hypothetical workflow for a researcher\n\nWork on idea for paper with collaborators\nDo exploratory analysis in scripts and Jupyter ecosystem\nAs research progresses, need to write more-complicated functions and workflows\nCode begins to sprawl across multiple directories\nSoftware dependencies begin to become more complicated\nThe code “works on my machine”, but what about your collaborators?\n\n\nPeople heroically press forward, but this is painful, and not reusable"
-  },
-  {
-    "objectID": "packaging-distribution-revealjs.html#section-1",
-    "href": "packaging-distribution-revealjs.html#section-1",
-    "title": "Getting Started",
-    "section": "",
-    "text": "Imagine you start with a Jupyter notebook that looks like this:\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# Rosenbrock function\ndef rosen(x):\n    \"\"\"The Rosenbrock function\"\"\"\n    return sum(100.0 * (x[1:] - x[:-1] ** 2.0) ** 2.0 + (1 - x[:-1]) ** 2.0)\n\ndef rosen_der(x):\n    \"\"\"Gradient of the Rosenbrock function\"\"\"\n    xm = x[1:-1]\n    xm_m1 = x[:-2]\n    xm_p1 = x[2:]\n    der = np.zeros_like(x)\n    der[1:-1] = 200 * (xm - xm_m1**2) - 400 * (xm_p1 - xm**2) * xm - 2 * (1 - xm)\n    der[0] = -400 * x[0] * (x[1] - x[0] ** 2) - 2 * (1 - x[0])\n    der[-1] = 200 * (x[-1] - x[-2] ** 2)\n    return der\n\n# Minimization of the Rosenbrock function with some initial guess\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\", jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\nprint(optimized_params)"
-  },
-  {
-    "objectID": "packaging-distribution-revealjs.html#reusable-science-step-by-step-3",
-    "href": "packaging-distribution-revealjs.html#reusable-science-step-by-step-3",
-    "title": "Getting Started",
-    "section": "Reusable science, step by step",
-    "text": "Reusable science, step by step\nWe can convert our notebook code into a simple importable module an and example calling it:\n$ tree edit-sys-path \nedit-sys-path\n├── code\n│   └── utils.py\n└── example.py\n\n2 directories, 2 files"
-  },
-  {
-    "objectID": "packaging-distribution-revealjs.html#reusable-science-step-by-step-4",
-    "href": "packaging-distribution-revealjs.html#reusable-science-step-by-step-4",
-    "title": "Getting Started",
-    "section": "Reusable science, step by step",
-    "text": "Reusable science, step by step\n# example.py\nimport sys\nfrom pathlib import Path\n\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# Make ./code/utils.py visible to sys.path\n# sys.path position 1 should be after cwd and before activated virtual environment\nsys.path.insert(1, str(Path().cwd() / \"code\"))\nfrom utils import rosen, rosen_der\n\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\", jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\nprint(optimized_params)"
-  },
-  {
-    "objectID": "packaging-distribution-revealjs.html#reusable-science-step-by-step-5",
-    "href": "packaging-distribution-revealjs.html#reusable-science-step-by-step-5",
-    "title": "Getting Started",
-    "section": "Reusable science, step by step",
-    "text": "Reusable science, step by step\n\nThis is already better than having everything in a single massive file!\nHowever, now things are tied to this relative path on your computer:\n\n# Make ./code/utils.py visible to sys.path\nsys.path.insert(1, str(Path(__file__).parent / \"code\"))\nfrom utils import rosen, rosen_der\n\nand are brittle to refactoring and change; plus, not very portable to others.\n\n\nBut we can do better!"
-  },
-  {
     "objectID": "packaging-distribution-revealjs.html#next-steps-packaging-your-code",
     "href": "packaging-distribution-revealjs.html#next-steps-packaging-your-code",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Next steps: packaging your code",
     "text": "Next steps: packaging your code\n\nThe goal is for your code to be installable, and distributable.\nPer the Zen of Python, this should be straightforward, right?\n\n$ python3 -c 'import this' | grep obvious\nThere should be one-- and preferably only one --obvious way to do it.\nAlthough that way may not be obvious at first unless you're Dutch."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#next-steps-packaging-your-code-1",
     "href": "packaging-distribution-revealjs.html#next-steps-packaging-your-code-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Next steps: packaging your code",
     "text": "Next steps: packaging your code\nUnfortunately, not so much. 😔\n\n\n\n\nYou might be asking: Why is there more than one thing?"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#next-steps-packaging-your-code-2",
     "href": "packaging-distribution-revealjs.html#next-steps-packaging-your-code-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Next steps: packaging your code",
     "text": "Next steps: packaging your code\nThe good news: Python packaging has improved dramatically in the last 5 years\n\nIt has never been easier to just point your package manager to some code locally, or on the internet, and get working Python code installed and running on your machine regardless of operating system or architecture\nThis is a small miracle!\n\n\nThe bad news: Python packaging has expanded dramatically in the last 5 years\n\n\n\nBy creating standards the PyPA allowed for an ecosystem of packaging backends to be created to tackle various problems (this is good!)\nThis means that our The Zen of Python expectations are violated and we need to make design choices (hard for beginners)"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#next-steps-packaging-your-code-3",
     "href": "packaging-distribution-revealjs.html#next-steps-packaging-your-code-3",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Next steps: packaging your code",
     "text": "Next steps: packaging your code\nThe okay news: You can probably default to the simplest thing.\n\npure Python: Probably hatch\ncompiled extensions: Probably setuptools + pybind11 or scikit-build-core + pybind11\n\n\n\n\n\n\nPython Packaging User Guide, Packaging Python Projects Tutorial\n\n\n\n\n\n\nScientific Python Library Development Guide"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#simple-packaging-example",
     "href": "packaging-distribution-revealjs.html#simple-packaging-example",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example",
     "text": "Simple packaging example\nModern PEP 518 compliant build backends just need a single file: pyproject.toml\n$ tree simple_packaging\nsimple-packaging\n├── LICENSE\n├── README.md\n├── pyproject.toml\n├── src\n│   └── rosen\n│       ├── __init__.py\n│       ├── _version.py\n│       └── example.py\n└── tests\n    └── test_example.py\n\n4 directories, 7 files"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#simple-packaging-example-pyproject.toml",
     "href": "packaging-distribution-revealjs.html#simple-packaging-example-pyproject.toml",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: pyproject.toml",
     "text": "Simple packaging example: pyproject.toml\nWhat is .toml?\n\n“TOML aims to be a minimal configuration file format that’s easy to read due to obvious semantics. TOML is designed to map unambiguously to a hash table. TOML should be easy to parse into data structures in a wide variety of languages.” — https://toml.io/ (emphasis mine)\n\nIn recent years TOML has seen a rise in popularity for configuration files and lock files. Things that need to be easy to read (humans) and easy to parse (machines)."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#simple-packaging-example-pyproject.toml-1",
     "href": "packaging-distribution-revealjs.html#simple-packaging-example-pyproject.toml-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: pyproject.toml",
     "text": "Simple packaging example: pyproject.toml\nDefining how your project should get built:\n[build-system]\nrequires = [\n    \"hatchling&gt;=1.13.0\",\n    \"hatch-vcs&gt;=0.3.0\",\n]\nbuild-backend = \"hatchling.build\"\n..."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#simple-packaging-example-pyproject.toml-2",
     "href": "packaging-distribution-revealjs.html#simple-packaging-example-pyproject.toml-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: pyproject.toml",
     "text": "Simple packaging example: pyproject.toml\nDefining project metadata and requirements/dependencies:\n[project]\nname = \"rosen\"\ndynamic = [\"version\"]\ndescription = \"Example package for demonstration\"\nreadme = \"README.md\"\nlicense = { text = \"BSD-3-Clause\" }  # SPDX short identifier\nauthors = [\n  { name = \"Kyle Niemeyer\", email = \"kyle.niemeyer@oregonstate.edu\" },\n]\nrequires-python = \"&gt;=3.8\"\n\ndependencies = [\n    \"scipy&gt;=1.6.0\",\n    \"numpy\",  # compatible versions controlled through scipy\n]\n..."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#simple-packaging-example-pyproject.toml-3",
     "href": "packaging-distribution-revealjs.html#simple-packaging-example-pyproject.toml-3",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: pyproject.toml",
     "text": "Simple packaging example: pyproject.toml\nConfiguring tooling options and interactions with other tools:\n[tool.hatch.version]\nsource = \"vcs\"\n\n[tool.hatch.version.raw-options]\nlocal_scheme = \"no-local-version\"\n# Need to give root as we aren't at the same level as the git repo\nroot = \"..\"\n\n[tool.hatch.build.hooks.vcs]\nversion-file = \"src/rosen/_version.py\"\n..."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#simple-packaging-example-installing-your-code",
     "href": "packaging-distribution-revealjs.html#simple-packaging-example-installing-your-code",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: Installing your code",
     "text": "Simple packaging example: Installing your code\nYou can now locally install your package into your Python virtual environment!\n$ cd simple_packaging\n$ pip install --upgrade pip wheel\n$ pip install .\nSuccessfully built rosen\nInstalling collected packages: rosen\nSuccessfully installed rosen-0.0.2.dev1\n$ pip show rosen\nName: rosen\nVersion: 0.0.2.dev1\nSummary: Example package for demonstration\nHome-page: https://github.com/SoftwareDevEngResearch/packaging-examples\nAuthor: \nAuthor-email: Kyle Niemeyer &lt;kyle.niemeyer@oregonstate.edu&gt;\nLicense: BSD-3-Clause\nLocation: ***/.venv/lib/python3.13/site-packages\nRequires: numpy, scipy\nRequired-by:"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#simple-packaging-example-installing-your-code-1",
     "href": "packaging-distribution-revealjs.html#simple-packaging-example-installing-your-code-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: Installing your code",
     "text": "Simple packaging example: Installing your code\nand use it anywhere\n# example.py\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# We can now import our code\nfrom rosen.example import rosen, rosen_der\n\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\",\n                  jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\n# array([1.00000004, 1.0000001 , 1.00000021, 1.00000044, 1.00000092])"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#packaging-doesnt-slow-down-development",
     "href": "packaging-distribution-revealjs.html#packaging-doesnt-slow-down-development",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging doesn’t slow down development",
     "text": "Packaging doesn’t slow down development\nPEP 518 compliant build backends allow for “editable installs”\n$ python -m pip install --upgrade --editable .\n$ python -m pip show rosen | grep --ignore-case 'location'\nLocation: ***/lib/python3.12/site-packages\nEditable project location: ***/examples/simple_packaging\n\nEditable installs add the files in the development directory to Python’s import path. (Only need to re-installation if you change the project metadata.)\n\n\nCan develop your code under src/ and have immediate access to it."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#packaging-compiled-extensions",
     "href": "packaging-distribution-revealjs.html#packaging-compiled-extensions",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging compiled extensions",
     "text": "Packaging compiled extensions\nWith modern packaging infrastructure, packaging compiled extensions requires small extra work!\n$ tree compiled_packaging\ncompiled-packaging\n├── CMakeLists.txt\n├── LICENSE\n├── README.md\n├── pyproject.toml\n├── src\n│   ├── basic_math.cpp\n│   └── rosen_cpp\n│       ├── __init__.py\n│       └── example.py\n└── tests\n    └── test_example.py\n\n4 directories, 8 files"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#packaging-compiled-extensions-1",
     "href": "packaging-distribution-revealjs.html#packaging-compiled-extensions-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging compiled extensions",
     "text": "Packaging compiled extensions\nIn pyproject.toml:\nSwap build system to scikit-build-core + pybind11\n[build-system]\nrequires = [\n  \"scikit-build-core\",\n  \"pybind11\"\n  ]\nbuild-backend = \"scikit_build_core.build\"\n..."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#packaging-compiled-extensions-2",
     "href": "packaging-distribution-revealjs.html#packaging-compiled-extensions-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging compiled extensions",
     "text": "Packaging compiled extensions\nCMakeLists.txt:\n# Specify CMake version and project language\ncmake_minimum_required(VERSION 3.15...3.30)\nproject(${SKBUILD_PROJECT_NAME} LANGUAGES CXX)\n\n# Setup pybind11\nset(PYBIND11_FINDPYTHON ON)\nfind_package(pybind11 CONFIG REQUIRED)\n\n# Add the pybind11 module to build targets\npybind11_add_module(basic_math MODULE src/basic_math.cpp)\ninstall(TARGETS basic_math DESTINATION ${SKBUILD_PROJECT_NAME})"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#packaging-compiled-extensions-3",
     "href": "packaging-distribution-revealjs.html#packaging-compiled-extensions-3",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging compiled extensions",
     "text": "Packaging compiled extensions\nsrc/basic_math.cpp:\n#include &lt;pybind11/pybind11.h&gt;\n\nint add(int i, int j) { return i + j; }\n\nnamespace py = pybind11;\n\nPYBIND11_MODULE(basic_math, m) {\n  m.def(\"add\", &add, R\"pbdoc(\n      Add two numbers\n  )pbdoc\");\n...\n\n}"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#packaging-compiled-extensions-installing",
     "href": "packaging-distribution-revealjs.html#packaging-compiled-extensions-installing",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging compiled extensions: Installing",
     "text": "Packaging compiled extensions: Installing\nInstalling locally is the same as for the pure-Python example:\n$ cd simple_packaging\n$ pip install --upgrade pip wheel\n$ pip install .\nSuccessfully built rosen-cpp\nInstalling collected packages: rosen-cpp\nSuccessfully installed rosen-cpp-0.0.1\nModule name is that given in C++:\nfrom rosen_cpp import basic_math\nbasic_math.add(1, 2)\n# 3"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#going-further-distributing-packages",
     "href": "packaging-distribution-revealjs.html#going-further-distributing-packages",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Going further: Distributing packages",
     "text": "Going further: Distributing packages\nIf your code is publicly available on the WWW in a Git repository, you’ve already done a version of distribution!\n# pip install \"git+https://example.com/repo/project.git@branch#subdirectory=path\"\n$ pip install \\\n  \"git+https://github.com/SoftwareDevEngResearch/packaging-examples.git#subdirectory=simple_packaging\"\n# Works for pure-Python packages\n$ pip install --upgrade \"git+https://github.com/scikit-hep/pyhf.git\"\n# as well as packages with compiled extensions\n$ pip install --upgrade \"git+https://github.com/scikit-hep/iminuit.git\""
   },
   {
     "objectID": "packaging-distribution-revealjs.html#going-further-distributing-packages-1",
     "href": "packaging-distribution-revealjs.html#going-further-distributing-packages-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Going further: Distributing packages",
     "text": "Going further: Distributing packages\nIdeally, we’d prefer a more organized approach: distribution through a package index.\n\nFirst, we need to create distributions of our packaged code.\n\n\nDistributions that pip can install:\n\nsource distribution (sdist): A tarfile (.tar.gz) of the source files of our package (subset of all the files in the repository)\nwheel: A zipfile (.whl) of the file system structure and package metadata with any dependencies prebuilt. No arbitrary code execution, only decompressing and copying of files"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#going-further-distributing-packages-2",
     "href": "packaging-distribution-revealjs.html#going-further-distributing-packages-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Going further: Distributing packages",
     "text": "Going further: Distributing packages\nTo create these distributions from source code, rely on our package build backend (e.g., hatchling) and build frontend tool like build\n$ pip install --upgrade build\n$ python -m build .\n* Creating venv isolated environment...\n* Installing packages in isolated environment... (hatch-vcs&gt;=0.3.0, hatchling&gt;=1.13.0)\n* Getting build dependencies for sdist...\n* Building sdist...\n* Building wheel from sdist\n* Creating venv isolated environment...\n* Installing packages in isolated environment... (hatch-vcs&gt;=0.3.0, hatchling&gt;=1.13.0)\n* Getting build dependencies for wheel...\n* Building wheel...\nSuccessfully built rosen-0.0.1.tar.gz and rosen-0.0.1-py3-none-any.whl\n$ ls dist\nrosen-0.0.1-py3-none-any.whl  rosen-0.0.1.tar.gz"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#going-further-distributing-packages-3",
     "href": "packaging-distribution-revealjs.html#going-further-distributing-packages-3",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Going further: Distributing packages",
     "text": "Going further: Distributing packages\nWe can now securely upload the distributions under ./dist/ to any package index that understands how to use them.\n\nThe most common is the Python Package Index (PyPI), which serves as the default package index for pip."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#distributing-packages-conda-forge",
     "href": "packaging-distribution-revealjs.html#distributing-packages-conda-forge",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Distributing packages: conda-forge",
     "text": "Distributing packages: conda-forge\nThe conda family of package managers (conda, mamba, micromamba, pixi) take an alternative approach from pip.\n\nInstead of installing Python packages, they act as general purpose package managers and install all dependencies (including Python) as OS and architecture specific built binaries (.conda files — zipfile containing compressed tar files) hosted on conda-forge.\n\n\nThis allows an additional level of runtime environment specification not possible with just pip, though getting environment solves right can become more complicated."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#distributing-packages-conda-forge-1",
     "href": "packaging-distribution-revealjs.html#distributing-packages-conda-forge-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Distributing packages: conda-forge",
     "text": "Distributing packages: conda-forge\nPopular in scientific computing as arbitrary binaries can be hosted, including compilers (e.g., gcc, Fortran) and even the full NVIDIA CUDA stack!\n\nWith the change to full binaries only this also requires that specification of the environment being installed is important.\n\n\nWith sdists and wheels, if there is no compatible wheel available, pip will automatically fall back to trying to locally build from the sdist. Can’t do that if there is no matching .conda binary!"
   },
   {
     "objectID": "packaging-distribution-revealjs.html#semantic-versioning",
     "href": "packaging-distribution-revealjs.html#semantic-versioning",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Semantic Versioning",
     "text": "Semantic Versioning\nGiven a version number MAJOR.MINOR.PATCH, increment the:\n\nMAJOR version when you make incompatible API changes,\nMINOR version when you add functionality in a backwards-compatible manner, and\nPATCH version when you make backwards-compatible bug fixes.\n\n\nTo start: initial development release starts at 0.0.1, and increment minor version for subsequent releases."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#versioning-with-hatch-git",
     "href": "packaging-distribution-revealjs.html#versioning-with-hatch-git",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Versioning with hatch & git",
     "text": "Versioning with hatch & git\nWe actually already set up our hatch build system to automatically version our package based on git:\n[tool.hatch.version]\nsource = \"vcs\"\n\n[tool.hatch.version.raw-options]\nlocal_scheme = \"no-local-version\"\n# Need to give root as we aren't at the same level as the git repo\nroot = \"..\"\n\n[tool.hatch.build.hooks.vcs]\nversion-file = \"src/rosen/_version.py\"\n...\n\nThis tells hatch to look at the latest git tag and use that as the version number, stored in the automatically generated file src/rosen/_version.py."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#versioning-with-hatch-git-1",
     "href": "packaging-distribution-revealjs.html#versioning-with-hatch-git-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Versioning with hatch & git",
     "text": "Versioning with hatch & git\nTo document a new version, simply create a new git tag:\n$ git tag v0.x.y -m \"version 0.x.y\"\n$ git push --tags\n\nThis will automatically update the version number in src/rosen/_version.py when next building the package."
   },
   {
     "objectID": "packaging-distribution-revealjs.html#good-idea-keep-a-changelog",
     "href": "packaging-distribution-revealjs.html#good-idea-keep-a-changelog",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Good idea: keep a CHANGELOG",
     "text": "Good idea: keep a CHANGELOG\nUse a CHANGELOG file to document changes in your package over time.\n# Changelog\nAll notable changes to this project will be documented in this file.\n\nThe format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)\nand this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).\n\n## [Unreleased]\n\n## [0.0.2] - 2014-07-10\n### Added\n- Explanation of the recommended reverse chronological release ordering.\n\n## 0.0.1 - 2014-05-31\n### Added\n- This CHANGELOG file to hopefully serve as an evolving example of a\n  standardized open source project CHANGELOG.\n- CNAME file to enable GitHub Pages custom domain\n- README now contains answers to common questions about CHANGELOGs\n- Good examples and basic guidelines, including proper date formatting.\n- Counter-examples: \"What makes unicorns cry?\"\n\n[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.2...HEAD\n[0.0.2]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.1...v0.0.2"
   },
   {
     "objectID": "packaging-distribution.html",
     "href": "packaging-distribution.html",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "",
     "text": "Work on idea for paper with collaborators\nDo exploratory analysis in scripts and Jupyter ecosystem\nAs research progresses, need to write more-complicated functions and workflows\nCode begins to sprawl across multiple directories\nSoftware dependencies begin to become more complicated\nThe code “works on my machine”, but what about your collaborators?\n\n\nPeople heroically press forward, but this is painful, and not reusable\n\n\n\n\nImagine you start with a Jupyter notebook that looks like this:\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# Rosenbrock function\ndef rosen(x):\n    \"\"\"The Rosenbrock function\"\"\"\n    return sum(100.0 * (x[1:] - x[:-1] ** 2.0) ** 2.0 + (1 - x[:-1]) ** 2.0)\n\ndef rosen_der(x):\n    \"\"\"Gradient of the Rosenbrock function\"\"\"\n    xm = x[1:-1]\n    xm_m1 = x[:-2]\n    xm_p1 = x[2:]\n    der = np.zeros_like(x)\n    der[1:-1] = 200 * (xm - xm_m1**2) - 400 * (xm_p1 - xm**2) * xm - 2 * (1 - xm)\n    der[0] = -400 * x[0] * (x[1] - x[0] ** 2) - 2 * (1 - x[0])\n    der[-1] = 200 * (x[-1] - x[-2] ** 2)\n    return der\n\n# Minimization of the Rosenbrock function with some initial guess\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\", jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\nprint(optimized_params)\n\n\n\nWe can convert our notebook code into a simple importable module an and example calling it:\n$ tree edit-sys-path \nedit-sys-path\n├── code\n│   └── utils.py\n└── example.py\n\n2 directories, 2 files\n\n\n\n# example.py\nimport sys\nfrom pathlib import Path\n\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# Make ./code/utils.py visible to sys.path\n# sys.path position 1 should be after cwd and before activated virtual environment\nsys.path.insert(1, str(Path().cwd() / \"code\"))\nfrom utils import rosen, rosen_der\n\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\", jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\nprint(optimized_params)\n\n\n\n\nThis is already better than having everything in a single massive file!\nHowever, now things are tied to this relative path on your computer:\n\n# Make ./code/utils.py visible to sys.path\nsys.path.insert(1, str(Path(__file__).parent / \"code\"))\nfrom utils import rosen, rosen_der\n\nand are brittle to refactoring and change; plus, not very portable to others.\n\n\nBut we can do better!",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#hypothetical-workflow-for-a-researcher",
     "href": "packaging-distribution.html#hypothetical-workflow-for-a-researcher",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "",
     "text": "Work on idea for paper with collaborators\nDo exploratory analysis in scripts and Jupyter ecosystem\nAs research progresses, need to write more-complicated functions and workflows\nCode begins to sprawl across multiple directories\nSoftware dependencies begin to become more complicated\nThe code “works on my machine”, but what about your collaborators?\n\n\nPeople heroically press forward, but this is painful, and not reusable",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#section",
     "href": "packaging-distribution.html#section",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "",
     "text": "Imagine you start with a Jupyter notebook that looks like this:\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# Rosenbrock function\ndef rosen(x):\n    \"\"\"The Rosenbrock function\"\"\"\n    return sum(100.0 * (x[1:] - x[:-1] ** 2.0) ** 2.0 + (1 - x[:-1]) ** 2.0)\n\ndef rosen_der(x):\n    \"\"\"Gradient of the Rosenbrock function\"\"\"\n    xm = x[1:-1]\n    xm_m1 = x[:-2]\n    xm_p1 = x[2:]\n    der = np.zeros_like(x)\n    der[1:-1] = 200 * (xm - xm_m1**2) - 400 * (xm_p1 - xm**2) * xm - 2 * (1 - xm)\n    der[0] = -400 * x[0] * (x[1] - x[0] ** 2) - 2 * (1 - x[0])\n    der[-1] = 200 * (x[-1] - x[-2] ** 2)\n    return der\n\n# Minimization of the Rosenbrock function with some initial guess\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\", jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\nprint(optimized_params)",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#reusable-science-step-by-step",
     "href": "packaging-distribution.html#reusable-science-step-by-step",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "",
     "text": "We can convert our notebook code into a simple importable module an and example calling it:\n$ tree edit-sys-path \nedit-sys-path\n├── code\n│   └── utils.py\n└── example.py\n\n2 directories, 2 files",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#reusable-science-step-by-step-1",
     "href": "packaging-distribution.html#reusable-science-step-by-step-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "",
     "text": "# example.py\nimport sys\nfrom pathlib import Path\n\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# Make ./code/utils.py visible to sys.path\n# sys.path position 1 should be after cwd and before activated virtual environment\nsys.path.insert(1, str(Path().cwd() / \"code\"))\nfrom utils import rosen, rosen_der\n\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\", jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\nprint(optimized_params)",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#reusable-science-step-by-step-2",
     "href": "packaging-distribution.html#reusable-science-step-by-step-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "",
     "text": "This is already better than having everything in a single massive file!\nHowever, now things are tied to this relative path on your computer:\n\n# Make ./code/utils.py visible to sys.path\nsys.path.insert(1, str(Path(__file__).parent / \"code\"))\nfrom utils import rosen, rosen_der\n\nand are brittle to refactoring and change; plus, not very portable to others.\n\n\nBut we can do better!",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#what-is-a-python-package",
     "href": "packaging-distribution.html#what-is-a-python-package",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "What is a Python package?",
     "text": "What is a Python package?\n\nFirst, let’s define module.\n\n\nFrom https://docs.python.org/3/glossary.html#term-module:\n\n\nmodule\n\nAn object that serves as an organizational unit of Python code. Modules have a namespace containing arbitrary Python objects. Modules are loaded into Python by the process of importing.\n\n\nSee also package.",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#what-is-a-python-package-1",
     "href": "packaging-distribution.html#what-is-a-python-package-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "What is a Python package?",
     "text": "What is a Python package?\nDeconstructing that definition:\n\nWhen I write import modulename I am loading a module\nBut we also talk about “importing a package”! This seems to imply a package is a kind of module.\nThe module can contain “arbitrary Python objects”, which could include other modules.\nIt’s almost like we need a special name for a “module that can contain other modules”…\nWhen loading a module, its name gets added to the namespace, a collection of currently defined names and objects they reference: numpy.random.default_rng",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#aside-why-does-python-have-modules",
     "href": "packaging-distribution.html#aside-why-does-python-have-modules",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Aside: why does Python have modules?",
     "text": "Aside: why does Python have modules?\n\nBecause it’s good for your code to be modular.\n\n\n\nSource: https://realpython.com/python-modules-packages/",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#where-do-modules-come-from",
     "href": "packaging-distribution.html#where-do-modules-come-from",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Where do modules come from?",
     "text": "Where do modules come from?\n\nThe standard library\n\nPython code\nCompiled C code\n\nA local file that ends in `.py (confusingly, also called a “module”)\nThird-party libraries that you pip install or conda install (i.e., packages)\nA local package",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#what-is-a-python-package-2",
     "href": "packaging-distribution.html#what-is-a-python-package-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "What is a Python package?",
     "text": "What is a Python package?\nWe spent all that time defining module, now we can define package:\n\nFrom https://docs.python.org/3/glossary.html#term-package:\n\n\npackage\n\nA Python module which can contain submodules or recursively, subpackages.",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#package-can-have-multiple-meanings",
     "href": "packaging-distribution.html#package-can-have-multiple-meanings",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "“Package” can have multiple meanings!",
     "text": "“Package” can have multiple meanings!\nTwo main usages:\n\nimport package: the one we talked about, when you write import packagename. We’ll start by making this.\ndistribution package: the actual artifact that gets downloaded off the internet and stored somewhere, like when you run pip install package. We’ll make these too.",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#when-should-i-turn-my-code-into-a-package",
     "href": "packaging-distribution.html#when-should-i-turn-my-code-into-a-package",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "When should I turn my code into a package?",
     "text": "When should I turn my code into a package?\nTwo common cases for research code:\n\nCode that goes with a research article; mainly used to reproduce the results, AKA a (computational) project or a research compendium.\nA generalized tool or library that other researchers can use\n\n\nNot all packages intended to reproduce a paper’s results need the full infrastructure we will discuss (documentation website, continuous integration, etc.).",
     "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "packaging-distribution.html#hypothetical-workflow-for-a-researcher-1",
-    "href": "packaging-distribution.html#hypothetical-workflow-for-a-researcher-1",
-    "title": "Getting Started",
-    "section": "Hypothetical workflow for a researcher",
-    "text": "Hypothetical workflow for a researcher\n\nWork on idea for paper with collaborators\nDo exploratory analysis in scripts and Jupyter ecosystem\nAs research progresses, need to write more-complicated functions and workflows\nCode begins to sprawl across multiple directories\nSoftware dependencies begin to become more complicated\nThe code “works on my machine”, but what about your collaborators?\n\n\nPeople heroically press forward, but this is painful, and not reusable",
-    "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "packaging-distribution.html#section-1",
-    "href": "packaging-distribution.html#section-1",
-    "title": "Getting Started",
-    "section": "",
-    "text": "Imagine you start with a Jupyter notebook that looks like this:\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# Rosenbrock function\ndef rosen(x):\n    \"\"\"The Rosenbrock function\"\"\"\n    return sum(100.0 * (x[1:] - x[:-1] ** 2.0) ** 2.0 + (1 - x[:-1]) ** 2.0)\n\ndef rosen_der(x):\n    \"\"\"Gradient of the Rosenbrock function\"\"\"\n    xm = x[1:-1]\n    xm_m1 = x[:-2]\n    xm_p1 = x[2:]\n    der = np.zeros_like(x)\n    der[1:-1] = 200 * (xm - xm_m1**2) - 400 * (xm_p1 - xm**2) * xm - 2 * (1 - xm)\n    der[0] = -400 * x[0] * (x[1] - x[0] ** 2) - 2 * (1 - x[0])\n    der[-1] = 200 * (x[-1] - x[-2] ** 2)\n    return der\n\n# Minimization of the Rosenbrock function with some initial guess\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\", jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\nprint(optimized_params)",
-    "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "packaging-distribution.html#reusable-science-step-by-step-3",
-    "href": "packaging-distribution.html#reusable-science-step-by-step-3",
-    "title": "Getting Started",
-    "section": "Reusable science, step by step",
-    "text": "Reusable science, step by step\nWe can convert our notebook code into a simple importable module an and example calling it:\n$ tree edit-sys-path \nedit-sys-path\n├── code\n│   └── utils.py\n└── example.py\n\n2 directories, 2 files",
-    "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "packaging-distribution.html#reusable-science-step-by-step-4",
-    "href": "packaging-distribution.html#reusable-science-step-by-step-4",
-    "title": "Getting Started",
-    "section": "Reusable science, step by step",
-    "text": "Reusable science, step by step\n# example.py\nimport sys\nfrom pathlib import Path\n\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# Make ./code/utils.py visible to sys.path\n# sys.path position 1 should be after cwd and before activated virtual environment\nsys.path.insert(1, str(Path().cwd() / \"code\"))\nfrom utils import rosen, rosen_der\n\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\", jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\nprint(optimized_params)",
-    "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "packaging-distribution.html#reusable-science-step-by-step-5",
-    "href": "packaging-distribution.html#reusable-science-step-by-step-5",
-    "title": "Getting Started",
-    "section": "Reusable science, step by step",
-    "text": "Reusable science, step by step\n\nThis is already better than having everything in a single massive file!\nHowever, now things are tied to this relative path on your computer:\n\n# Make ./code/utils.py visible to sys.path\nsys.path.insert(1, str(Path(__file__).parent / \"code\"))\nfrom utils import rosen, rosen_der\n\nand are brittle to refactoring and change; plus, not very portable to others.\n\n\nBut we can do better!",
-    "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#next-steps-packaging-your-code",
     "href": "packaging-distribution.html#next-steps-packaging-your-code",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Next steps: packaging your code",
     "text": "Next steps: packaging your code\n\nThe goal is for your code to be installable, and distributable.\nPer the Zen of Python, this should be straightforward, right?\n\n$ python3 -c 'import this' | grep obvious\nThere should be one-- and preferably only one --obvious way to do it.\nAlthough that way may not be obvious at first unless you're Dutch.",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#next-steps-packaging-your-code-1",
     "href": "packaging-distribution.html#next-steps-packaging-your-code-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Next steps: packaging your code",
     "text": "Next steps: packaging your code\nUnfortunately, not so much. 😔\n\n\n\n\nYou might be asking: Why is there more than one thing?",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#next-steps-packaging-your-code-2",
     "href": "packaging-distribution.html#next-steps-packaging-your-code-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Next steps: packaging your code",
     "text": "Next steps: packaging your code\nThe good news: Python packaging has improved dramatically in the last 5 years\n\nIt has never been easier to just point your package manager to some code locally, or on the internet, and get working Python code installed and running on your machine regardless of operating system or architecture\nThis is a small miracle!\n\n\nThe bad news: Python packaging has expanded dramatically in the last 5 years\n\n\n\nBy creating standards the PyPA allowed for an ecosystem of packaging backends to be created to tackle various problems (this is good!)\nThis means that our The Zen of Python expectations are violated and we need to make design choices (hard for beginners)",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#next-steps-packaging-your-code-3",
     "href": "packaging-distribution.html#next-steps-packaging-your-code-3",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Next steps: packaging your code",
     "text": "Next steps: packaging your code\nThe okay news: You can probably default to the simplest thing.\n\npure Python: Probably hatch\ncompiled extensions: Probably setuptools + pybind11 or scikit-build-core + pybind11\n\n\n\n\n\n\nPython Packaging User Guide, Packaging Python Projects Tutorial\n\n\n\n\n\n\nScientific Python Library Development Guide",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#simple-packaging-example",
     "href": "packaging-distribution.html#simple-packaging-example",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example",
     "text": "Simple packaging example\nModern PEP 518 compliant build backends just need a single file: pyproject.toml\n$ tree simple_packaging\nsimple-packaging\n├── LICENSE\n├── README.md\n├── pyproject.toml\n├── src\n│   └── rosen\n│       ├── __init__.py\n│       ├── _version.py\n│       └── example.py\n└── tests\n    └── test_example.py\n\n4 directories, 7 files",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#simple-packaging-example-pyproject.toml",
     "href": "packaging-distribution.html#simple-packaging-example-pyproject.toml",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: pyproject.toml",
     "text": "Simple packaging example: pyproject.toml\nWhat is .toml?\n\n“TOML aims to be a minimal configuration file format that’s easy to read due to obvious semantics. TOML is designed to map unambiguously to a hash table. TOML should be easy to parse into data structures in a wide variety of languages.” — https://toml.io/ (emphasis mine)\n\nIn recent years TOML has seen a rise in popularity for configuration files and lock files. Things that need to be easy to read (humans) and easy to parse (machines).",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#simple-packaging-example-pyproject.toml-1",
     "href": "packaging-distribution.html#simple-packaging-example-pyproject.toml-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: pyproject.toml",
     "text": "Simple packaging example: pyproject.toml\nDefining how your project should get built:\n[build-system]\nrequires = [\n    \"hatchling&gt;=1.13.0\",\n    \"hatch-vcs&gt;=0.3.0\",\n]\nbuild-backend = \"hatchling.build\"\n...",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#simple-packaging-example-pyproject.toml-2",
     "href": "packaging-distribution.html#simple-packaging-example-pyproject.toml-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: pyproject.toml",
     "text": "Simple packaging example: pyproject.toml\nDefining project metadata and requirements/dependencies:\n[project]\nname = \"rosen\"\ndynamic = [\"version\"]\ndescription = \"Example package for demonstration\"\nreadme = \"README.md\"\nlicense = { text = \"BSD-3-Clause\" }  # SPDX short identifier\nauthors = [\n  { name = \"Kyle Niemeyer\", email = \"kyle.niemeyer@oregonstate.edu\" },\n]\nrequires-python = \"&gt;=3.8\"\n\ndependencies = [\n    \"scipy&gt;=1.6.0\",\n    \"numpy\",  # compatible versions controlled through scipy\n]\n...",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#simple-packaging-example-pyproject.toml-3",
     "href": "packaging-distribution.html#simple-packaging-example-pyproject.toml-3",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: pyproject.toml",
     "text": "Simple packaging example: pyproject.toml\nConfiguring tooling options and interactions with other tools:\n[tool.hatch.version]\nsource = \"vcs\"\n\n[tool.hatch.version.raw-options]\nlocal_scheme = \"no-local-version\"\n# Need to give root as we aren't at the same level as the git repo\nroot = \"..\"\n\n[tool.hatch.build.hooks.vcs]\nversion-file = \"src/rosen/_version.py\"\n...",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#simple-packaging-example-installing-your-code",
     "href": "packaging-distribution.html#simple-packaging-example-installing-your-code",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: Installing your code",
     "text": "Simple packaging example: Installing your code\nYou can now locally install your package into your Python virtual environment!\n$ cd simple_packaging\n$ pip install --upgrade pip wheel\n$ pip install .\nSuccessfully built rosen\nInstalling collected packages: rosen\nSuccessfully installed rosen-0.0.2.dev1\n$ pip show rosen\nName: rosen\nVersion: 0.0.2.dev1\nSummary: Example package for demonstration\nHome-page: https://github.com/SoftwareDevEngResearch/packaging-examples\nAuthor: \nAuthor-email: Kyle Niemeyer &lt;kyle.niemeyer@oregonstate.edu&gt;\nLicense: BSD-3-Clause\nLocation: ***/.venv/lib/python3.13/site-packages\nRequires: numpy, scipy\nRequired-by:",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#simple-packaging-example-installing-your-code-1",
     "href": "packaging-distribution.html#simple-packaging-example-installing-your-code-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Simple packaging example: Installing your code",
     "text": "Simple packaging example: Installing your code\nand use it anywhere\n# example.py\nimport numpy as np\nfrom scipy.optimize import minimize\n\n# We can now import our code\nfrom rosen.example import rosen, rosen_der\n\nx0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])\nresult = minimize(rosen, x0, method=\"BFGS\",\n                  jac=rosen_der, options={\"disp\": True})\noptimized_params = result.x\n# array([1.00000004, 1.0000001 , 1.00000021, 1.00000044, 1.00000092])",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#packaging-doesnt-slow-down-development",
     "href": "packaging-distribution.html#packaging-doesnt-slow-down-development",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging doesn’t slow down development",
     "text": "Packaging doesn’t slow down development\nPEP 518 compliant build backends allow for “editable installs”\n$ python -m pip install --upgrade --editable .\n$ python -m pip show rosen | grep --ignore-case 'location'\nLocation: ***/lib/python3.12/site-packages\nEditable project location: ***/examples/simple_packaging\n\nEditable installs add the files in the development directory to Python’s import path. (Only need to re-installation if you change the project metadata.)\n\n\nCan develop your code under src/ and have immediate access to it.",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#packaging-compiled-extensions",
     "href": "packaging-distribution.html#packaging-compiled-extensions",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging compiled extensions",
     "text": "Packaging compiled extensions\nWith modern packaging infrastructure, packaging compiled extensions requires small extra work!\n$ tree compiled_packaging\ncompiled-packaging\n├── CMakeLists.txt\n├── LICENSE\n├── README.md\n├── pyproject.toml\n├── src\n│   ├── basic_math.cpp\n│   └── rosen_cpp\n│       ├── __init__.py\n│       └── example.py\n└── tests\n    └── test_example.py\n\n4 directories, 8 files",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#packaging-compiled-extensions-1",
     "href": "packaging-distribution.html#packaging-compiled-extensions-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging compiled extensions",
     "text": "Packaging compiled extensions\nIn pyproject.toml:\nSwap build system to scikit-build-core + pybind11\n[build-system]\nrequires = [\n  \"scikit-build-core\",\n  \"pybind11\"\n  ]\nbuild-backend = \"scikit_build_core.build\"\n...",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#packaging-compiled-extensions-2",
     "href": "packaging-distribution.html#packaging-compiled-extensions-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging compiled extensions",
     "text": "Packaging compiled extensions\nCMakeLists.txt:\n# Specify CMake version and project language\ncmake_minimum_required(VERSION 3.15...3.30)\nproject(${SKBUILD_PROJECT_NAME} LANGUAGES CXX)\n\n# Setup pybind11\nset(PYBIND11_FINDPYTHON ON)\nfind_package(pybind11 CONFIG REQUIRED)\n\n# Add the pybind11 module to build targets\npybind11_add_module(basic_math MODULE src/basic_math.cpp)\ninstall(TARGETS basic_math DESTINATION ${SKBUILD_PROJECT_NAME})",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#packaging-compiled-extensions-3",
     "href": "packaging-distribution.html#packaging-compiled-extensions-3",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging compiled extensions",
     "text": "Packaging compiled extensions\nsrc/basic_math.cpp:\n#include &lt;pybind11/pybind11.h&gt;\n\nint add(int i, int j) { return i + j; }\n\nnamespace py = pybind11;\n\nPYBIND11_MODULE(basic_math, m) {\n  m.def(\"add\", &add, R\"pbdoc(\n      Add two numbers\n  )pbdoc\");\n...\n\n}",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#packaging-compiled-extensions-installing",
     "href": "packaging-distribution.html#packaging-compiled-extensions-installing",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Packaging compiled extensions: Installing",
     "text": "Packaging compiled extensions: Installing\nInstalling locally is the same as for the pure-Python example:\n$ cd simple_packaging\n$ pip install --upgrade pip wheel\n$ pip install .\nSuccessfully built rosen-cpp\nInstalling collected packages: rosen-cpp\nSuccessfully installed rosen-cpp-0.0.1\nModule name is that given in C++:\nfrom rosen_cpp import basic_math\nbasic_math.add(1, 2)\n# 3",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#going-further-distributing-packages",
     "href": "packaging-distribution.html#going-further-distributing-packages",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Going further: Distributing packages",
     "text": "Going further: Distributing packages\nIf your code is publicly available on the WWW in a Git repository, you’ve already done a version of distribution!\n# pip install \"git+https://example.com/repo/project.git@branch#subdirectory=path\"\n$ pip install \\\n  \"git+https://github.com/SoftwareDevEngResearch/packaging-examples.git#subdirectory=simple_packaging\"\n# Works for pure-Python packages\n$ pip install --upgrade \"git+https://github.com/scikit-hep/pyhf.git\"\n# as well as packages with compiled extensions\n$ pip install --upgrade \"git+https://github.com/scikit-hep/iminuit.git\"",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#going-further-distributing-packages-1",
     "href": "packaging-distribution.html#going-further-distributing-packages-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Going further: Distributing packages",
     "text": "Going further: Distributing packages\nIdeally, we’d prefer a more organized approach: distribution through a package index.\n\nFirst, we need to create distributions of our packaged code.\n\n\nDistributions that pip can install:\n\nsource distribution (sdist): A tarfile (.tar.gz) of the source files of our package (subset of all the files in the repository)\nwheel: A zipfile (.whl) of the file system structure and package metadata with any dependencies prebuilt. No arbitrary code execution, only decompressing and copying of files",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#going-further-distributing-packages-2",
     "href": "packaging-distribution.html#going-further-distributing-packages-2",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Going further: Distributing packages",
     "text": "Going further: Distributing packages\nTo create these distributions from source code, rely on our package build backend (e.g., hatchling) and build frontend tool like build\n$ pip install --upgrade build\n$ python -m build .\n* Creating venv isolated environment...\n* Installing packages in isolated environment... (hatch-vcs&gt;=0.3.0, hatchling&gt;=1.13.0)\n* Getting build dependencies for sdist...\n* Building sdist...\n* Building wheel from sdist\n* Creating venv isolated environment...\n* Installing packages in isolated environment... (hatch-vcs&gt;=0.3.0, hatchling&gt;=1.13.0)\n* Getting build dependencies for wheel...\n* Building wheel...\nSuccessfully built rosen-0.0.1.tar.gz and rosen-0.0.1-py3-none-any.whl\n$ ls dist\nrosen-0.0.1-py3-none-any.whl  rosen-0.0.1.tar.gz",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#going-further-distributing-packages-3",
     "href": "packaging-distribution.html#going-further-distributing-packages-3",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Going further: Distributing packages",
     "text": "Going further: Distributing packages\nWe can now securely upload the distributions under ./dist/ to any package index that understands how to use them.\n\nThe most common is the Python Package Index (PyPI), which serves as the default package index for pip.",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#distributing-packages-conda-forge",
     "href": "packaging-distribution.html#distributing-packages-conda-forge",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Distributing packages: conda-forge",
     "text": "Distributing packages: conda-forge\nThe conda family of package managers (conda, mamba, micromamba, pixi) take an alternative approach from pip.\n\nInstead of installing Python packages, they act as general purpose package managers and install all dependencies (including Python) as OS and architecture specific built binaries (.conda files — zipfile containing compressed tar files) hosted on conda-forge.\n\n\nThis allows an additional level of runtime environment specification not possible with just pip, though getting environment solves right can become more complicated.",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#distributing-packages-conda-forge-1",
     "href": "packaging-distribution.html#distributing-packages-conda-forge-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Distributing packages: conda-forge",
     "text": "Distributing packages: conda-forge\nPopular in scientific computing as arbitrary binaries can be hosted, including compilers (e.g., gcc, Fortran) and even the full NVIDIA CUDA stack!\n\nWith the change to full binaries only this also requires that specification of the environment being installed is important.\n\n\nWith sdists and wheels, if there is no compatible wheel available, pip will automatically fall back to trying to locally build from the sdist. Can’t do that if there is no matching .conda binary!",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#semantic-versioning",
     "href": "packaging-distribution.html#semantic-versioning",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Semantic Versioning",
     "text": "Semantic Versioning\nGiven a version number MAJOR.MINOR.PATCH, increment the:\n\nMAJOR version when you make incompatible API changes,\nMINOR version when you add functionality in a backwards-compatible manner, and\nPATCH version when you make backwards-compatible bug fixes.\n\n\nTo start: initial development release starts at 0.0.1, and increment minor version for subsequent releases.",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#versioning-with-hatch-git",
     "href": "packaging-distribution.html#versioning-with-hatch-git",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Versioning with hatch & git",
     "text": "Versioning with hatch & git\nWe actually already set up our hatch build system to automatically version our package based on git:\n[tool.hatch.version]\nsource = \"vcs\"\n\n[tool.hatch.version.raw-options]\nlocal_scheme = \"no-local-version\"\n# Need to give root as we aren't at the same level as the git repo\nroot = \"..\"\n\n[tool.hatch.build.hooks.vcs]\nversion-file = \"src/rosen/_version.py\"\n...\n\nThis tells hatch to look at the latest git tag and use that as the version number, stored in the automatically generated file src/rosen/_version.py.",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#versioning-with-hatch-git-1",
     "href": "packaging-distribution.html#versioning-with-hatch-git-1",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Versioning with hatch & git",
     "text": "Versioning with hatch & git\nTo document a new version, simply create a new git tag:\n$ git tag v0.x.y -m \"version 0.x.y\"\n$ git push --tags\n\nThis will automatically update the version number in src/rosen/_version.py when next building the package.",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
     "objectID": "packaging-distribution.html#good-idea-keep-a-changelog",
     "href": "packaging-distribution.html#good-idea-keep-a-changelog",
-    "title": "Getting Started",
+    "title": "Packaging and distributing your Python code",
     "section": "Good idea: keep a CHANGELOG",
     "text": "Good idea: keep a CHANGELOG\nUse a CHANGELOG file to document changes in your package over time.\n# Changelog\nAll notable changes to this project will be documented in this file.\n\nThe format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)\nand this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).\n\n## [Unreleased]\n\n## [0.0.2] - 2014-07-10\n### Added\n- Explanation of the recommended reverse chronological release ordering.\n\n## 0.0.1 - 2014-05-31\n### Added\n- This CHANGELOG file to hopefully serve as an evolving example of a\n  standardized open source project CHANGELOG.\n- CNAME file to enable GitHub Pages custom domain\n- README now contains answers to common questions about CHANGELOGs\n- Good examples and basic guidelines, including proper date formatting.\n- Counter-examples: \"What makes unicorns cry?\"\n\n[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.2...HEAD\n[0.0.2]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.1...v0.0.2",
     "crumbs": [
-      "Getting Started"
+      "Packaging and distributing your Python code"
     ]
   },
   {
