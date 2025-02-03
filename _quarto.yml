@@ -23,6 +23,7 @@ website:
       - classes-objects.ipynb
       - files-command-line.ipynb
       - packaging-distribution.ipynb
+      - testing-continuous-integration.ipynb
 
 format:
   html:
