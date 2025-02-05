@@ -1584,179 +1584,184 @@
     ]
   },
   {
-    "objectID": "classes-objects-revealjs.html#brief-intro-to-object-oriented-programming",
-    "href": "classes-objects-revealjs.html#brief-intro-to-object-oriented-programming",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Brief intro to object-oriented programming",
-    "text": "Brief intro to object-oriented programming\n\nClasses: organize data, methods, and functions\n\n\nObjects: manifestations of classes\n\n\nWe can use object-oriented programming to cleanly organize behaviors and data in our code."
+    "objectID": "managing-environment-revealjs.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
+    "href": "managing-environment-revealjs.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
+    "title": "Managing your computational environment",
+    "section": "Power of Python for research comes from rich ecosystem of third-party packages",
+    "text": "Power of Python for research comes from rich ecosystem of third-party packages\n\nThese include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!\n\n\nBut, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality)."
   },
   {
-    "objectID": "classes-objects-revealjs.html#object-orientation",
-    "href": "classes-objects-revealjs.html#object-orientation",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Object Orientation",
-    "text": "Object Orientation\n\nIt provides a framework for classifying distinct concepts into comprehensible sizes. These smaller conceptual units facilitate cleaner, more scalable modeling."
+    "objectID": "managing-environment-revealjs.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
+    "href": "managing-environment-revealjs.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
+    "title": "Managing your computational environment",
+    "section": "Your results may depend on the specific versions and combination of packages you have installed.",
+    "text": "Your results may depend on the specific versions and combination of packages you have installed.\n\nThis is particularly important for research analysis."
   },
   {
-    "objectID": "classes-objects-revealjs.html#object-orientation-1",
-    "href": "classes-objects-revealjs.html#object-orientation-1",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Object Orientation",
-    "text": "Object Orientation\n\nClasses and objects combine functions with data to make both easier to manage.\nA class defines the behaviors of a new kind of thing, while an object is a particular thing.\nClasses have constructors that describe how to create a new object of a particular kind.\nAn interface describes what an object can do; an implementation defines how.\nOne class can inherit from another and override just those things that it wants to change."
+    "objectID": "managing-environment-revealjs.html#as-a-rule-dont-install-packages-into-your-global-environment",
+    "href": "managing-environment-revealjs.html#as-a-rule-dont-install-packages-into-your-global-environment",
+    "title": "Managing your computational environment",
+    "section": "🚨 As a rule, don’t install packages into your global environment!",
+    "text": "🚨 As a rule, don’t install packages into your global environment!\n\n… even if the documentation says pip install x"
   },
   {
-    "objectID": "classes-objects-revealjs.html#object-orientation-2",
-    "href": "classes-objects-revealjs.html#object-orientation-2",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Object Orientation",
-    "text": "Object Orientation\n\nEncapsulation is the property of owning data\nInheritance establishes a relationship hierarchy between models\nPolymorphism allows for models to customize their own behavior even when they are based on other models"
+    "objectID": "managing-environment-revealjs.html#best-practice-use-virtual-environments",
+    "href": "managing-environment-revealjs.html#best-practice-use-virtual-environments",
+    "title": "Managing your computational environment",
+    "section": "Best practice: use virtual environments",
+    "text": "Best practice: use virtual environments\n\nVirtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.\nVirtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.\nThese are intended to be easy to set up, disposable, and replaceable."
   },
   {
-    "objectID": "classes-objects-revealjs.html#object-example-integers",
-    "href": "classes-objects-revealjs.html#object-example-integers",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Object example: integers",
-    "text": "Object example: integers\na = 1\nhelp(a) # gives info about the object\ndir(a) # gives list of data and behaviors associated with class"
+    "objectID": "managing-environment-revealjs.html#creating-and-activating-a-virtual-environment",
+    "href": "managing-environment-revealjs.html#creating-and-activating-a-virtual-environment",
+    "title": "Managing your computational environment",
+    "section": "Creating and activating a virtual environment",
+    "text": "Creating and activating a virtual environment\npython3 -m venv .venv\n\nThis creates a new directory .venv with:\n\n\n.venv/bin with link to Python, pip, and activation scripts; and\n.venv/lib/site-packages where packages will be installed."
   },
   {
-    "objectID": "classes-objects-revealjs.html#object-example-integers-1",
-    "href": "classes-objects-revealjs.html#object-example-integers-1",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Object example: integers",
-    "text": "Object example: integers\na = 1\nhelp(a) # gives info about the object\ndir(a) # gives list of data and behaviors associated with class\n\n\n\n\nWhat do double underscores around __abs__ mean?\n\nFrom PEP8: “magic objects or attributes that live in user-controlled namespaces. E.g., __init__, __import__, or __file__. Never invent such names; only use them as documented.”\n\nGenerally don’t call dunder methods directly; instead, use built-in functions."
+    "objectID": "managing-environment-revealjs.html#installing-packages",
+    "href": "managing-environment-revealjs.html#installing-packages",
+    "title": "Managing your computational environment",
+    "section": "Installing packages",
+    "text": "Installing packages\npip install &lt;package&gt;"
   },
   {
-    "objectID": "classes-objects-revealjs.html#what-about-functions",
-    "href": "classes-objects-revealjs.html#what-about-functions",
-    "title": "Brief intro to object-oriented programming",
-    "section": "… what about functions?",
-    "text": "… what about functions?\nimport math\ndir(math.sin)\n\nEven functions are objects!"
+    "objectID": "managing-environment-revealjs.html#pip-family",
+    "href": "managing-environment-revealjs.html#pip-family",
+    "title": "Managing your computational environment",
+    "section": "pip family",
+    "text": "pip family\nTools that all work similarly to venv:\n\nvenv: comes with Python, simple\nvirtualenv: installable package with same interface as venv, but faster and with more options\nuv: written in Rust and extremely fast"
   },
   {
-    "objectID": "classes-objects-revealjs.html#what-about-classes",
-    "href": "classes-objects-revealjs.html#what-about-classes",
-    "title": "Brief intro to object-oriented programming",
-    "section": "What about classes?",
-    "text": "What about classes?\n\nClasses define logical collections of attributes and methods describing a kind of object, and how to create objects of that kind.\n\n\nChoose classes to encapsulate internal data and functions for different types of objects."
+    "objectID": "managing-environment-revealjs.html#conda-family",
+    "href": "managing-environment-revealjs.html#conda-family",
+    "title": "Managing your computational environment",
+    "section": "Conda family",
+    "text": "Conda family\n\nConda is an open-source tool for managing virtual environments across your system, originally designed for Python package management but now supports a wide range of software (e.g., compiled C++ dependencies).\n\n\nVirtual environments created with Conda are not location-dependent like venv, but the same approach applies: do not install in the base/default environment.\n\n\nConda is recommended if you expect to need non-Python dependencies."
   },
   {
-    "objectID": "classes-objects-revealjs.html#example-particle-physics",
-    "href": "classes-objects-revealjs.html#example-particle-physics",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Example: particle physics",
-    "text": "Example: particle physics\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\"\"\"\n    # class body definition here\n\nWhat else do classes include?\n\n\nClass variables\nConstructors\nMethods"
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#elementary-particles",
-    "href": "classes-objects-revealjs.html#elementary-particles",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Elementary particles",
-    "text": "Elementary particles"
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#class-variables",
-    "href": "classes-objects-revealjs.html#class-variables",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Class variables",
-    "text": "Class variables\n\nData universally applicable to all objects of the class\n\n# contents of particle.py\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\"\"\"\n    # class body definition here\n    roar = \"I am a particle!\"\n# import particle module\nimport particle as p\nprint(p.Particle.roar)\n# create instance of Particle\nimport particle as p\nhiggs = p.Particle()\nprint(higgs.roar)\nClass variables can get a bit confusing; if you modify the variable associated with an object, it becomes an instance variable. For example:\nclass Particle(object):\n    spin = 0\n\n    def init(self, charge, mass):\n        self.charge = charge\n        self.mass = mass\nHere, spin is a class variable while charge and mass are instance variables. Creating two particles:\np1 = Particle(1, 1)\np2 = Particle(-1, 1)\n\nprint(p1.spin)\nprint(p2.spin)\nwe’ll get\n0\n0\nIf we change spin for p1 only, it modifies the value just for that instance:\np1.spin = 0.5\nprint(p1.spin)\nprint(p2.spin)\ngiving\n0.5\n0\nHowever, in general spin is still a class variable, and we can modify it for the whole class:\nParticle.spin = -0.5\nprint(p1.spin)\nprint(p2.spin)\nwhich gives\n0.5\n-0.5\nSo, for p1, spin has become an instance variable, but p2 still points to the class variable."
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#instance-variables",
-    "href": "classes-objects-revealjs.html#instance-variables",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Instance variables",
-    "text": "Instance variables\n\nData with different values for each instance of the class\n\n\nExample: particle position.\n\nimport particle as p\n# create empty list to hold observed particle data\nobs = []\n# append first particle\nobs.append(p.Particle())\n# assign its position\nobs[0].r = {'x': 100.0, 'y': 38.0, 'z': -42.0}\n# append second particle and assign its position\nobs.append(p.Particle())\nobs[1].r = {'x': 0.01, 'y': 99.0, 'z': 32.0}\n# print positions of each particle\nprint(obs[0].r)\nprint(obs[1].r)"
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#instance-variables-1",
-    "href": "classes-objects-revealjs.html#instance-variables-1",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Instance variables",
-    "text": "Instance variables\n\nUsing instance variables, we can store all data associated with a particle observation (position, mass, charge, spin, etc.) without much more complexity\n\n\n(Hopefully the value of this reduced complexity is obvious.)\n\n\nHow to accomplish in class definition? Constructor: __init()__ function."
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#constructors",
-    "href": "classes-objects-revealjs.html#constructors",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Constructors",
-    "text": "Constructors\n\nConstructor: __init__() function, executed upon instantiation of object.\n\n\nConstructor not required; every class inherits default constructor from object.\n\n\nTip: good to initialize all instance variables in constructor, to ensure they are initialized when you need them."
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#methods",
-    "href": "classes-objects-revealjs.html#methods",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Methods",
-    "text": "Methods\n\nMethods: functions tied to a class definition; may operate on data contained by object.\n\n# particle.py\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\n\n    Attributes\n    ----------\n    c : charge in units of [e]\n    m : mass in units of [kg]\n    r : position in units of [meters]\n    \"\"\"\n    roar = \"I am a particle!\"\n\n    def __init__(self, charge, mass, position):\n        \"\"\"Initializes the particle with supplied values for charge c, mass m, and position r.\n        \"\"\"\n        self.c = charge\n        self.m = mass\n        self.r = position\n\n    def hear_me(self):\n        \"\"\"Print information about particle.\n        \"\"\"\n        myroar = self.roar + (\n            \" My charge is:     \" + str(self.c) +\n            \" My mass is:       \" + str(self.m) +\n            \" My x position is: \" + str(self.r['x']) +\n            \" My y position is: \" + str(self.r['y']) +\n            \" My z position is: \" + str(self.r['z']))\n        print(myroar)"
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#static-methods",
-    "href": "classes-objects-revealjs.html#static-methods",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Static methods",
-    "text": "Static methods\n\nExample: Quark class can include function that lists all possible values of flavor; possible values are static irrespective of specific instance.\n\ndef possible_flavors():\n    return [\"up\", \"down\", \"top\", \"bottom\", \"strange\", \"charm\"]\n\nUse @staticmethod decorator to define a method not bound to object.\n\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\n    \"\"\"\n\n    # ... other parts of class definition ...\n\n    @staticmethod\n    def possible_flavors():\n        return [\"up\", \"down\", \"top\", \"bottom\", \"strange\", \"charm\"]"
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#duck-typing",
-    "href": "classes-objects-revealjs.html#duck-typing",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Duck typing",
-    "text": "Duck typing\n\n“When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck.”\n\n\nMeaning: Python does not explicitly check for object types like other languages. It only checks for behavior when a method is called or attribute accessed.\n\n\nIf different object types both “quack like a duck”, then it treats them like a duck. An object does not need to be of a certain type in order for its methods to be invoked; must merely possess those method."
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#section",
-    "href": "classes-objects-revealjs.html#section",
-    "title": "Brief intro to object-oriented programming",
+    "objectID": "managing-environment-revealjs.html#section",
+    "href": "managing-environment-revealjs.html#section",
+    "title": "Managing your computational environment",
     "section": "",
-    "text": "Example: all particles with a valid c attribute for charge can be used identically.\n\ndef total_charge(particles):\n    \"\"\"Calculate the total charge of a collection of particles.\n    \"\"\"\n    tot = 0\n    for p in particles:\n        tot += p.c\n    return tot\np = Proton()\ne1 = Electron()\ne2 = Electrion()\nparticles = [p, e1, e2]\ntotal_charge(particles)\n# overrule duck typing when inconvenient\ndef total_charge(particles):\n    \"\"\"Calculate the total charge of a collection of particles.\n    \"\"\"\n    tot = 0\n    for p in particles:\n        if isinstance(p, Particle):\n            tot += p.c\n    return tot"
+    "text": "conda config --set auto_activate_base false  # turn off the default environment\nconda env create -n some_name  # or use paths with `-p`\nconda activate some_name\nconda deactivate"
   },
   {
-    "objectID": "classes-objects-revealjs.html#polymorphism",
-    "href": "classes-objects-revealjs.html#polymorphism",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Polymorphism",
-    "text": "Polymorphism\n\nWhen class inherits attributes of a parent class. General rule: what works for parent class should work for subclass (plus specialized behavior).\n\n# elementary.py\nclass ElementaryParticle(Particle):\n    \"\"\"No distinct constituent particles, have spin.\n    \"\"\"\n\n    def __init__(self, spin):\n        self.s = spin\n        self.is_fermion = bool(spin % 1.0)\n        self.is_boson = not self.is_fermion\n# composite.py\nclass CompositeParticle(Particle):\n    \"\"\"Particles like protons and neutrons, composed of elementary particles\n    but don't share attributes.\n    \"\"\"\n\n    def __init__(self, parts):\n        self.constituents = parts"
+    "objectID": "managing-environment-revealjs.html#conda-based-package-managers",
+    "href": "managing-environment-revealjs.html#conda-based-package-managers",
+    "title": "Managing your computational environment",
+    "section": "Conda-based package managers",
+    "text": "Conda-based package managers\nSome alternatives to conda exist and offer some advantages, including speed:\n\nMiniconda: minimal Conda installation without all the packages that come with the full Anaconda distribution\nPixi: fast, Rust-based package manager and workflow tool Some other\nMicromamba: tiny version of Mamba, statically linked C++ binary"
   },
   {
-    "objectID": "classes-objects-revealjs.html#subclasses",
-    "href": "classes-objects-revealjs.html#subclasses",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Subclasses",
-    "text": "Subclasses\n\nElementaryParticle and CompositeParticle are Particle objects, and thus have (inherit) all of the functions and data of the original class.\n\n\nWe can override that data and those behaviors if desired.\n\n# elementary.py\nclass ElementaryParticle(Particle):\n    \"\"\"No distinct constituent particles, have spin.\n    \"\"\"\n    roar = \"I am an Elementary Particle!\"\n\n    def __init__(self, spin):\n        self.s = spin\n        self.is_fermion = bool(spin % 1.0)\n        self.is_boson = not self.is_fermion\nfrom elementary import ElementaryParticle\np = ElementaryParticle(1.5)\np.s\np.hear_me()"
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#superclasses",
-    "href": "classes-objects-revealjs.html#superclasses",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Superclasses",
-    "text": "Superclasses\n\nAny class, including a subclass, can be a superclass or parent class; the subclass inherits from its parent.\n\n\nElementaryParticle can also be a superclass:\n\nclass Quark(ElementaryParticle):\n    \"\"\"No distinct constituent particles, have spin.\n    \"\"\"\n\n    def __init__(self, color, charge, color_charge, spin, flavor):\n        self.color = color\n        self.charge = charge\n        self.color_charge = color_charge\n        self.spin = spin\n        self.flavor = flavor"
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#inheritance-of-class-contructors",
-    "href": "classes-objects-revealjs.html#inheritance-of-class-contructors",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Inheritance of class contructors",
-    "text": "Inheritance of class contructors\n\nBest/most Pythonic way of handling inherited + additional constructor arguments: be explicit."
-  },
-  {
-    "objectID": "classes-objects-revealjs.html#section-1",
-    "href": "classes-objects-revealjs.html#section-1",
-    "title": "Brief intro to object-oriented programming",
+    "objectID": "managing-environment.html",
+    "href": "managing-environment.html",
+    "title": "Managing your computational environment",
     "section": "",
-    "text": "# particle.py\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\n    \"\"\"\n    roar = \"I am a particle!\"\n\n    def __init__(self, charge, mass, position):\n        \"\"\"Initializes the particle with supplied values for charge c, mass m, and position r.\n        \"\"\"\n        self.c = charge\n        self.m = mass\n        self.r = position\n\n    def hear_me(self):\n        \"\"\"Print information about particle.\n        \"\"\"\n        myroar = self.roar + (\n            \" My charge is:     \" + str(self.c) +\n            \" My mass is:       \" + str(self.m) +\n            \" My x position is: \" + str(self.r['x']) +\n            \" My y position is: \" + str(self.r['y']) +\n            \" My z position is: \" + str(self.r['z']))\n        print(myroar)\n# elementary.py\nclass ElementaryParticle(Particle):\n    \"\"\"No distinct constituent particles, have spin.\n    \"\"\"\n    roar = \"I am an Elementary Particle!\"\n\n    def __init__(self, charge, mass, position, spin):\n        super().__init__(charge, mass, position)\n        self.s = spin\n        self.is_fermion = bool(spin % 1.0)\n        self.is_boson = not self.is_fermion"
+    "text": "These include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!\n\n\nBut, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality).\n\n\n\n\n\nThis is particularly important for research analysis.\n\n\n\n\n\n\n\n\n\n\n\n\n\nVirtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.\nVirtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.\nThese are intended to be easy to set up, disposable, and replaceable.\n\n\n\nOn a Mac or Linux machine, I recommend using the built-in venv module to create a virtual environment for your work, then install inside that using the pip installer.\nOn Windows, your best bet is probably the Anaconda Distribution. Anaconda comes with hundreds of scientific packages already, and also lets you set up system-wide virtual environments.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
   },
   {
-    "objectID": "classes-objects-revealjs.html#metaprogramming",
-    "href": "classes-objects-revealjs.html#metaprogramming",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Metaprogramming",
-    "text": "Metaprogramming\n\nWhen definition of a class or function is specified (in part or in full) by code outside the definition itself.\n\n\nExample: add an is_particle class attribute to Particle class:\n\ndef add_is_particle(cls):\n    cls.is_particle = True\n    return cls\n\n@add_is_particle\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\n\n    # ... other parts of class definition ..."
+    "objectID": "managing-environment.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
+    "href": "managing-environment.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
+    "title": "Managing your computational environment",
+    "section": "",
+    "text": "These include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!\n\n\nBut, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality).",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
   },
   {
-    "objectID": "classes-objects-revealjs.html#practical-example",
-    "href": "classes-objects-revealjs.html#practical-example",
-    "title": "Brief intro to object-oriented programming",
-    "section": "Practical example",
-    "text": "Practical example\nTake a look at my code PyTeCK, which uses classes to hide lots of details of performing simulations: https://github.com/kyleniemeyer/PyTeCK"
+    "objectID": "managing-environment.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
+    "href": "managing-environment.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
+    "title": "Managing your computational environment",
+    "section": "",
+    "text": "This is particularly important for research analysis.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#best-practice-use-virtual-environments",
+    "href": "managing-environment.html#best-practice-use-virtual-environments",
+    "title": "Managing your computational environment",
+    "section": "",
+    "text": "Virtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.\nVirtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.\nThese are intended to be easy to set up, disposable, and replaceable.\n\n\n\nOn a Mac or Linux machine, I recommend using the built-in venv module to create a virtual environment for your work, then install inside that using the pip installer.\nOn Windows, your best bet is probably the Anaconda Distribution. Anaconda comes with hundreds of scientific packages already, and also lets you set up system-wide virtual environments.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#creating-and-activating-a-virtual-environment",
+    "href": "managing-environment.html#creating-and-activating-a-virtual-environment",
+    "title": "Managing your computational environment",
+    "section": "Creating and activating a virtual environment",
+    "text": "Creating and activating a virtual environment\npython3 -m venv .venv\n\nThis creates a new directory .venv with:\n\n\n.venv/bin with link to Python, pip, and activation scripts; and\n.venv/lib/site-packages where packages will be installed.\n\n\n\nTo activate the environment, source the activation script:\n\nsource .venv/bin/activate\n\n\n\n\n\n\nTip\n\n\n\nTry this yourself. .venv/bin will be added to your PATH, and your shell will usually indicate you are “in” a virtual environment.\n\n\n\nTo leave the virtual environment, run the deactivate function:\n\ndeactivate\n\n\n\n\n\n\nNote\n\n\n\nClosing/terminating your shell will automatically deactivate the virtual environment, and you’ll need to manually activate whenever you start a new session.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#installing-packages",
+    "href": "managing-environment.html#installing-packages",
+    "title": "Managing your computational environment",
+    "section": "Installing packages",
+    "text": "Installing packages\npip install &lt;package&gt;",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#pip-family",
+    "href": "managing-environment.html#pip-family",
+    "title": "Managing your computational environment",
+    "section": "pip family",
+    "text": "pip family\nTools that all work similarly to venv:\n\nvenv: comes with Python, simple\nvirtualenv: installable package with same interface as venv, but faster and with more options\nuv: written in Rust and extremely fast\n\n\nIn addition, there are project management tools that both handle environments, packaging, production, etc.:\n\nHatch\nPoetry\nPipenv\n\n\nThese work a bit differently, but can be quite powerful particularly for locking specific versions of dependencies. Consider returning to these when we are thinking about packaging and distribution.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#conda-family",
+    "href": "managing-environment.html#conda-family",
+    "title": "Managing your computational environment",
+    "section": "Conda family",
+    "text": "Conda family\n\nConda is an open-source tool for managing virtual environments across your system, originally designed for Python package management but now supports a wide range of software (e.g., compiled C++ dependencies).\n\n\nVirtual environments created with Conda are not location-dependent like venv, but the same approach applies: do not install in the base/default environment.\n\n\nConda is recommended if you expect to need non-Python dependencies.",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#section",
+    "href": "managing-environment.html#section",
+    "title": "Managing your computational environment",
+    "section": "",
+    "text": "conda config --set auto_activate_base false  # turn off the default environment\nconda env create -n some_name  # or use paths with `-p`\nconda activate some_name\nconda deactivate",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "managing-environment.html#conda-based-package-managers",
+    "href": "managing-environment.html#conda-based-package-managers",
+    "title": "Managing your computational environment",
+    "section": "Conda-based package managers",
+    "text": "Conda-based package managers\nSome alternatives to conda exist and offer some advantages, including speed:\n\nMiniconda: minimal Conda installation without all the packages that come with the full Anaconda distribution\nPixi: fast, Rust-based package manager and workflow tool Some other\nMicromamba: tiny version of Mamba, statically linked C++ binary",
+    "crumbs": [
+      "Managing your computational environment"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site",
+    "crumbs": [
+      "About"
+    ]
   },
   {
     "objectID": "classes-objects.html",
@@ -2019,184 +2024,580 @@
     ]
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "classes-objects-revealjs.html#brief-intro-to-object-oriented-programming",
+    "href": "classes-objects-revealjs.html#brief-intro-to-object-oriented-programming",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Brief intro to object-oriented programming",
+    "text": "Brief intro to object-oriented programming\n\nClasses: organize data, methods, and functions\n\n\nObjects: manifestations of classes\n\n\nWe can use object-oriented programming to cleanly organize behaviors and data in our code."
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#object-orientation",
+    "href": "classes-objects-revealjs.html#object-orientation",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Object Orientation",
+    "text": "Object Orientation\n\nIt provides a framework for classifying distinct concepts into comprehensible sizes. These smaller conceptual units facilitate cleaner, more scalable modeling."
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#object-orientation-1",
+    "href": "classes-objects-revealjs.html#object-orientation-1",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Object Orientation",
+    "text": "Object Orientation\n\nClasses and objects combine functions with data to make both easier to manage.\nA class defines the behaviors of a new kind of thing, while an object is a particular thing.\nClasses have constructors that describe how to create a new object of a particular kind.\nAn interface describes what an object can do; an implementation defines how.\nOne class can inherit from another and override just those things that it wants to change."
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#object-orientation-2",
+    "href": "classes-objects-revealjs.html#object-orientation-2",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Object Orientation",
+    "text": "Object Orientation\n\nEncapsulation is the property of owning data\nInheritance establishes a relationship hierarchy between models\nPolymorphism allows for models to customize their own behavior even when they are based on other models"
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#object-example-integers",
+    "href": "classes-objects-revealjs.html#object-example-integers",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Object example: integers",
+    "text": "Object example: integers\na = 1\nhelp(a) # gives info about the object\ndir(a) # gives list of data and behaviors associated with class"
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#object-example-integers-1",
+    "href": "classes-objects-revealjs.html#object-example-integers-1",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Object example: integers",
+    "text": "Object example: integers\na = 1\nhelp(a) # gives info about the object\ndir(a) # gives list of data and behaviors associated with class\n\n\n\n\nWhat do double underscores around __abs__ mean?\n\nFrom PEP8: “magic objects or attributes that live in user-controlled namespaces. E.g., __init__, __import__, or __file__. Never invent such names; only use them as documented.”\n\nGenerally don’t call dunder methods directly; instead, use built-in functions."
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#what-about-functions",
+    "href": "classes-objects-revealjs.html#what-about-functions",
+    "title": "Brief intro to object-oriented programming",
+    "section": "… what about functions?",
+    "text": "… what about functions?\nimport math\ndir(math.sin)\n\nEven functions are objects!"
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#what-about-classes",
+    "href": "classes-objects-revealjs.html#what-about-classes",
+    "title": "Brief intro to object-oriented programming",
+    "section": "What about classes?",
+    "text": "What about classes?\n\nClasses define logical collections of attributes and methods describing a kind of object, and how to create objects of that kind.\n\n\nChoose classes to encapsulate internal data and functions for different types of objects."
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#example-particle-physics",
+    "href": "classes-objects-revealjs.html#example-particle-physics",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Example: particle physics",
+    "text": "Example: particle physics\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\"\"\"\n    # class body definition here\n\nWhat else do classes include?\n\n\nClass variables\nConstructors\nMethods"
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#elementary-particles",
+    "href": "classes-objects-revealjs.html#elementary-particles",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Elementary particles",
+    "text": "Elementary particles"
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#class-variables",
+    "href": "classes-objects-revealjs.html#class-variables",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Class variables",
+    "text": "Class variables\n\nData universally applicable to all objects of the class\n\n# contents of particle.py\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\"\"\"\n    # class body definition here\n    roar = \"I am a particle!\"\n# import particle module\nimport particle as p\nprint(p.Particle.roar)\n# create instance of Particle\nimport particle as p\nhiggs = p.Particle()\nprint(higgs.roar)\nClass variables can get a bit confusing; if you modify the variable associated with an object, it becomes an instance variable. For example:\nclass Particle(object):\n    spin = 0\n\n    def init(self, charge, mass):\n        self.charge = charge\n        self.mass = mass\nHere, spin is a class variable while charge and mass are instance variables. Creating two particles:\np1 = Particle(1, 1)\np2 = Particle(-1, 1)\n\nprint(p1.spin)\nprint(p2.spin)\nwe’ll get\n0\n0\nIf we change spin for p1 only, it modifies the value just for that instance:\np1.spin = 0.5\nprint(p1.spin)\nprint(p2.spin)\ngiving\n0.5\n0\nHowever, in general spin is still a class variable, and we can modify it for the whole class:\nParticle.spin = -0.5\nprint(p1.spin)\nprint(p2.spin)\nwhich gives\n0.5\n-0.5\nSo, for p1, spin has become an instance variable, but p2 still points to the class variable."
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#instance-variables",
+    "href": "classes-objects-revealjs.html#instance-variables",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Instance variables",
+    "text": "Instance variables\n\nData with different values for each instance of the class\n\n\nExample: particle position.\n\nimport particle as p\n# create empty list to hold observed particle data\nobs = []\n# append first particle\nobs.append(p.Particle())\n# assign its position\nobs[0].r = {'x': 100.0, 'y': 38.0, 'z': -42.0}\n# append second particle and assign its position\nobs.append(p.Particle())\nobs[1].r = {'x': 0.01, 'y': 99.0, 'z': 32.0}\n# print positions of each particle\nprint(obs[0].r)\nprint(obs[1].r)"
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#instance-variables-1",
+    "href": "classes-objects-revealjs.html#instance-variables-1",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Instance variables",
+    "text": "Instance variables\n\nUsing instance variables, we can store all data associated with a particle observation (position, mass, charge, spin, etc.) without much more complexity\n\n\n(Hopefully the value of this reduced complexity is obvious.)\n\n\nHow to accomplish in class definition? Constructor: __init()__ function."
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#constructors",
+    "href": "classes-objects-revealjs.html#constructors",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Constructors",
+    "text": "Constructors\n\nConstructor: __init__() function, executed upon instantiation of object.\n\n\nConstructor not required; every class inherits default constructor from object.\n\n\nTip: good to initialize all instance variables in constructor, to ensure they are initialized when you need them."
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#methods",
+    "href": "classes-objects-revealjs.html#methods",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Methods",
+    "text": "Methods\n\nMethods: functions tied to a class definition; may operate on data contained by object.\n\n# particle.py\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\n\n    Attributes\n    ----------\n    c : charge in units of [e]\n    m : mass in units of [kg]\n    r : position in units of [meters]\n    \"\"\"\n    roar = \"I am a particle!\"\n\n    def __init__(self, charge, mass, position):\n        \"\"\"Initializes the particle with supplied values for charge c, mass m, and position r.\n        \"\"\"\n        self.c = charge\n        self.m = mass\n        self.r = position\n\n    def hear_me(self):\n        \"\"\"Print information about particle.\n        \"\"\"\n        myroar = self.roar + (\n            \" My charge is:     \" + str(self.c) +\n            \" My mass is:       \" + str(self.m) +\n            \" My x position is: \" + str(self.r['x']) +\n            \" My y position is: \" + str(self.r['y']) +\n            \" My z position is: \" + str(self.r['z']))\n        print(myroar)"
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#static-methods",
+    "href": "classes-objects-revealjs.html#static-methods",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Static methods",
+    "text": "Static methods\n\nExample: Quark class can include function that lists all possible values of flavor; possible values are static irrespective of specific instance.\n\ndef possible_flavors():\n    return [\"up\", \"down\", \"top\", \"bottom\", \"strange\", \"charm\"]\n\nUse @staticmethod decorator to define a method not bound to object.\n\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\n    \"\"\"\n\n    # ... other parts of class definition ...\n\n    @staticmethod\n    def possible_flavors():\n        return [\"up\", \"down\", \"top\", \"bottom\", \"strange\", \"charm\"]"
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#duck-typing",
+    "href": "classes-objects-revealjs.html#duck-typing",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Duck typing",
+    "text": "Duck typing\n\n“When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck.”\n\n\nMeaning: Python does not explicitly check for object types like other languages. It only checks for behavior when a method is called or attribute accessed.\n\n\nIf different object types both “quack like a duck”, then it treats them like a duck. An object does not need to be of a certain type in order for its methods to be invoked; must merely possess those method."
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#section",
+    "href": "classes-objects-revealjs.html#section",
+    "title": "Brief intro to object-oriented programming",
     "section": "",
-    "text": "About this site",
-    "crumbs": [
-      "About"
-    ]
+    "text": "Example: all particles with a valid c attribute for charge can be used identically.\n\ndef total_charge(particles):\n    \"\"\"Calculate the total charge of a collection of particles.\n    \"\"\"\n    tot = 0\n    for p in particles:\n        tot += p.c\n    return tot\np = Proton()\ne1 = Electron()\ne2 = Electrion()\nparticles = [p, e1, e2]\ntotal_charge(particles)\n# overrule duck typing when inconvenient\ndef total_charge(particles):\n    \"\"\"Calculate the total charge of a collection of particles.\n    \"\"\"\n    tot = 0\n    for p in particles:\n        if isinstance(p, Particle):\n            tot += p.c\n    return tot"
   },
   {
-    "objectID": "managing-environment.html",
-    "href": "managing-environment.html",
-    "title": "Managing your computational environment",
+    "objectID": "classes-objects-revealjs.html#polymorphism",
+    "href": "classes-objects-revealjs.html#polymorphism",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Polymorphism",
+    "text": "Polymorphism\n\nWhen class inherits attributes of a parent class. General rule: what works for parent class should work for subclass (plus specialized behavior).\n\n# elementary.py\nclass ElementaryParticle(Particle):\n    \"\"\"No distinct constituent particles, have spin.\n    \"\"\"\n\n    def __init__(self, spin):\n        self.s = spin\n        self.is_fermion = bool(spin % 1.0)\n        self.is_boson = not self.is_fermion\n# composite.py\nclass CompositeParticle(Particle):\n    \"\"\"Particles like protons and neutrons, composed of elementary particles\n    but don't share attributes.\n    \"\"\"\n\n    def __init__(self, parts):\n        self.constituents = parts"
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#subclasses",
+    "href": "classes-objects-revealjs.html#subclasses",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Subclasses",
+    "text": "Subclasses\n\nElementaryParticle and CompositeParticle are Particle objects, and thus have (inherit) all of the functions and data of the original class.\n\n\nWe can override that data and those behaviors if desired.\n\n# elementary.py\nclass ElementaryParticle(Particle):\n    \"\"\"No distinct constituent particles, have spin.\n    \"\"\"\n    roar = \"I am an Elementary Particle!\"\n\n    def __init__(self, spin):\n        self.s = spin\n        self.is_fermion = bool(spin % 1.0)\n        self.is_boson = not self.is_fermion\nfrom elementary import ElementaryParticle\np = ElementaryParticle(1.5)\np.s\np.hear_me()"
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#superclasses",
+    "href": "classes-objects-revealjs.html#superclasses",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Superclasses",
+    "text": "Superclasses\n\nAny class, including a subclass, can be a superclass or parent class; the subclass inherits from its parent.\n\n\nElementaryParticle can also be a superclass:\n\nclass Quark(ElementaryParticle):\n    \"\"\"No distinct constituent particles, have spin.\n    \"\"\"\n\n    def __init__(self, color, charge, color_charge, spin, flavor):\n        self.color = color\n        self.charge = charge\n        self.color_charge = color_charge\n        self.spin = spin\n        self.flavor = flavor"
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#inheritance-of-class-contructors",
+    "href": "classes-objects-revealjs.html#inheritance-of-class-contructors",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Inheritance of class contructors",
+    "text": "Inheritance of class contructors\n\nBest/most Pythonic way of handling inherited + additional constructor arguments: be explicit."
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#section-1",
+    "href": "classes-objects-revealjs.html#section-1",
+    "title": "Brief intro to object-oriented programming",
     "section": "",
-    "text": "These include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!\n\n\nBut, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality).\n\n\n\n\n\nThis is particularly important for research analysis.\n\n\n\n\n\n\n\n\n\n\n\n\n\nVirtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.\nVirtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.\nThese are intended to be easy to set up, disposable, and replaceable.\n\n\n\nOn a Mac or Linux machine, I recommend using the built-in venv module to create a virtual environment for your work, then install inside that using the pip installer.\nOn Windows, your best bet is probably the Anaconda Distribution. Anaconda comes with hundreds of scientific packages already, and also lets you set up system-wide virtual environments.",
-    "crumbs": [
-      "Managing your computational environment"
-    ]
+    "text": "# particle.py\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\n    \"\"\"\n    roar = \"I am a particle!\"\n\n    def __init__(self, charge, mass, position):\n        \"\"\"Initializes the particle with supplied values for charge c, mass m, and position r.\n        \"\"\"\n        self.c = charge\n        self.m = mass\n        self.r = position\n\n    def hear_me(self):\n        \"\"\"Print information about particle.\n        \"\"\"\n        myroar = self.roar + (\n            \" My charge is:     \" + str(self.c) +\n            \" My mass is:       \" + str(self.m) +\n            \" My x position is: \" + str(self.r['x']) +\n            \" My y position is: \" + str(self.r['y']) +\n            \" My z position is: \" + str(self.r['z']))\n        print(myroar)\n# elementary.py\nclass ElementaryParticle(Particle):\n    \"\"\"No distinct constituent particles, have spin.\n    \"\"\"\n    roar = \"I am an Elementary Particle!\"\n\n    def __init__(self, charge, mass, position, spin):\n        super().__init__(charge, mass, position)\n        self.s = spin\n        self.is_fermion = bool(spin % 1.0)\n        self.is_boson = not self.is_fermion"
   },
   {
-    "objectID": "managing-environment.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
-    "href": "managing-environment.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
-    "title": "Managing your computational environment",
+    "objectID": "classes-objects-revealjs.html#metaprogramming",
+    "href": "classes-objects-revealjs.html#metaprogramming",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Metaprogramming",
+    "text": "Metaprogramming\n\nWhen definition of a class or function is specified (in part or in full) by code outside the definition itself.\n\n\nExample: add an is_particle class attribute to Particle class:\n\ndef add_is_particle(cls):\n    cls.is_particle = True\n    return cls\n\n@add_is_particle\nclass Particle(object):\n    \"\"\"A particle is a constituent unit of the universe.\n\n    # ... other parts of class definition ..."
+  },
+  {
+    "objectID": "classes-objects-revealjs.html#practical-example",
+    "href": "classes-objects-revealjs.html#practical-example",
+    "title": "Brief intro to object-oriented programming",
+    "section": "Practical example",
+    "text": "Practical example\nTake a look at my code PyTeCK, which uses classes to hide lots of details of performing simulations: https://github.com/kyleniemeyer/PyTeCK"
+  },
+  {
+    "objectID": "documentation.html",
+    "href": "documentation.html",
+    "title": "Documentation",
     "section": "",
-    "text": "These include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!\n\n\nBut, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality).",
+    "text": "Professor Carole Goble in “Better Software, Better Research”:\n\nOne of my favorite #overlyhonestmethods tweets (a hashtag for lab scientists) is Ian Holmes’s “You can download our code from the URL supplied. Good luck downloading the only postdoc who can get it to run, though.”\n\n\n\n\n\nThe value and extent of your work is clearer if it can be understood by colleagues.\nDocumentation provides provenance for your scientific process, for your colleagues and yourself.\nDocumentation demonstrates your skill and professionalism.\n\n\n\n\n\nDocumentation pays for itself with the time it saves in the long run.\nDocumentation requires little effort beyond writing the software itself.\n\n\n\n\n\nTheory manuals\nUser and developer guides\nCode comments\nSelf-documenting code\nGenerated API documentation\n\n\n\n\n\nREADME: sits in top-level directory and contains all the necessary information for installing, getting started with, and understanding the accompanying code.\n\n\nMay be accompanied by other specific files: LICENSE, INSTALL, CITATION, ABOUT, CHANGELOG, CONTRIBUTING\n\n\n\n\nSQUIRREL, version 1.2 released on 2026-09-20\n\n# About\n\nThe Spectral Q and U Imaging Radiation Replicating Experimental Library\n(SQUIRREL) is a library for replicating radiation sources with spectral details\nand Q and U polarizations of superman bubblegum.\n\n# Installation\n\nThe SQUIRREL library relies on other libraries:\n\n- The ACORN library www.acorn.nutz\n- The TREEBRANCH database format API\n\nInstall those before installing the SQUIRREL library. To install the SQUIRREL\nlibrary:\n\n./configure\nmake --prefix=/install/path\nmake install\n...\n\n\n\nComments provide a way to insert metainformation about code intended for people, right next to the code:\ndef the_function(var):\n    \"\"\"This is a docstring, where a function definition might live\"\"\"\n    a = 1 + var # this is a simple comment\n    return a\n\n\n\nAlso possible to pollute code with unnecessary cruft:\ndef decay(index, database):\n    # first, retrieve the decay constants from the database\n    mylist = database.decay_constants()\n    # next, try to access an element of the list\n    try:\n        d = mylist[index] # gets decay constant at index in the list\n    # if the index doesn't exist\n    except IndexError:\n        # throw an informative error message\n        raise Exception(\"value not found in the list\")\n    return d\n\n\n\nCode written cleanly will have its own voice. Use intelligent naming to make most lines of code clear without comments, then use comments sparingly to help explain reasons or complicated sections:\ndef get_decay(index, database):\n    \"\"\"Returns decay constant at index in the database\"\"\"\n    lambdas = database.decay_constants()\n    try:\n        lambda_i = lambdas[index] # gets decay constant at index in the list\n    except IndexError:\n        raise Exception(\"value not found in the list\")\n    return lambda\n\n\n\n\nNaming: a class, variable, or function name should tell you why it exists, what it does, and how it is used.\n\n\nSimple functions: functions should be small to be understandable and testable; they should only do one thing.\n\n\nConsistent style: use a consistent, standardized style; e.g., select variable and function names according to the PEP8 style guide for Python.\n\n\n\n\n# packages and modules are short and lowercase\npackages\nmodules\n\n# other objects can be long\nClassesUseCamelCase\nExceptionsAreClassesToo\nfunctions_use_snake_case\nCONSTANTS_USE_ALL_CAPS\n\n# variable scope is *suggested* by style convention\n_single_leading_underscore_ # internal to module\nsingle_trailing_underscore_ # avoids conflicts with Python keywords\n__double_leading_trailing__ # these are magic, like __init__\n\n\n\n\ndocstring: comment placed immediately after a function or class definition, typically enclosed by three pairs of double quotes:\n\ndef &lt;name&gt;(&lt;args&gt;):\n    \"\"\"&lt;docstring&gt;\"\"\"\n    &lt;body&gt;\n\ndocstrings are available within Python via help() and iPython’s magic command ?, and Sphinx picks them up.\n\n\n\n\n\nMake docstrings descriptive and concise; you can explain the arguments of a function, its behavior, and how you intend it to be used.\n\ndef power(base, x):\n    \"\"\"Computes base^x. Both base and x should be integers,\n    floats, or another numeric type.\n    \"\"\"\n    return base**x",
     "crumbs": [
-      "Managing your computational environment"
+      "Documentation"
     ]
   },
   {
-    "objectID": "managing-environment.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
-    "href": "managing-environment.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
-    "title": "Managing your computational environment",
+    "objectID": "documentation.html#documentation",
+    "href": "documentation.html#documentation",
+    "title": "Documentation",
     "section": "",
-    "text": "This is particularly important for research analysis.",
+    "text": "Professor Carole Goble in “Better Software, Better Research”:\n\nOne of my favorite #overlyhonestmethods tweets (a hashtag for lab scientists) is Ian Holmes’s “You can download our code from the URL supplied. Good luck downloading the only postdoc who can get it to run, though.”",
     "crumbs": [
-      "Managing your computational environment"
+      "Documentation"
     ]
   },
   {
-    "objectID": "managing-environment.html#best-practice-use-virtual-environments",
-    "href": "managing-environment.html#best-practice-use-virtual-environments",
-    "title": "Managing your computational environment",
+    "objectID": "documentation.html#value-of-documentation",
+    "href": "documentation.html#value-of-documentation",
+    "title": "Documentation",
     "section": "",
-    "text": "Virtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.\nVirtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.\nThese are intended to be easy to set up, disposable, and replaceable.\n\n\n\nOn a Mac or Linux machine, I recommend using the built-in venv module to create a virtual environment for your work, then install inside that using the pip installer.\nOn Windows, your best bet is probably the Anaconda Distribution. Anaconda comes with hundreds of scientific packages already, and also lets you set up system-wide virtual environments.",
+    "text": "The value and extent of your work is clearer if it can be understood by colleagues.\nDocumentation provides provenance for your scientific process, for your colleagues and yourself.\nDocumentation demonstrates your skill and professionalism.",
     "crumbs": [
-      "Managing your computational environment"
+      "Documentation"
     ]
   },
   {
-    "objectID": "managing-environment.html#creating-and-activating-a-virtual-environment",
-    "href": "managing-environment.html#creating-and-activating-a-virtual-environment",
-    "title": "Managing your computational environment",
-    "section": "Creating and activating a virtual environment",
-    "text": "Creating and activating a virtual environment\npython3 -m venv .venv\n\nThis creates a new directory .venv with:\n\n\n.venv/bin with link to Python, pip, and activation scripts; and\n.venv/lib/site-packages where packages will be installed.\n\n\n\nTo activate the environment, source the activation script:\n\nsource .venv/bin/activate\n\n\n\n\n\n\nTip\n\n\n\nTry this yourself. .venv/bin will be added to your PATH, and your shell will usually indicate you are “in” a virtual environment.\n\n\n\nTo leave the virtual environment, run the deactivate function:\n\ndeactivate\n\n\n\n\n\n\nNote\n\n\n\nClosing/terminating your shell will automatically deactivate the virtual environment, and you’ll need to manually activate whenever you start a new session.",
-    "crumbs": [
-      "Managing your computational environment"
-    ]
-  },
-  {
-    "objectID": "managing-environment.html#installing-packages",
-    "href": "managing-environment.html#installing-packages",
-    "title": "Managing your computational environment",
-    "section": "Installing packages",
-    "text": "Installing packages\npip install &lt;package&gt;",
-    "crumbs": [
-      "Managing your computational environment"
-    ]
-  },
-  {
-    "objectID": "managing-environment.html#pip-family",
-    "href": "managing-environment.html#pip-family",
-    "title": "Managing your computational environment",
-    "section": "pip family",
-    "text": "pip family\nTools that all work similarly to venv:\n\nvenv: comes with Python, simple\nvirtualenv: installable package with same interface as venv, but faster and with more options\nuv: written in Rust and extremely fast\n\n\nIn addition, there are project management tools that both handle environments, packaging, production, etc.:\n\nHatch\nPoetry\nPipenv\n\n\nThese work a bit differently, but can be quite powerful particularly for locking specific versions of dependencies. Consider returning to these when we are thinking about packaging and distribution.",
-    "crumbs": [
-      "Managing your computational environment"
-    ]
-  },
-  {
-    "objectID": "managing-environment.html#conda-family",
-    "href": "managing-environment.html#conda-family",
-    "title": "Managing your computational environment",
-    "section": "Conda family",
-    "text": "Conda family\n\nConda is an open-source tool for managing virtual environments across your system, originally designed for Python package management but now supports a wide range of software (e.g., compiled C++ dependencies).\n\n\nVirtual environments created with Conda are not location-dependent like venv, but the same approach applies: do not install in the base/default environment.\n\n\nConda is recommended if you expect to need non-Python dependencies.",
-    "crumbs": [
-      "Managing your computational environment"
-    ]
-  },
-  {
-    "objectID": "managing-environment.html#section",
-    "href": "managing-environment.html#section",
-    "title": "Managing your computational environment",
+    "objectID": "documentation.html#documentation-is-easier-than-you-think.",
+    "href": "documentation.html#documentation-is-easier-than-you-think.",
+    "title": "Documentation",
     "section": "",
-    "text": "conda config --set auto_activate_base false  # turn off the default environment\nconda env create -n some_name  # or use paths with `-p`\nconda activate some_name\nconda deactivate",
+    "text": "Documentation pays for itself with the time it saves in the long run.\nDocumentation requires little effort beyond writing the software itself.",
     "crumbs": [
-      "Managing your computational environment"
+      "Documentation"
     ]
   },
   {
-    "objectID": "managing-environment.html#conda-based-package-managers",
-    "href": "managing-environment.html#conda-based-package-managers",
-    "title": "Managing your computational environment",
-    "section": "Conda-based package managers",
-    "text": "Conda-based package managers\nSome alternatives to conda exist and offer some advantages, including speed:\n\nMiniconda: minimal Conda installation without all the packages that come with the full Anaconda distribution\nPixi: fast, Rust-based package manager and workflow tool Some other\nMicromamba: tiny version of Mamba, statically linked C++ binary",
-    "crumbs": [
-      "Managing your computational environment"
-    ]
-  },
-  {
-    "objectID": "managing-environment-revealjs.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
-    "href": "managing-environment-revealjs.html#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages",
-    "title": "Managing your computational environment",
-    "section": "Power of Python for research comes from rich ecosystem of third-party packages",
-    "text": "Power of Python for research comes from rich ecosystem of third-party packages\n\nThese include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!\n\n\nBut, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality)."
-  },
-  {
-    "objectID": "managing-environment-revealjs.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
-    "href": "managing-environment-revealjs.html#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.",
-    "title": "Managing your computational environment",
-    "section": "Your results may depend on the specific versions and combination of packages you have installed.",
-    "text": "Your results may depend on the specific versions and combination of packages you have installed.\n\nThis is particularly important for research analysis."
-  },
-  {
-    "objectID": "managing-environment-revealjs.html#as-a-rule-dont-install-packages-into-your-global-environment",
-    "href": "managing-environment-revealjs.html#as-a-rule-dont-install-packages-into-your-global-environment",
-    "title": "Managing your computational environment",
-    "section": "🚨 As a rule, don’t install packages into your global environment!",
-    "text": "🚨 As a rule, don’t install packages into your global environment!\n\n… even if the documentation says pip install x"
-  },
-  {
-    "objectID": "managing-environment-revealjs.html#best-practice-use-virtual-environments",
-    "href": "managing-environment-revealjs.html#best-practice-use-virtual-environments",
-    "title": "Managing your computational environment",
-    "section": "Best practice: use virtual environments",
-    "text": "Best practice: use virtual environments\n\nVirtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.\nVirtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.\nThese are intended to be easy to set up, disposable, and replaceable."
-  },
-  {
-    "objectID": "managing-environment-revealjs.html#creating-and-activating-a-virtual-environment",
-    "href": "managing-environment-revealjs.html#creating-and-activating-a-virtual-environment",
-    "title": "Managing your computational environment",
-    "section": "Creating and activating a virtual environment",
-    "text": "Creating and activating a virtual environment\npython3 -m venv .venv\n\nThis creates a new directory .venv with:\n\n\n.venv/bin with link to Python, pip, and activation scripts; and\n.venv/lib/site-packages where packages will be installed."
-  },
-  {
-    "objectID": "managing-environment-revealjs.html#installing-packages",
-    "href": "managing-environment-revealjs.html#installing-packages",
-    "title": "Managing your computational environment",
-    "section": "Installing packages",
-    "text": "Installing packages\npip install &lt;package&gt;"
-  },
-  {
-    "objectID": "managing-environment-revealjs.html#pip-family",
-    "href": "managing-environment-revealjs.html#pip-family",
-    "title": "Managing your computational environment",
-    "section": "pip family",
-    "text": "pip family\nTools that all work similarly to venv:\n\nvenv: comes with Python, simple\nvirtualenv: installable package with same interface as venv, but faster and with more options\nuv: written in Rust and extremely fast"
-  },
-  {
-    "objectID": "managing-environment-revealjs.html#conda-family",
-    "href": "managing-environment-revealjs.html#conda-family",
-    "title": "Managing your computational environment",
-    "section": "Conda family",
-    "text": "Conda family\n\nConda is an open-source tool for managing virtual environments across your system, originally designed for Python package management but now supports a wide range of software (e.g., compiled C++ dependencies).\n\n\nVirtual environments created with Conda are not location-dependent like venv, but the same approach applies: do not install in the base/default environment.\n\n\nConda is recommended if you expect to need non-Python dependencies."
-  },
-  {
-    "objectID": "managing-environment-revealjs.html#section",
-    "href": "managing-environment-revealjs.html#section",
-    "title": "Managing your computational environment",
+    "objectID": "documentation.html#types-of-documentation",
+    "href": "documentation.html#types-of-documentation",
+    "title": "Documentation",
     "section": "",
-    "text": "conda config --set auto_activate_base false  # turn off the default environment\nconda env create -n some_name  # or use paths with `-p`\nconda activate some_name\nconda deactivate"
+    "text": "Theory manuals\nUser and developer guides\nCode comments\nSelf-documenting code\nGenerated API documentation",
+    "crumbs": [
+      "Documentation"
+    ]
   },
   {
-    "objectID": "managing-environment-revealjs.html#conda-based-package-managers",
-    "href": "managing-environment-revealjs.html#conda-based-package-managers",
-    "title": "Managing your computational environment",
-    "section": "Conda-based package managers",
-    "text": "Conda-based package managers\nSome alternatives to conda exist and offer some advantages, including speed:\n\nMiniconda: minimal Conda installation without all the packages that come with the full Anaconda distribution\nPixi: fast, Rust-based package manager and workflow tool Some other\nMicromamba: tiny version of Mamba, statically linked C++ binary"
+    "objectID": "documentation.html#user-and-developer-guides",
+    "href": "documentation.html#user-and-developer-guides",
+    "title": "Documentation",
+    "section": "",
+    "text": "README: sits in top-level directory and contains all the necessary information for installing, getting started with, and understanding the accompanying code.\n\n\nMay be accompanied by other specific files: LICENSE, INSTALL, CITATION, ABOUT, CHANGELOG, CONTRIBUTING",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#readme-example",
+    "href": "documentation.html#readme-example",
+    "title": "Documentation",
+    "section": "",
+    "text": "SQUIRREL, version 1.2 released on 2026-09-20\n\n# About\n\nThe Spectral Q and U Imaging Radiation Replicating Experimental Library\n(SQUIRREL) is a library for replicating radiation sources with spectral details\nand Q and U polarizations of superman bubblegum.\n\n# Installation\n\nThe SQUIRREL library relies on other libraries:\n\n- The ACORN library www.acorn.nutz\n- The TREEBRANCH database format API\n\nInstall those before installing the SQUIRREL library. To install the SQUIRREL\nlibrary:\n\n./configure\nmake --prefix=/install/path\nmake install\n...",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#comments",
+    "href": "documentation.html#comments",
+    "title": "Documentation",
+    "section": "",
+    "text": "Comments provide a way to insert metainformation about code intended for people, right next to the code:\ndef the_function(var):\n    \"\"\"This is a docstring, where a function definition might live\"\"\"\n    a = 1 + var # this is a simple comment\n    return a",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#bad-comments",
+    "href": "documentation.html#bad-comments",
+    "title": "Documentation",
+    "section": "",
+    "text": "Also possible to pollute code with unnecessary cruft:\ndef decay(index, database):\n    # first, retrieve the decay constants from the database\n    mylist = database.decay_constants()\n    # next, try to access an element of the list\n    try:\n        d = mylist[index] # gets decay constant at index in the list\n    # if the index doesn't exist\n    except IndexError:\n        # throw an informative error message\n        raise Exception(\"value not found in the list\")\n    return d",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#useful-comments",
+    "href": "documentation.html#useful-comments",
+    "title": "Documentation",
+    "section": "",
+    "text": "Code written cleanly will have its own voice. Use intelligent naming to make most lines of code clear without comments, then use comments sparingly to help explain reasons or complicated sections:\ndef get_decay(index, database):\n    \"\"\"Returns decay constant at index in the database\"\"\"\n    lambdas = database.decay_constants()\n    try:\n        lambda_i = lambdas[index] # gets decay constant at index in the list\n    except IndexError:\n        raise Exception(\"value not found in the list\")\n    return lambda",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#self-documenting-code",
+    "href": "documentation.html#self-documenting-code",
+    "title": "Documentation",
+    "section": "",
+    "text": "Naming: a class, variable, or function name should tell you why it exists, what it does, and how it is used.\n\n\nSimple functions: functions should be small to be understandable and testable; they should only do one thing.\n\n\nConsistent style: use a consistent, standardized style; e.g., select variable and function names according to the PEP8 style guide for Python.",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#guidelines-for-naming",
+    "href": "documentation.html#guidelines-for-naming",
+    "title": "Documentation",
+    "section": "",
+    "text": "# packages and modules are short and lowercase\npackages\nmodules\n\n# other objects can be long\nClassesUseCamelCase\nExceptionsAreClassesToo\nfunctions_use_snake_case\nCONSTANTS_USE_ALL_CAPS\n\n# variable scope is *suggested* by style convention\n_single_leading_underscore_ # internal to module\nsingle_trailing_underscore_ # avoids conflicts with Python keywords\n__double_leading_trailing__ # these are magic, like __init__",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#docstrings",
+    "href": "documentation.html#docstrings",
+    "title": "Documentation",
+    "section": "",
+    "text": "docstring: comment placed immediately after a function or class definition, typically enclosed by three pairs of double quotes:\n\ndef &lt;name&gt;(&lt;args&gt;):\n    \"\"\"&lt;docstring&gt;\"\"\"\n    &lt;body&gt;\n\ndocstrings are available within Python via help() and iPython’s magic command ?, and Sphinx picks them up.",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#docstrings-more",
+    "href": "documentation.html#docstrings-more",
+    "title": "Documentation",
+    "section": "",
+    "text": "Make docstrings descriptive and concise; you can explain the arguments of a function, its behavior, and how you intend it to be used.\n\ndef power(base, x):\n    \"\"\"Computes base^x. Both base and x should be integers,\n    floats, or another numeric type.\n    \"\"\"\n    return base**x",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#numpy-style-docstrings",
+    "href": "documentation.html#numpy-style-docstrings",
+    "title": "Documentation",
+    "section": "Numpy-style docstrings",
+    "text": "Numpy-style docstrings\ndef function_with_types_in_docstring(param1, param2):\n    \"\"\"Example function with types documented in the docstring.\n\n    `PEP 484`_ type annotations are supported. If attribute, parameter, and\n    return types are annotated according to `PEP 484`_, they do not need to be\n    included in the docstring:\n\n    Parameters\n    ----------\n    param1 : int\n        The first parameter.\n    param2 : str\n        The second parameter.\n\n    Returns\n    -------\n    bool\n        True if successful, False otherwise.\n\n    .. _PEP 484:\n        https://www.python.org/dev/peps/pep-0484/\n\n    \"\"\"",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#google-style-docstrings",
+    "href": "documentation.html#google-style-docstrings",
+    "title": "Documentation",
+    "section": "Google-style docstrings",
+    "text": "Google-style docstrings\ndef function_with_types_in_docstring(param1, param2):\n    \"\"\"Example function with types documented in the docstring.\n\n    `PEP 484`_ type annotations are supported. If attribute, parameter, and\n    return types are annotated according to `PEP 484`_, they do not need to be\n    included in the docstring:\n\n    Args:\n        param1 (int): The first parameter.\n        param2 (str): The second parameter.\n\n    Returns:\n        bool: The return value. True for success, False otherwise.\n\n    .. _PEP 484:\n        https://www.python.org/dev/peps/pep-0484/\n\n    \"\"\"",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#getting-started-with-sphinx",
+    "href": "documentation.html#getting-started-with-sphinx",
+    "title": "Documentation",
+    "section": "Getting started with Sphinx",
+    "text": "Getting started with Sphinx\n\npip install sphinx myst-parser\nmkdir docs\ncd docs\nsphinx-quickstart (accept defaults if unsure; answer “yes” for question about autodoc)\nsource directory holds .rst and .md files for user guides, theory manuals, etc., separate from the autogenerated API documentation",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#add-content-for-sphinx",
+    "href": "documentation.html#add-content-for-sphinx",
+    "title": "Documentation",
+    "section": "Add content for Sphinx",
+    "text": "Add content for Sphinx\n\nIn the docs\\source directory, add an installation.md file (for example)\nAdd 'myst_parser' to extensions in conf.py\nTry building with make html\nDid sphinx find and automatically build docs for your modules? Look for .md files for each module.",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#configuration-conf.py",
+    "href": "documentation.html#configuration-conf.py",
+    "title": "Documentation",
+    "section": "Configuration (conf.py)",
+    "text": "Configuration (conf.py)\n\nAdd 'sphinx.ext.autodoc' to extensions\nIn extensions, add sphinx.ext.napoleon (for Google/NumPy-style docstring reading) and sphinx.ext.mathjax (if you want LaTeX-based equations), and sphinx.ext.intersphinx for connections to other docs\nSet napoleon_numpy_docstring and napoleon_google_docstring to True/False depending on your docstring style.\nAdd an intersphinx_mapping dict to connect to other docs",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#configuration",
+    "href": "documentation.html#configuration",
+    "title": "Documentation",
+    "section": "Configuration",
+    "text": "Configuration\n\nIn conf.py, add autodoc_default_options = {'members': True} and autoclass_content = 'class'\nFor each Python module, create a corresponding [modulename].rst file in the docs\\source directory. Add .. automodule:: [packagename].[modulename]\nIn index.rst, add [modulename] inside the toctree (table of contents)",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#intersphinx_mapping",
+    "href": "documentation.html#intersphinx_mapping",
+    "title": "Documentation",
+    "section": "intersphinx_mapping",
+    "text": "intersphinx_mapping\nintersphinx_mapping = {\n  'python': ('https://docs.python.org/3.11', None),\n  'pandas': ('http://pandas.pydata.org/pandas-docs/stable/', None),\n  'numpy': ('https://docs.scipy.org/doc/numpy/', None),\n}",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#other-sphinx-goodness",
+    "href": "documentation.html#other-sphinx-goodness",
+    "title": "Documentation",
+    "section": "Other Sphinx goodness:",
+    "text": "Other Sphinx goodness:\n\nYou can configure it to generate a LaTeX-based PDF (i.e., a single user manual)\nYou can have versioned documentation, and also simultaneously have “devel” docs for unreleased changes.",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#github-actions-to-automate-sphinx",
+    "href": "documentation.html#github-actions-to-automate-sphinx",
+    "title": "Documentation",
+    "section": "GitHub Actions to automate Sphinx",
+    "text": "GitHub Actions to automate Sphinx\nname: \"Sphinx: Render docs\"\n\non: push\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: write\n    steps:\n    - uses: actions/checkout@v4\n      with:\n        persist-credentials: false\n    - name: Build HTML\n      uses: ammaraskar/sphinx-action@master\n    - name: Upload artifacts\n      uses: actions/upload-artifact@v4\n      with:\n        name: html-docs\n        path: docs/build/html/\n    - name: Deploy\n      uses: peaceiris/actions-gh-pages@v4\n      if: github.ref == 'refs/heads/main'\n      with:\n        github_token: ${{ secrets.GITHUB_TOKEN }}\n        publish_dir: docs/build/html",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation.html#github-actions-setup",
+    "href": "documentation.html#github-actions-setup",
+    "title": "Documentation",
+    "section": "GitHub Actions setup",
+    "text": "GitHub Actions setup\n\nAdd sphinx.ext.githubpages to extensions in conf.py\nAdd a docs/requirements.txt file for any dependencies (e.g., myst-parser)\nOn GitHub, Settings -&gt; Pages -&gt; select gh-pages branch in the “Source” dropdown\n\n\nMore on Sphinx - GitHub Actions here: https://www.sphinx-doc.org/en/master/tutorial/deploying.html",
+    "crumbs": [
+      "Documentation"
+    ]
+  },
+  {
+    "objectID": "documentation-revealjs.html#documentation",
+    "href": "documentation-revealjs.html#documentation",
+    "title": "Documentation",
+    "section": "Documentation",
+    "text": "Documentation\nProfessor Carole Goble in “Better Software, Better Research”:\n\nOne of my favorite #overlyhonestmethods tweets (a hashtag for lab scientists) is Ian Holmes’s “You can download our code from the URL supplied. Good luck downloading the only postdoc who can get it to run, though.”"
+  },
+  {
+    "objectID": "documentation-revealjs.html#value-of-documentation",
+    "href": "documentation-revealjs.html#value-of-documentation",
+    "title": "Documentation",
+    "section": "Value of documentation",
+    "text": "Value of documentation\n\nThe value and extent of your work is clearer if it can be understood by colleagues.\nDocumentation provides provenance for your scientific process, for your colleagues and yourself.\nDocumentation demonstrates your skill and professionalism."
+  },
+  {
+    "objectID": "documentation-revealjs.html#documentation-is-easier-than-you-think.",
+    "href": "documentation-revealjs.html#documentation-is-easier-than-you-think.",
+    "title": "Documentation",
+    "section": "Documentation is easier than you think.",
+    "text": "Documentation is easier than you think.\n\nDocumentation pays for itself with the time it saves in the long run.\nDocumentation requires little effort beyond writing the software itself."
+  },
+  {
+    "objectID": "documentation-revealjs.html#types-of-documentation",
+    "href": "documentation-revealjs.html#types-of-documentation",
+    "title": "Documentation",
+    "section": "Types of documentation",
+    "text": "Types of documentation\n\nTheory manuals\nUser and developer guides\nCode comments\nSelf-documenting code\nGenerated API documentation"
+  },
+  {
+    "objectID": "documentation-revealjs.html#user-and-developer-guides",
+    "href": "documentation-revealjs.html#user-and-developer-guides",
+    "title": "Documentation",
+    "section": "User and developer guides",
+    "text": "User and developer guides\n\nREADME: sits in top-level directory and contains all the necessary information for installing, getting started with, and understanding the accompanying code.\n\n\nMay be accompanied by other specific files: LICENSE, INSTALL, CITATION, ABOUT, CHANGELOG, CONTRIBUTING"
+  },
+  {
+    "objectID": "documentation-revealjs.html#readme-example",
+    "href": "documentation-revealjs.html#readme-example",
+    "title": "Documentation",
+    "section": "README example",
+    "text": "README example\nSQUIRREL, version 1.2 released on 2026-09-20\n\n# About\n\nThe Spectral Q and U Imaging Radiation Replicating Experimental Library\n(SQUIRREL) is a library for replicating radiation sources with spectral details\nand Q and U polarizations of superman bubblegum.\n\n# Installation\n\nThe SQUIRREL library relies on other libraries:\n\n- The ACORN library www.acorn.nutz\n- The TREEBRANCH database format API\n\nInstall those before installing the SQUIRREL library. To install the SQUIRREL\nlibrary:\n\n./configure\nmake --prefix=/install/path\nmake install\n..."
+  },
+  {
+    "objectID": "documentation-revealjs.html#comments",
+    "href": "documentation-revealjs.html#comments",
+    "title": "Documentation",
+    "section": "Comments",
+    "text": "Comments\nComments provide a way to insert metainformation about code intended for people, right next to the code:\ndef the_function(var):\n    \"\"\"This is a docstring, where a function definition might live\"\"\"\n    a = 1 + var # this is a simple comment\n    return a"
+  },
+  {
+    "objectID": "documentation-revealjs.html#bad-comments",
+    "href": "documentation-revealjs.html#bad-comments",
+    "title": "Documentation",
+    "section": "Bad comments",
+    "text": "Bad comments\nAlso possible to pollute code with unnecessary cruft:\ndef decay(index, database):\n    # first, retrieve the decay constants from the database\n    mylist = database.decay_constants()\n    # next, try to access an element of the list\n    try:\n        d = mylist[index] # gets decay constant at index in the list\n    # if the index doesn't exist\n    except IndexError:\n        # throw an informative error message\n        raise Exception(\"value not found in the list\")\n    return d"
+  },
+  {
+    "objectID": "documentation-revealjs.html#useful-comments",
+    "href": "documentation-revealjs.html#useful-comments",
+    "title": "Documentation",
+    "section": "Useful comments",
+    "text": "Useful comments\nCode written cleanly will have its own voice. Use intelligent naming to make most lines of code clear without comments, then use comments sparingly to help explain reasons or complicated sections:\ndef get_decay(index, database):\n    \"\"\"Returns decay constant at index in the database\"\"\"\n    lambdas = database.decay_constants()\n    try:\n        lambda_i = lambdas[index] # gets decay constant at index in the list\n    except IndexError:\n        raise Exception(\"value not found in the list\")\n    return lambda"
+  },
+  {
+    "objectID": "documentation-revealjs.html#self-documenting-code",
+    "href": "documentation-revealjs.html#self-documenting-code",
+    "title": "Documentation",
+    "section": "Self-documenting code",
+    "text": "Self-documenting code\n\nNaming: a class, variable, or function name should tell you why it exists, what it does, and how it is used.\n\n\nSimple functions: functions should be small to be understandable and testable; they should only do one thing.\n\n\nConsistent style: use a consistent, standardized style; e.g., select variable and function names according to the PEP8 style guide for Python."
+  },
+  {
+    "objectID": "documentation-revealjs.html#guidelines-for-naming",
+    "href": "documentation-revealjs.html#guidelines-for-naming",
+    "title": "Documentation",
+    "section": "Guidelines for naming",
+    "text": "Guidelines for naming\n# packages and modules are short and lowercase\npackages\nmodules\n\n# other objects can be long\nClassesUseCamelCase\nExceptionsAreClassesToo\nfunctions_use_snake_case\nCONSTANTS_USE_ALL_CAPS\n\n# variable scope is *suggested* by style convention\n_single_leading_underscore_ # internal to module\nsingle_trailing_underscore_ # avoids conflicts with Python keywords\n__double_leading_trailing__ # these are magic, like __init__"
+  },
+  {
+    "objectID": "documentation-revealjs.html#docstrings",
+    "href": "documentation-revealjs.html#docstrings",
+    "title": "Documentation",
+    "section": "Docstrings",
+    "text": "Docstrings\n\ndocstring: comment placed immediately after a function or class definition, typically enclosed by three pairs of double quotes:\n\ndef &lt;name&gt;(&lt;args&gt;):\n    \"\"\"&lt;docstring&gt;\"\"\"\n    &lt;body&gt;\n\ndocstrings are available within Python via help() and iPython’s magic command ?, and Sphinx picks them up."
+  },
+  {
+    "objectID": "documentation-revealjs.html#docstrings-more",
+    "href": "documentation-revealjs.html#docstrings-more",
+    "title": "Documentation",
+    "section": "Docstrings (more)",
+    "text": "Docstrings (more)\n\nMake docstrings descriptive and concise; you can explain the arguments of a function, its behavior, and how you intend it to be used.\n\ndef power(base, x):\n    \"\"\"Computes base^x. Both base and x should be integers,\n    floats, or another numeric type.\n    \"\"\"\n    return base**x"
+  },
+  {
+    "objectID": "documentation-revealjs.html#numpy-style-docstrings",
+    "href": "documentation-revealjs.html#numpy-style-docstrings",
+    "title": "Documentation",
+    "section": "Numpy-style docstrings",
+    "text": "Numpy-style docstrings\ndef function_with_types_in_docstring(param1, param2):\n    \"\"\"Example function with types documented in the docstring.\n\n    `PEP 484`_ type annotations are supported. If attribute, parameter, and\n    return types are annotated according to `PEP 484`_, they do not need to be\n    included in the docstring:\n\n    Parameters\n    ----------\n    param1 : int\n        The first parameter.\n    param2 : str\n        The second parameter.\n\n    Returns\n    -------\n    bool\n        True if successful, False otherwise.\n\n    .. _PEP 484:\n        https://www.python.org/dev/peps/pep-0484/\n\n    \"\"\""
+  },
+  {
+    "objectID": "documentation-revealjs.html#google-style-docstrings",
+    "href": "documentation-revealjs.html#google-style-docstrings",
+    "title": "Documentation",
+    "section": "Google-style docstrings",
+    "text": "Google-style docstrings\ndef function_with_types_in_docstring(param1, param2):\n    \"\"\"Example function with types documented in the docstring.\n\n    `PEP 484`_ type annotations are supported. If attribute, parameter, and\n    return types are annotated according to `PEP 484`_, they do not need to be\n    included in the docstring:\n\n    Args:\n        param1 (int): The first parameter.\n        param2 (str): The second parameter.\n\n    Returns:\n        bool: The return value. True for success, False otherwise.\n\n    .. _PEP 484:\n        https://www.python.org/dev/peps/pep-0484/\n\n    \"\"\""
+  },
+  {
+    "objectID": "documentation-revealjs.html#getting-started-with-sphinx",
+    "href": "documentation-revealjs.html#getting-started-with-sphinx",
+    "title": "Documentation",
+    "section": "Getting started with Sphinx",
+    "text": "Getting started with Sphinx\n\npip install sphinx myst-parser\nmkdir docs\ncd docs\nsphinx-quickstart (accept defaults if unsure; answer “yes” for question about autodoc)\nsource directory holds .rst and .md files for user guides, theory manuals, etc., separate from the autogenerated API documentation"
+  },
+  {
+    "objectID": "documentation-revealjs.html#add-content-for-sphinx",
+    "href": "documentation-revealjs.html#add-content-for-sphinx",
+    "title": "Documentation",
+    "section": "Add content for Sphinx",
+    "text": "Add content for Sphinx\n\nIn the docs\\source directory, add an installation.md file (for example)\nAdd 'myst_parser' to extensions in conf.py\nTry building with make html\nDid sphinx find and automatically build docs for your modules? Look for .md files for each module."
+  },
+  {
+    "objectID": "documentation-revealjs.html#configuration-conf.py",
+    "href": "documentation-revealjs.html#configuration-conf.py",
+    "title": "Documentation",
+    "section": "Configuration (conf.py)",
+    "text": "Configuration (conf.py)\n\nAdd 'sphinx.ext.autodoc' to extensions\nIn extensions, add sphinx.ext.napoleon (for Google/NumPy-style docstring reading) and sphinx.ext.mathjax (if you want LaTeX-based equations), and sphinx.ext.intersphinx for connections to other docs\nSet napoleon_numpy_docstring and napoleon_google_docstring to True/False depending on your docstring style.\nAdd an intersphinx_mapping dict to connect to other docs"
+  },
+  {
+    "objectID": "documentation-revealjs.html#configuration",
+    "href": "documentation-revealjs.html#configuration",
+    "title": "Documentation",
+    "section": "Configuration",
+    "text": "Configuration\n\nIn conf.py, add autodoc_default_options = {'members': True} and autoclass_content = 'class'\nFor each Python module, create a corresponding [modulename].rst file in the docs\\source directory. Add .. automodule:: [packagename].[modulename]\nIn index.rst, add [modulename] inside the toctree (table of contents)"
+  },
+  {
+    "objectID": "documentation-revealjs.html#intersphinx_mapping",
+    "href": "documentation-revealjs.html#intersphinx_mapping",
+    "title": "Documentation",
+    "section": "intersphinx_mapping",
+    "text": "intersphinx_mapping\nintersphinx_mapping = {\n  'python': ('https://docs.python.org/3.11', None),\n  'pandas': ('http://pandas.pydata.org/pandas-docs/stable/', None),\n  'numpy': ('https://docs.scipy.org/doc/numpy/', None),\n}"
+  },
+  {
+    "objectID": "documentation-revealjs.html#other-sphinx-goodness",
+    "href": "documentation-revealjs.html#other-sphinx-goodness",
+    "title": "Documentation",
+    "section": "Other Sphinx goodness:",
+    "text": "Other Sphinx goodness:\n\nYou can configure it to generate a LaTeX-based PDF (i.e., a single user manual)\nYou can have versioned documentation, and also simultaneously have “devel” docs for unreleased changes."
+  },
+  {
+    "objectID": "documentation-revealjs.html#github-actions-to-automate-sphinx",
+    "href": "documentation-revealjs.html#github-actions-to-automate-sphinx",
+    "title": "Documentation",
+    "section": "GitHub Actions to automate Sphinx",
+    "text": "GitHub Actions to automate Sphinx\nname: \"Sphinx: Render docs\"\n\non: push\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: write\n    steps:\n    - uses: actions/checkout@v4\n      with:\n        persist-credentials: false\n    - name: Build HTML\n      uses: ammaraskar/sphinx-action@master\n    - name: Upload artifacts\n      uses: actions/upload-artifact@v4\n      with:\n        name: html-docs\n        path: docs/build/html/\n    - name: Deploy\n      uses: peaceiris/actions-gh-pages@v4\n      if: github.ref == 'refs/heads/main'\n      with:\n        github_token: ${{ secrets.GITHUB_TOKEN }}\n        publish_dir: docs/build/html"
+  },
+  {
+    "objectID": "documentation-revealjs.html#github-actions-setup",
+    "href": "documentation-revealjs.html#github-actions-setup",
+    "title": "Documentation",
+    "section": "GitHub Actions setup",
+    "text": "GitHub Actions setup\n\nAdd sphinx.ext.githubpages to extensions in conf.py\nAdd a docs/requirements.txt file for any dependencies (e.g., myst-parser)\nOn GitHub, Settings -&gt; Pages -&gt; select gh-pages branch in the “Source” dropdown\n\n\nMore on Sphinx - GitHub Actions here: https://www.sphinx-doc.org/en/master/tutorial/deploying.html"
   },
   {
     "objectID": "index.html",
