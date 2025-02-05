@@ -24,6 +24,7 @@ website:
       - files-command-line.ipynb
       - packaging-distribution.ipynb
       - testing-continuous-integration.ipynb
+      - documentation.ipynb
 
 format:
   html:
