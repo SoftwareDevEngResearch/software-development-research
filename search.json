@@ -2423,7 +2423,7 @@
     "href": "documentation.html#github-actions-to-automate-sphinx",
     "title": "Documentation",
     "section": "GitHub Actions to automate Sphinx",
-    "text": "GitHub Actions to automate Sphinx\nname: \"Sphinx: Render docs\"\n\non: push\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: write\n    steps:\n    - uses: actions/checkout@v4\n      with:\n        persist-credentials: false\n    - name: Build HTML\n      uses: ammaraskar/sphinx-action@master\n    - name: Upload artifacts\n      uses: actions/upload-artifact@v4\n      with:\n        name: html-docs\n        path: docs/build/html/\n    - name: Deploy\n      uses: peaceiris/actions-gh-pages@v4\n      if: github.ref == 'refs/heads/main'\n      with:\n        github_token: ${{ secrets.GITHUB_TOKEN }}\n        publish_dir: docs/build/html",
+    "text": "GitHub Actions to automate Sphinx\nname: \"Sphinx: Render docs\"\n\non: push\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: write\n    steps:\n    - uses: actions/checkout@v4\n      with:\n        persist-credentials: false\n    - name: install depedendices\n      run : |\n        python -m pip install --upgrade pip\n        pip install .\n        pip install sphinx myst-parser\n    - name: Build HTML\n      run: |\n        cd docs\n        make html\n    - name: Upload artifacts\n      uses: actions/upload-artifact@v4\n      with:\n        name: html-docs\n        path: docs/build/html/\n    - name: Deploy\n      uses: peaceiris/actions-gh-pages@v4\n      if: github.ref == 'refs/heads/main'\n      with:\n        github_token: ${{ secrets.GITHUB_TOKEN }}\n        publish_dir: docs/build/html",
     "crumbs": [
       "Documentation"
     ]
@@ -2590,7 +2590,7 @@
     "href": "documentation-revealjs.html#github-actions-to-automate-sphinx",
     "title": "Documentation",
     "section": "GitHub Actions to automate Sphinx",
-    "text": "GitHub Actions to automate Sphinx\nname: \"Sphinx: Render docs\"\n\non: push\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: write\n    steps:\n    - uses: actions/checkout@v4\n      with:\n        persist-credentials: false\n    - name: Build HTML\n      uses: ammaraskar/sphinx-action@master\n    - name: Upload artifacts\n      uses: actions/upload-artifact@v4\n      with:\n        name: html-docs\n        path: docs/build/html/\n    - name: Deploy\n      uses: peaceiris/actions-gh-pages@v4\n      if: github.ref == 'refs/heads/main'\n      with:\n        github_token: ${{ secrets.GITHUB_TOKEN }}\n        publish_dir: docs/build/html"
+    "text": "GitHub Actions to automate Sphinx\nname: \"Sphinx: Render docs\"\n\non: push\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: write\n    steps:\n    - uses: actions/checkout@v4\n      with:\n        persist-credentials: false\n    - name: install depedendices\n      run : |\n        python -m pip install --upgrade pip\n        pip install .\n        pip install sphinx myst-parser\n    - name: Build HTML\n      run: |\n        cd docs\n        make html\n    - name: Upload artifacts\n      uses: actions/upload-artifact@v4\n      with:\n        name: html-docs\n        path: docs/build/html/\n    - name: Deploy\n      uses: peaceiris/actions-gh-pages@v4\n      if: github.ref == 'refs/heads/main'\n      with:\n        github_token: ${{ secrets.GITHUB_TOKEN }}\n        publish_dir: docs/build/html"
   },
   {
     "objectID": "documentation-revealjs.html#github-actions-setup",

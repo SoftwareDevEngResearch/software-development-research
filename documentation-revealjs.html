@@ -489,19 +489,26 @@ Kyle Niemeyer
 <span id="cb11-11"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v4</span></span>
 <span id="cb11-12"><a></a><span class="at">      </span><span class="fu">with</span><span class="kw">:</span></span>
 <span id="cb11-13"><a></a><span class="at">        </span><span class="fu">persist-credentials</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb11-14"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Build HTML</span></span>
-<span id="cb11-15"><a></a><span class="at">      </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> ammaraskar/sphinx-action@master</span></span>
-<span id="cb11-16"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Upload artifacts</span></span>
-<span id="cb11-17"><a></a><span class="at">      </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v4</span></span>
-<span id="cb11-18"><a></a><span class="at">      </span><span class="fu">with</span><span class="kw">:</span></span>
-<span id="cb11-19"><a></a><span class="at">        </span><span class="fu">name</span><span class="kw">:</span><span class="at"> html-docs</span></span>
-<span id="cb11-20"><a></a><span class="at">        </span><span class="fu">path</span><span class="kw">:</span><span class="at"> docs/build/html/</span></span>
-<span id="cb11-21"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Deploy</span></span>
-<span id="cb11-22"><a></a><span class="at">      </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> peaceiris/actions-gh-pages@v4</span></span>
-<span id="cb11-23"><a></a><span class="at">      </span><span class="fu">if</span><span class="kw">:</span><span class="at"> github.ref == 'refs/heads/main'</span></span>
-<span id="cb11-24"><a></a><span class="at">      </span><span class="fu">with</span><span class="kw">:</span></span>
-<span id="cb11-25"><a></a><span class="at">        </span><span class="fu">github_token</span><span class="kw">:</span><span class="at"> ${{ secrets.GITHUB_TOKEN }}</span></span>
-<span id="cb11-26"><a></a><span class="at">        </span><span class="fu">publish_dir</span><span class="kw">:</span><span class="at"> docs/build/html</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-14"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> install depedendices</span></span>
+<span id="cb11-15"><a></a><span class="fu">      run </span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb11-16"><a></a>        python -m pip install --upgrade pip</span>
+<span id="cb11-17"><a></a>        pip install .</span>
+<span id="cb11-18"><a></a>        pip install sphinx myst-parser</span>
+<span id="cb11-19"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Build HTML</span></span>
+<span id="cb11-20"><a></a><span class="fu">      run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb11-21"><a></a>        cd docs</span>
+<span id="cb11-22"><a></a>        make html</span>
+<span id="cb11-23"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Upload artifacts</span></span>
+<span id="cb11-24"><a></a><span class="at">      </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v4</span></span>
+<span id="cb11-25"><a></a><span class="at">      </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb11-26"><a></a><span class="at">        </span><span class="fu">name</span><span class="kw">:</span><span class="at"> html-docs</span></span>
+<span id="cb11-27"><a></a><span class="at">        </span><span class="fu">path</span><span class="kw">:</span><span class="at"> docs/build/html/</span></span>
+<span id="cb11-28"><a></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Deploy</span></span>
+<span id="cb11-29"><a></a><span class="at">      </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> peaceiris/actions-gh-pages@v4</span></span>
+<span id="cb11-30"><a></a><span class="at">      </span><span class="fu">if</span><span class="kw">:</span><span class="at"> github.ref == 'refs/heads/main'</span></span>
+<span id="cb11-31"><a></a><span class="at">      </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb11-32"><a></a><span class="at">        </span><span class="fu">github_token</span><span class="kw">:</span><span class="at"> ${{ secrets.GITHUB_TOKEN }}</span></span>
+<span id="cb11-33"><a></a><span class="at">        </span><span class="fu">publish_dir</span><span class="kw">:</span><span class="at"> docs/build/html</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="github-actions-setup" class="slide level2">
 <h2>GitHub Actions setup</h2>
