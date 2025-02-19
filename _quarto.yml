@@ -25,6 +25,7 @@ website:
       - packaging-distribution.ipynb
       - testing-continuous-integration.ipynb
       - documentation.ipynb
+      - performance-python.ipynb
 
 format:
   html:
