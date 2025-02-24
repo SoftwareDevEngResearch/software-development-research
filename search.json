@@ -3022,7 +3022,77 @@
     "href": "parallel-computing.html#n-body-with-threading",
     "title": "Introduction to parallel computing",
     "section": "N-body with threading",
-    "text": "N-body with threading",
+    "text": "N-body with threading\n\nfrom threading import Thread\n\nclass Worker(Thread):\n    \"\"\"Computes x, v, and a of the ith body.\"\"\"\n    def __init__(self, *args, **kwargs):\n        super(Worker, self).__init__(*args, **kwargs)\n        self.inputs = [] # buffer of work for thraeds\n        self.results = [] # buffer of return values\n        self.running = True # setting to False causes run() to end safely\n        self.daemon = True # allow thread to be terminated with Python\n        self.start()\n\n    def run(self):\n        while self.running:\n            if len(self.inputs) == 0: # check for work\n                continue\n            i, x0, v0, G, m, dt = self.inputs.pop(0)\n            a_i0 = a(i, x0, G, m) # body of original timestep()\n            v_i1 = a_i0 * dt + v0[i]\n            x_i1 = a_i0 * dt**2 + v0[i] * dt + x0[i]\n            result = (i, x_i1, v_i1)\n            self.results.append(result)",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing.html#thread-pools",
+    "href": "parallel-computing.html#thread-pools",
+    "title": "Introduction to parallel computing",
+    "section": "Thread pools",
+    "text": "Thread pools\nExpensive to create and start threads, so create pool that persists.\n\nclass Pool(object):\n    \"\"\"A collection of P worker threads that distributes tasks\n    evenly across them.\n    \"\"\"\n    def __init__(self, size):\n        self.size = size\n        # create new workers based on size\n        self.workers = [Worker() for p in range(size)]\n\n    def do(self, tasks):\n        for p in range(self.size):\n            self.workers[p].inputs += tasks[p::self.size] # evenly distribute tasks\n        while any([len(worker.inputs) != 0 for worker in self.workers]):\n            pass # wait for all workers to finish\n        results = []\n        for worker in self.workers: # get results back from workers\n            results += worker.results\n            worker.results.clear()\n        return results # return complete list of results for all inputs\n\n    def __del__(self): # stop workers when pool is shut down\n        for worker in self.workers:\n            worker.running = False\n\n\n\ndef timestep(x0, v0, G, m, dt, pool):\n    \"\"\"Computes the next position and velocity for all masses given\n    initial conditions and a time step size.\n    \"\"\"\n    N = len(x0)\n    tasks = [(i, x0, v0, G, m, dt) for i in range(N)] # create task for each body\n    results = pool.do(tasks) # run tasks\n    x1 = np.empty(x0.shape, dtype=float)\n    v1 = np.empty(v0.shape, dtype=float)\n    for i, x_i1, v_i1 in results: # rearrange results (probably not in order)\n        x1[i] = x_i1\n        v1[i] = v_i1\n    return x1, v1\n\ndef simulate(P, N, D, S, G, dt):\n    x0, v0, m = initial_cond(N, D)\n    pool = Pool(P)\n    for s in range(S):\n        x1, v1 = timestep(x0, v0, G, m, dt, pool)\n        x0, v0 = x1, v1",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing.html#section-1",
+    "href": "parallel-computing.html#section-1",
+    "title": "Introduction to parallel computing",
+    "section": "",
+    "text": "How does simulation perform as function of \\(P\\)?\n\nimport time\n\nPs = [1, 2, 4, 8]\nruntimes = []\nfor P in Ps:\n    start = time.time()\n    simulate(P, 64, 3, 300, 1.0, 1e-3)\n    stop = time.time()\n    runtimes.append(stop - start)\n\n\nimport matplotlib.pyplot as plt\nplt.plot(Ps, runtimes, 'o')\nplt.xlabel('Number of threads')\nplt.ylabel('Runtime (s)')\nplt.grid(True)\nplt.show()",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing.html#multiprocessing",
+    "href": "parallel-computing.html#multiprocessing",
+    "title": "Introduction to parallel computing",
+    "section": "Multiprocessing",
+    "text": "Multiprocessing\n\nMore like threading available in other languages…\n\n\nCan’t be used directly from interactive interpreter; main module must be importable by fork processes\n\n\nProvides Pool class for us, used with powerful map() function.\n\n\nimport numpy as np\nfrom multiprocessing import Pool\n\n\ndef remove_i(x, i):\n    \"\"\"Drops the ith element of an array.\"\"\"\n    shape = (x.shape[0]-1,) + x.shape[1:]\n    y = np.empty(shape, dtype=float)\n    y[:i] = x[:i]\n    y[i:] = x[i+1:]\n    return y\n\n\ndef a(i, x, G, m):\n    \"\"\"The acceleration of the ith mass.\"\"\"\n    x_i = x[i]\n    x_j = remove_i(x, i) # don't compute on itself\n    m_j = remove_i(m, i)\n    diff = x_j - x_i\n    mag3 = np.sum(diff**2, axis=1)**1.5\n    # compute acceleration on ith mass\n    result = G * np.sum(diff * (m_j / mag3)[:,np.newaxis], axis=0)\n    return result\n\n\n# function needs one argument\ndef timestep_i(args):\n    \"\"\"Worker function that computes the next position and velocity for the ith mass.\"\"\"\n    i, x0, v0, G, m, dt = args # unpack arguments to original function\n    a_i0 = a(i, x0, G, m) # body of original timestep()\n    v_i1 = a_i0 * dt + v0[i]\n    x_i1 = a_i0 * dt**2 + v0[i] * dt + x0[i]\n    return i, x_i1, v_i1\n\n\ndef timestep(x0, v0, G, m, dt, pool):\n    \"\"\"Computes the next position and velocity for all masses given\n    initial conditions and a time step size.\n    \"\"\"\n    N = len(x0)\n    tasks = [(i, x0, v0, G, m, dt) for i in range(N)]\n    results = pool.map(timestep_i, tasks) # replace old do() with Pool.map()\n    x1 = np.empty(x0.shape, dtype=float)\n    v1 = np.empty(v0.shape, dtype=float)\n    for i, x_i1, v_i1 in results:\n        x1[i] = x_i1\n        v1[i] = v_i1\n    return x1, v1\n    \n    \ndef initial_cond(N, D):\n    \"\"\"Generates initial conditions for N unity masses at rest\n    starting at random positions in D-dimensional space.\n    \"\"\"\n    x0 = np.random.rand(N, D) # use random initial locations\n    v0 = np.zeros((N, D), dtype=float)\n    m = np.ones(N, dtype=float)\n    return x0, v0, m\n\n\ndef simulate(P, N, D, S, G, dt):\n    x0, v0, m = initial_cond(N, D)\n    pool = Pool(P)\n    for s in range(S):\n        x1, v1 = timestep(x0, v0, G, m, dt, pool)\n        x0, v0 = x1, v1",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing.html#how-does-multiprocessing-scale",
+    "href": "parallel-computing.html#how-does-multiprocessing-scale",
+    "title": "Introduction to parallel computing",
+    "section": "How does multiprocessing scale?",
+    "text": "How does multiprocessing scale?\n\nfrom nbody_multiprocessing import simulate\n\nPs = np.array([1, 2, 4, 8, 16])\nruntimes = []\nfor P in Ps:\n    start = time.time()\n    simulate(P, 512, 3, 300, 1.0, 1e-3)\n    stop = time.time()\n    runtimes.append(stop - start)\n\n\nplt.plot(Ps, runtimes, 'o', label='Measured runtime')\nplt.plot(Ps, runtimes[0] / Ps, label='Ideal scaling')\nplt.xlabel('Number of processes')\nplt.ylabel('Runtime (s)')\nplt.legend()\nplt.grid(True)\nplt.show()",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing.html#mpi-message-passing-interface",
+    "href": "parallel-computing.html#mpi-message-passing-interface",
+    "title": "Introduction to parallel computing",
+    "section": "MPI: Message-Passing Interface",
+    "text": "MPI: Message-Passing Interface\n\nSupercomputing is built on MPI.\n\n\nMPI scales from hundreds of thousands to millions of processors.\n\n\nProcesses are called ranks and given integer identifiers; rank 0 is usually the “main” that controls other ranks. All about communication.\n\n\nCan be used in Python and NumPy arrays with mpi4py",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing.html#numba",
+    "href": "parallel-computing.html#numba",
+    "title": "Introduction to parallel computing",
+    "section": "Numba",
+    "text": "Numba\n\nNumba is a just-in-time compiler for Python/NumPy\n\n\nIt translates Python functions to optimized machine code at runtime using the LLVM compiler—but does not require a separate compiler, just decorators\n\n\ncan automatically parallelize loops",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing.html#section-2",
+    "href": "parallel-computing.html#section-2",
+    "title": "Introduction to parallel computing",
+    "section": "",
+    "text": "from numba import jit\nimport random\n\n@jit(nopython=True)\ndef monte_carlo_pi(nsamples):\n    acc = 0\n    for i in range(nsamples):\n        x = random.random()\n        y = random.random()\n        if (x ** 2 + y ** 2) &lt; 1.0:\n            acc += 1\n    return 4.0 * acc / nsamples",
     "crumbs": [
       "Introduction to parallel computing"
     ]
@@ -3144,7 +3214,63 @@
     "href": "parallel-computing-revealjs.html#n-body-with-threading",
     "title": "Introduction to parallel computing",
     "section": "N-body with threading",
-    "text": "N-body with threading"
+    "text": "N-body with threading\n\nfrom threading import Thread\n\nclass Worker(Thread):\n    \"\"\"Computes x, v, and a of the ith body.\"\"\"\n    def __init__(self, *args, **kwargs):\n        super(Worker, self).__init__(*args, **kwargs)\n        self.inputs = [] # buffer of work for thraeds\n        self.results = [] # buffer of return values\n        self.running = True # setting to False causes run() to end safely\n        self.daemon = True # allow thread to be terminated with Python\n        self.start()\n\n    def run(self):\n        while self.running:\n            if len(self.inputs) == 0: # check for work\n                continue\n            i, x0, v0, G, m, dt = self.inputs.pop(0)\n            a_i0 = a(i, x0, G, m) # body of original timestep()\n            v_i1 = a_i0 * dt + v0[i]\n            x_i1 = a_i0 * dt**2 + v0[i] * dt + x0[i]\n            result = (i, x_i1, v_i1)\n            self.results.append(result)"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#thread-pools",
+    "href": "parallel-computing-revealjs.html#thread-pools",
+    "title": "Introduction to parallel computing",
+    "section": "Thread pools",
+    "text": "Thread pools\nExpensive to create and start threads, so create pool that persists.\n\nclass Pool(object):\n    \"\"\"A collection of P worker threads that distributes tasks\n    evenly across them.\n    \"\"\"\n    def __init__(self, size):\n        self.size = size\n        # create new workers based on size\n        self.workers = [Worker() for p in range(size)]\n\n    def do(self, tasks):\n        for p in range(self.size):\n            self.workers[p].inputs += tasks[p::self.size] # evenly distribute tasks\n        while any([len(worker.inputs) != 0 for worker in self.workers]):\n            pass # wait for all workers to finish\n        results = []\n        for worker in self.workers: # get results back from workers\n            results += worker.results\n            worker.results.clear()\n        return results # return complete list of results for all inputs\n\n    def __del__(self): # stop workers when pool is shut down\n        for worker in self.workers:\n            worker.running = False"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#section-1",
+    "href": "parallel-computing-revealjs.html#section-1",
+    "title": "Introduction to parallel computing",
+    "section": "",
+    "text": "How does simulation perform as function of \\(P\\)?\n\nimport time\n\nPs = [1, 2, 4, 8]\nruntimes = []\nfor P in Ps:\n    start = time.time()\n    simulate(P, 64, 3, 300, 1.0, 1e-3)\n    stop = time.time()\n    runtimes.append(stop - start)\n\n\nimport matplotlib.pyplot as plt\nplt.plot(Ps, runtimes, 'o')\nplt.xlabel('Number of threads')\nplt.ylabel('Runtime (s)')\nplt.grid(True)\nplt.show()"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#multiprocessing",
+    "href": "parallel-computing-revealjs.html#multiprocessing",
+    "title": "Introduction to parallel computing",
+    "section": "Multiprocessing",
+    "text": "Multiprocessing\n\nMore like threading available in other languages…\n\n\nCan’t be used directly from interactive interpreter; main module must be importable by fork processes\n\n\nProvides Pool class for us, used with powerful map() function."
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#how-does-multiprocessing-scale",
+    "href": "parallel-computing-revealjs.html#how-does-multiprocessing-scale",
+    "title": "Introduction to parallel computing",
+    "section": "How does multiprocessing scale?",
+    "text": "How does multiprocessing scale?\n\nfrom nbody_multiprocessing import simulate\n\nPs = np.array([1, 2, 4, 8, 16])\nruntimes = []\nfor P in Ps:\n    start = time.time()\n    simulate(P, 512, 3, 300, 1.0, 1e-3)\n    stop = time.time()\n    runtimes.append(stop - start)\n\n\nplt.plot(Ps, runtimes, 'o', label='Measured runtime')\nplt.plot(Ps, runtimes[0] / Ps, label='Ideal scaling')\nplt.xlabel('Number of processes')\nplt.ylabel('Runtime (s)')\nplt.legend()\nplt.grid(True)\nplt.show()"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#how-does-multiprocessing-scale-output",
+    "href": "parallel-computing-revealjs.html#how-does-multiprocessing-scale-output",
+    "title": "Introduction to parallel computing",
+    "section": "How does multiprocessing scale?",
+    "text": "How does multiprocessing scale?"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#mpi-message-passing-interface",
+    "href": "parallel-computing-revealjs.html#mpi-message-passing-interface",
+    "title": "Introduction to parallel computing",
+    "section": "MPI: Message-Passing Interface",
+    "text": "MPI: Message-Passing Interface\n\nSupercomputing is built on MPI.\n\n\nMPI scales from hundreds of thousands to millions of processors.\n\n\nProcesses are called ranks and given integer identifiers; rank 0 is usually the “main” that controls other ranks. All about communication.\n\n\nCan be used in Python and NumPy arrays with mpi4py"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#numba",
+    "href": "parallel-computing-revealjs.html#numba",
+    "title": "Introduction to parallel computing",
+    "section": "Numba",
+    "text": "Numba\n\nNumba is a just-in-time compiler for Python/NumPy\n\n\nIt translates Python functions to optimized machine code at runtime using the LLVM compiler—but does not require a separate compiler, just decorators\n\n\ncan automatically parallelize loops"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#section-2",
+    "href": "parallel-computing-revealjs.html#section-2",
+    "title": "Introduction to parallel computing",
+    "section": "",
+    "text": "from numba import jit\nimport random\n\n@jit(nopython=True)\ndef monte_carlo_pi(nsamples):\n    acc = 0\n    for i in range(nsamples):\n        x = random.random()\n        y = random.random()\n        if (x ** 2 + y ** 2) &lt; 1.0:\n            acc += 1\n    return 4.0 * acc / nsamples"
   },
   {
     "objectID": "files-command-line.html",

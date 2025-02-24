@@ -283,7 +283,18 @@ window.Quarto = {
   <li><a href="#threads" id="toc-threads" class="nav-link" data-scroll-target="#threads">Threads</a></li>
   <li><a href="#threads-probably-dont-use-in-python." id="toc-threads-probably-dont-use-in-python." class="nav-link" data-scroll-target="#threads-probably-dont-use-in-python.">Threads: probably don’t use in Python.</a></li>
   <li><a href="#n-body-with-threading" id="toc-n-body-with-threading" class="nav-link" data-scroll-target="#n-body-with-threading">N-body with threading</a></li>
+  <li><a href="#thread-pools" id="toc-thread-pools" class="nav-link" data-scroll-target="#thread-pools">Thread pools</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
+  <li><a href="#multiprocessing" id="toc-multiprocessing" class="nav-link" data-scroll-target="#multiprocessing">Multiprocessing</a></li>
+  <li><a href="#how-does-multiprocessing-scale" id="toc-how-does-multiprocessing-scale" class="nav-link" data-scroll-target="#how-does-multiprocessing-scale">How does <code>multiprocessing</code> scale?</a></li>
   </ul></li>
+  <li><a href="#other-options-for-parallelism" id="toc-other-options-for-parallelism" class="nav-link" data-scroll-target="#other-options-for-parallelism">Other options for parallelism</a>
+  <ul class="collapse">
+  <li><a href="#mpi-message-passing-interface" id="toc-mpi-message-passing-interface" class="nav-link" data-scroll-target="#mpi-message-passing-interface">MPI: Message-Passing Interface</a></li>
+  <li><a href="#numba" id="toc-numba" class="nav-link" data-scroll-target="#numba">Numba</a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
+  </ul></li>
+  <li><a href="#takeaways" id="toc-takeaways" class="nav-link" data-scroll-target="#takeaways">Takeaways</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="parallel-computing-revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
@@ -507,7 +518,7 @@ z(P) = \frac{t_1}{t_P} \times \frac{N_P}{N_1}
 </section>
 <section id="no-parallelism" class="level2">
 <h2 class="anchored" data-anchor-id="no-parallelism">No parallelism</h2>
-<div id="71aefb75-11e9-4ee8-b511-3088b7687057" class="cell" data-execution_count="3">
+<div id="71aefb75-11e9-4ee8-b511-3088b7687057" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> remove_i(x, i):</span>
@@ -530,7 +541,7 @@ z(P) = \frac{t_1}{t_P} \times \frac{N_P}{N_1}
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<div id="d1873619-130f-4fc5-9112-94ad31e9ef5a" class="cell" data-execution_count="4">
+<div id="d1873619-130f-4fc5-9112-94ad31e9ef5a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timestep(x0, v0, G, m, dt):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Computes the next position and velocity for all masses given</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    initial conditions and a time step size.</span></span>
@@ -562,7 +573,7 @@ z(P) = \frac{t_1}{t_P} \times \frac{N_P}{N_1}
 <div class="fragment">
 <p>Driver function that simulates <span class="math inline">\(S\)</span> time steps:</p>
 </div>
-<div id="303cd40d-f6ff-4bdd-a0e2-17ea337ebe5c" class="cell fragment" data-execution_count="8">
+<div id="303cd40d-f6ff-4bdd-a0e2-17ea337ebe5c" class="cell fragment" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate(N, D, S, G, dt):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    x0, v0, m <span class="op">=</span> initial_cond(N, D)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(S):</span>
@@ -616,9 +627,278 @@ z(P) = \frac{t_1}{t_P} \times \frac{N_P}{N_1}
 </section>
 <section id="n-body-with-threading" class="level2">
 <h2 class="anchored" data-anchor-id="n-body-with-threading">N-body with threading</h2>
-
-
+<div id="0cabbab0-2f3a-47ec-a256-afa99e2a3702" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> threading <span class="im">import</span> Thread</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Worker(Thread):</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Computes x, v, and a of the ith body."""</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Worker, <span class="va">self</span>).<span class="fu">__init__</span>(<span class="op">*</span>args, <span class="op">**</span>kwargs)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.inputs <span class="op">=</span> [] <span class="co"># buffer of work for thraeds</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.results <span class="op">=</span> [] <span class="co"># buffer of return values</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.running <span class="op">=</span> <span class="va">True</span> <span class="co"># setting to False causes run() to end safely</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.daemon <span class="op">=</span> <span class="va">True</span> <span class="co"># allow thread to be terminated with Python</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.start()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run(<span class="va">self</span>):</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">self</span>.running:</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(<span class="va">self</span>.inputs) <span class="op">==</span> <span class="dv">0</span>: <span class="co"># check for work</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            i, x0, v0, G, m, dt <span class="op">=</span> <span class="va">self</span>.inputs.pop(<span class="dv">0</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            a_i0 <span class="op">=</span> a(i, x0, G, m) <span class="co"># body of original timestep()</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>            v_i1 <span class="op">=</span> a_i0 <span class="op">*</span> dt <span class="op">+</span> v0[i]</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>            x_i1 <span class="op">=</span> a_i0 <span class="op">*</span> dt<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> v0[i] <span class="op">*</span> dt <span class="op">+</span> x0[i]</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>            result <span class="op">=</span> (i, x_i1, v_i1)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.results.append(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
+<section id="thread-pools" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="thread-pools">Thread pools</h2>
+<p>Expensive to create and start threads, so create pool that persists.</p>
+<div id="30a6be65-5a4e-4e99-a8ed-9e9558643cc0" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Pool(<span class="bu">object</span>):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""A collection of P worker threads that distributes tasks</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">    evenly across them.</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, size):</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.size <span class="op">=</span> size</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># create new workers based on size</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.workers <span class="op">=</span> [Worker() <span class="cf">for</span> p <span class="kw">in</span> <span class="bu">range</span>(size)]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> do(<span class="va">self</span>, tasks):</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> p <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.size):</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.workers[p].inputs <span class="op">+=</span> tasks[p::<span class="va">self</span>.size] <span class="co"># evenly distribute tasks</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="bu">any</span>([<span class="bu">len</span>(worker.inputs) <span class="op">!=</span> <span class="dv">0</span> <span class="cf">for</span> worker <span class="kw">in</span> <span class="va">self</span>.workers]):</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">pass</span> <span class="co"># wait for all workers to finish</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        results <span class="op">=</span> []</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> worker <span class="kw">in</span> <span class="va">self</span>.workers: <span class="co"># get results back from workers</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>            results <span class="op">+=</span> worker.results</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>            worker.results.clear()</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> results <span class="co"># return complete list of results for all inputs</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__del__</span>(<span class="va">self</span>): <span class="co"># stop workers when pool is shut down</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> worker <span class="kw">in</span> <span class="va">self</span>.workers:</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>            worker.running <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div id="c7e51c19-f1f2-4c17-b835-fc72bcad32a2" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timestep(x0, v0, G, m, dt, pool):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Computes the next position and velocity for all masses given</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">    initial conditions and a time step size.</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(x0)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    tasks <span class="op">=</span> [(i, x0, v0, G, m, dt) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N)] <span class="co"># create task for each body</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> pool.do(tasks) <span class="co"># run tasks</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> np.empty(x0.shape, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> np.empty(v0.shape, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, x_i1, v_i1 <span class="kw">in</span> results: <span class="co"># rearrange results (probably not in order)</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        x1[i] <span class="op">=</span> x_i1</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        v1[i] <span class="op">=</span> v_i1</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1, v1</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate(P, N, D, S, G, dt):</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    x0, v0, m <span class="op">=</span> initial_cond(N, D)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    pool <span class="op">=</span> Pool(P)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(S):</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        x1, v1 <span class="op">=</span> timestep(x0, v0, G, m, dt, pool)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        x0, v0 <span class="op">=</span> x1, v1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1"></h2>
+<p>How does simulation perform as function of <span class="math inline">\(P\)</span>?</p>
+<div id="6de595bf-6f1c-4dc6-a03d-3c09fca675d8" class="cell fragment" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Ps <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>runtimes <span class="op">=</span> []</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> P <span class="kw">in</span> Ps:</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> time.time()</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    simulate(P, <span class="dv">64</span>, <span class="dv">3</span>, <span class="dv">300</span>, <span class="fl">1.0</span>, <span class="fl">1e-3</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    stop <span class="op">=</span> time.time()</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    runtimes.append(stop <span class="op">-</span> start)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="af191c98-eb0d-4045-a8d3-227fd9424fa1" class="cell fragment" data-output-location="slide" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>plt.plot(Ps, runtimes, <span class="st">'o'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of threads'</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Runtime (s)'</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="parallel-computing_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="multiprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="multiprocessing">Multiprocessing</h2>
+<div class="fragment">
+<p>More like threading available in other languages…</p>
+</div>
+<div class="fragment">
+<p>Can’t be used directly from interactive interpreter; main module must be importable by fork processes</p>
+</div>
+<div class="fragment">
+<p>Provides <code>Pool</code> class for us, used with powerful <code>map()</code> function.</p>
+</div>
+<hr>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> multiprocessing <span class="im">import</span> Pool</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> remove_i(x, i):</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Drops the ith element of an array."""</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    shape <span class="op">=</span> (x.shape[<span class="dv">0</span>]<span class="op">-</span><span class="dv">1</span>,) <span class="op">+</span> x.shape[<span class="dv">1</span>:]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.empty(shape, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    y[:i] <span class="op">=</span> x[:i]</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    y[i:] <span class="op">=</span> x[i<span class="op">+</span><span class="dv">1</span>:]</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> a(i, x, G, m):</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""The acceleration of the ith mass."""</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    x_i <span class="op">=</span> x[i]</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    x_j <span class="op">=</span> remove_i(x, i) <span class="co"># don't compute on itself</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    m_j <span class="op">=</span> remove_i(m, i)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> x_j <span class="op">-</span> x_i</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    mag3 <span class="op">=</span> np.<span class="bu">sum</span>(diff<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)<span class="op">**</span><span class="fl">1.5</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># compute acceleration on ith mass</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> G <span class="op">*</span> np.<span class="bu">sum</span>(diff <span class="op">*</span> (m_j <span class="op">/</span> mag3)[:,np.newaxis], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co"># function needs one argument</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timestep_i(args):</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Worker function that computes the next position and velocity for the ith mass."""</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    i, x0, v0, G, m, dt <span class="op">=</span> args <span class="co"># unpack arguments to original function</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    a_i0 <span class="op">=</span> a(i, x0, G, m) <span class="co"># body of original timestep()</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    v_i1 <span class="op">=</span> a_i0 <span class="op">*</span> dt <span class="op">+</span> v0[i]</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    x_i1 <span class="op">=</span> a_i0 <span class="op">*</span> dt<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> v0[i] <span class="op">*</span> dt <span class="op">+</span> x0[i]</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> i, x_i1, v_i1</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timestep(x0, v0, G, m, dt, pool):</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Computes the next position and velocity for all masses given</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="co">    initial conditions and a time step size.</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(x0)</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>    tasks <span class="op">=</span> [(i, x0, v0, G, m, dt) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N)]</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> pool.<span class="bu">map</span>(timestep_i, tasks) <span class="co"># replace old do() with Pool.map()</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> np.empty(x0.shape, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> np.empty(v0.shape, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, x_i1, v_i1 <span class="kw">in</span> results:</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>        x1[i] <span class="op">=</span> x_i1</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>        v1[i] <span class="op">=</span> v_i1</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1, v1</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> initial_cond(N, D):</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Generates initial conditions for N unity masses at rest</span></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="co">    starting at random positions in D-dimensional space.</span></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> np.random.rand(N, D) <span class="co"># use random initial locations</span></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> np.zeros((N, D), dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> np.ones(N, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x0, v0, m</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate(P, N, D, S, G, dt):</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    x0, v0, m <span class="op">=</span> initial_cond(N, D)</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>    pool <span class="op">=</span> Pool(P)</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(S):</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>        x1, v1 <span class="op">=</span> timestep(x0, v0, G, m, dt, pool)</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>        x0, v0 <span class="op">=</span> x1, v1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="how-does-multiprocessing-scale" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-multiprocessing-scale">How does <code>multiprocessing</code> scale?</h2>
+<div id="856af7e2-e0e8-460f-b18a-0ae521409177" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbody_multiprocessing <span class="im">import</span> simulate</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>Ps <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>])</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>runtimes <span class="op">=</span> []</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> P <span class="kw">in</span> Ps:</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> time.time()</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    simulate(P, <span class="dv">512</span>, <span class="dv">3</span>, <span class="dv">300</span>, <span class="fl">1.0</span>, <span class="fl">1e-3</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    stop <span class="op">=</span> time.time()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    runtimes.append(stop <span class="op">-</span> start)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="363c04b2-cc9a-4cf8-8d30-a3b0faeaf4d1" class="cell fragment" data-output-location="slide" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>plt.plot(Ps, runtimes, <span class="st">'o'</span>, label<span class="op">=</span><span class="st">'Measured runtime'</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plt.plot(Ps, runtimes[<span class="dv">0</span>] <span class="op">/</span> Ps, label<span class="op">=</span><span class="st">'Ideal scaling'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of processes'</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Runtime (s)'</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="parallel-computing_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="other-options-for-parallelism" class="level1">
+<h1>Other options for parallelism</h1>
+<section id="mpi-message-passing-interface" class="level2">
+<h2 class="anchored" data-anchor-id="mpi-message-passing-interface">MPI: Message-Passing Interface</h2>
+<div class="fragment">
+<p>Supercomputing is built on MPI.</p>
+</div>
+<div class="fragment">
+<p>MPI scales from hundreds of thousands to millions of processors.</p>
+</div>
+<div class="fragment">
+<p>Processes are called ranks and given integer identifiers; rank 0 is usually the “main” that controls other ranks. All about communication.</p>
+</div>
+<div class="fragment">
+<p>Can be used in Python and NumPy arrays with <code>mpi4py</code></p>
+</div>
+</section>
+<section id="numba" class="level2">
+<h2 class="anchored" data-anchor-id="numba">Numba</h2>
+<div class="fragment">
+<p>Numba is a just-in-time compiler for Python/NumPy</p>
+</div>
+<div class="fragment">
+<p>It translates Python functions to optimized machine code at runtime using the LLVM compiler—but does not require a separate compiler, just decorators</p>
+</div>
+<div class="fragment">
+<p>can automatically parallelize loops</p>
+</div>
+</section>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2"></h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numba <span class="im">import</span> jit</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="at">@jit</span>(nopython<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> monte_carlo_pi(nsamples):</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    acc <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsamples):</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> random.random()</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> random.random()</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (x <span class="op">**</span> <span class="dv">2</span> <span class="op">+</span> y <span class="op">**</span> <span class="dv">2</span>) <span class="op">&lt;</span> <span class="fl">1.0</span>:</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>            acc <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">4.0</span> <span class="op">*</span> acc <span class="op">/</span> nsamples</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="takeaways" class="level1">
+<h1>Takeaways</h1>
+<div class="fragment">
+<p>If your problem calls for it, consider parallelizing.</p>
+</div>
+<div class="fragment">
+<p>That said, do not jump here, when implementing smart NumPy array operations, appropriate data structures, or existing solutions may suffice.</p>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
