@@ -2325,14 +2325,337 @@
     ]
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "performance-python-revealjs.html#k-means-the-algorithm",
+    "href": "performance-python-revealjs.html#k-means-the-algorithm",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "K Means: The Algorithm",
+    "text": "K Means: The Algorithm\n\nGuess some cluster centers\nRepeat until converged\n\nassign points to the nearest cluster center\nset the cluster centers to the mean of assigned points"
+  },
+  {
+    "objectID": "performance-python-revealjs.html#section",
+    "href": "performance-python-revealjs.html#section",
+    "title": "Strategies for Optimizing Your Python Code",
     "section": "",
-    "text": "About this site",
+    "text": "from sklearn.datasets import make_blobs\n\npoints, labels_true = make_blobs(\n    n_samples=5000, centers=4,\n    random_state=0, cluster_std=0.60\n    )\n\n\nimport matplotlib.pyplot as plt\n\nplt.scatter(points[:, 0], points[:, 1], s=10)\nplt.xlim(-4, 4)\nplt.ylim(-2, 10)\nplt.show()"
+  },
+  {
+    "objectID": "performance-python-revealjs.html#basic-python-implementation",
+    "href": "performance-python-revealjs.html#basic-python-implementation",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "Basic Python implementation",
+    "text": "Basic Python implementation\n\ndef dist(x, y):\n    return sum((xi - yi)**2 for xi, yi in zip(x, y))\n\ndef find_labels(points, centers):\n    labels = []\n    for point in points:\n        distances = [dist(point, center) for center in centers]\n        labels.append(distances.index(min(distances)))\n    return labels\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    n_dims = len(points[0])\n    centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    counts = [0 for j in range(n_centers)]\n    for label, point in zip(labels, points):\n        counts[label] += 1\n        centers[label] = [a + b for a, b in zip(centers[label], point)]\n    return [[x / count for x in center] for center, count in zip(centers, counts)]\n\ndef kmeans(points, n_clusters):\n    centers = points[-n_clusters:].tolist()\n    while True:\n        old_centers = centers\n        labels = find_labels(points, centers)\n        centers = compute_centers(points, labels)\n        if centers == old_centers:\n            break\n    return labels"
+  },
+  {
+    "objectID": "performance-python-revealjs.html#section-1",
+    "href": "performance-python-revealjs.html#section-1",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%lprun -f kmeans kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 4.56715 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: kmeans at line 21\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    21                                           def kmeans(points, n_clusters):\n    22         1     129000.0 129000.0      0.0      centers = points[-n_clusters:].tolist()\n    23        54       9000.0    166.7      0.0      while True:\n    24        54      45000.0    833.3      0.0          old_centers = centers\n    25        54 4389825000.0    8e+07     96.1          labels = find_labels(points, centers)\n    26        54  177088000.0    3e+06      3.9          centers = compute_centers(points, labels)\n    27        54      57000.0   1055.6      0.0          if centers == old_centers:\n    28         1          0.0      0.0      0.0              break\n    29         1       1000.0   1000.0      0.0      return labels"
+  },
+  {
+    "objectID": "performance-python-revealjs.html#section-2",
+    "href": "performance-python-revealjs.html#section-2",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%lprun -f find_labels kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 4.57433 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: find_labels at line 4\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n     4                                           def find_labels(points, centers):\n     5        54      72000.0   1333.3      0.0      labels = []\n     6    270054   52908000.0    195.9      1.2      for point in points:\n     7   2970000 4415870000.0   1486.8     96.5          distances = [dist(point, center) for center in centers]\n     8    270000  105452000.0    390.6      2.3          labels.append(distances.index(min(distances)))\n     9        54      24000.0    444.4      0.0      return labels\n\n\nThe majority of the compute time (~97% of the find_labels function, which itself takes up ~96% of the total kmeans function) is spent in calculating the distances, which is an operation repeated over the arrays of point locations.\nFor repeated operations on arrays, Numpy is your first place to turn."
+  },
+  {
+    "objectID": "performance-python-revealjs.html#section-3",
+    "href": "performance-python-revealjs.html#section-3",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "import numpy as np\n\ndef find_labels(points, centers):\n    diff = (points[:, None, :] - centers)\n    distances = (diff**2).sum(-1)\n    return distances.argmin(1)\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    n_dims = len(points[0])\n    \n    centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    counts = [0 for j in range(n_centers)]\n    \n    for label, point in zip(labels, points):\n        counts[label] += 1\n        centers[label] = [a + b for a, b in zip(centers[label], point)]\n        \n    return [[x / count for x in center] for center, count in zip(centers, counts)]\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    return np.array([points[labels == i].mean(0) for i in range(n_centers)])\n\ndef kmeans(points, n_clusters):\n    centers = points[-n_clusters:]\n    while True:\n        old_centers = centers\n        labels = find_labels(points, centers)\n        centers = compute_centers(points, labels)\n        if np.all(centers == old_centers):\n            break\n    return labels"
+  },
+  {
+    "objectID": "performance-python-revealjs.html#use-numpy-everywhere",
+    "href": "performance-python-revealjs.html#use-numpy-everywhere",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "Use NumPy everywhere!",
+    "text": "Use NumPy everywhere!\n\nAdvantages:\n\n\nPython overhead per array rather than per array element\nCompact domain specific language for array operations\nNumPy is widely available\n\n\nDisadvantages:\n\n\nBatch operations can lead to excessive memory usage\nDifferent way of thinking about writing code"
+  },
+  {
+    "objectID": "performance-python-revealjs.html#section-4",
+    "href": "performance-python-revealjs.html#section-4",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%lprun -f kmeans kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 0.142411 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/2497051821.py\nFunction: kmeans at line 25\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    25                                           def kmeans(points, n_clusters):\n    26         1      98000.0  98000.0      0.1      centers = points[-n_clusters:]\n    27        54      15000.0    277.8      0.0      while True:\n    28        54      11000.0    203.7      0.0          old_centers = centers\n    29        54   97292000.0    2e+06     68.3          labels = find_labels(points, centers)\n    30        54   43640000.0 808148.1     30.6          centers = compute_centers(points, labels)\n    31        54    1355000.0  25092.6      1.0          if np.all(centers == old_centers):\n    32         1          0.0      0.0      0.0              break\n    33         1          0.0      0.0      0.0      return labels\n\n\n\n%lprun -f find_labels kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 4.60709 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: find_labels at line 4\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n     4                                           def find_labels(points, centers):\n     5        54      52000.0    963.0      0.0      labels = []\n     6    270054   52181000.0    193.2      1.1      for point in points:\n     7   2970000 4453916000.0   1499.6     96.7          distances = [dist(point, center) for center in centers]\n     8    270000  100907000.0    373.7      2.2          labels.append(distances.index(min(distances)))\n     9        54      33000.0    611.1      0.0      return labels"
+  },
+  {
+    "objectID": "performance-python-revealjs.html#section-5",
+    "href": "performance-python-revealjs.html#section-5",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%lprun -f compute_centers kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 0.276425 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: compute_centers at line 11\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    11                                           def compute_centers(points, labels):\n    12        54    2770000.0  51296.3      1.0      n_centers = len(set(labels))\n    13        54     101000.0   1870.4      0.0      n_dims = len(points[0])\n    14      1674     420000.0    250.9      0.2      centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    15       594     100000.0    168.4      0.0      counts = [0 for j in range(n_centers)]\n    16    270054   49242000.0    182.3     17.8      for label, point in zip(labels, points):\n    17    270000   30445000.0    112.8     11.0          counts[label] += 1\n    18    810000  192816000.0    238.0     69.8          centers[label] = [a + b for a, b in zip(centers[label], point)]\n    19      1674     531000.0    317.2      0.2      return [[x / count for x in center] for center, count in zip(centers, counts)]\n\n\n\nWe can see that the time is now somewhat balanced between calculating the distances between points, and computing the centers of the clusters."
+  },
+  {
+    "objectID": "performance-python-revealjs.html#section-6",
+    "href": "performance-python-revealjs.html#section-6",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%lprun -f kmeans kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 0.08276 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3764998874.py\nFunction: kmeans at line 12\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    12                                           def kmeans(points, n_clusters):\n    13         1       8000.0   8000.0      0.0      centers = points[-n_clusters:]\n    14        54       8000.0    148.1      0.0      while True:\n    15        54       9000.0    166.7      0.0          old_centers = centers\n    16        54   56628000.0    1e+06     68.4          labels = find_labels(points, centers)\n    17        54   25563000.0 473388.9     30.9          centers = compute_centers(points, labels)\n    18        54     543000.0  10055.6      0.7          if np.all(centers == old_centers):\n    19         1          0.0      0.0      0.0              break\n    20         1       1000.0   1000.0      0.0      return labels\n\n\n\nRuntime reduced down to ~54 ms, compared to:\n\n\n2.7 s in pure Python\n76 ms with NumPy vectorization\n\n\nby taking advantage of specialized data structures designed for the exact low-level algorithms we need."
+  },
+  {
+    "objectID": "performance-python-revealjs.html#section-7",
+    "href": "performance-python-revealjs.html#section-7",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "Other useful data structures include:\n\nscipy.spatial: for spatial queries like distances, nearest neighbors, etc.\npandas: for SQL-like grouping & aggregation\nxarray: for grouping across multiple dimensions\nscipy.sparse: sparse matrices for two-dimensional structured data\nsparse package: for N-dimensional structured data\nscipy.sparse.csgraph: for graph-like problems (e.g., finding shortest paths)\n\n\nAdvantages: these are often the fastest possible way to solve a particular problem.\n\n\nDisadvantages: require broad & deep understanding of both algorithms and their available implementations."
+  },
+  {
+    "objectID": "performance-python-revealjs.html#section-8",
+    "href": "performance-python-revealjs.html#section-8",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%%cython\n\ncimport numpy as np\nimport numpy as np\n\ncdef double dist(double[:] x, double[:] y):\n    cdef double dist = 0\n    for i in range(len(x)):\n        dist += (x[i] - y[i]) ** 2\n    return dist\n\ndef find_labels(double[:, :] points, double[:, :] centers):\n    cdef int n_points = points.shape[0]\n    cdef int n_centers = centers.shape[0]\n    cdef double[:] labels = np.zeros(n_points)\n    cdef double distance, nearest_distance\n    cdef int nearest_index\n    \n    for i in range(n_points):\n        nearest_distance = np.inf\n        for j in range(n_centers):\n            distance = dist(points[i], centers[j])\n            if distance &lt; nearest_distance:\n                nearest_distance = distance\n                nearest_index = j\n        labels[i] = nearest_index\n    return np.asarray(labels)\n\n\ncenters = points[:10]\n%timeit find_labels(points, centers)\n\n\n\n347 μs ± 906 ns per loop (mean ± std. dev. of 7 runs, 1,000 loops each)"
+  },
+  {
+    "objectID": "performance-python.html",
+    "href": "performance-python.html",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "Acknowledgements: heavily adopted from Jake VanderPlas’s 2018 PyCon talk:\n\noriginal notebook: https://gist.github.com/jakevdp/256c3ad937af9ec7d4c65a29e5b6d454\nTalk: https://www.youtube.com/watch?v=zQeYx87mfyw\n\n\n\n\nGuess some cluster centers\nRepeat until converged\n\nassign points to the nearest cluster center\nset the cluster centers to the mean of assigned points\n\n\n\n\n\n\nfrom sklearn.datasets import make_blobs\n\npoints, labels_true = make_blobs(\n    n_samples=5000, centers=4,\n    random_state=0, cluster_std=0.60\n    )\n\n\nimport matplotlib.pyplot as plt\n\nplt.scatter(points[:, 0], points[:, 1], s=10)\nplt.xlim(-4, 4)\nplt.ylim(-2, 10)\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\ndef dist(x, y):\n    return sum((xi - yi)**2 for xi, yi in zip(x, y))\n\ndef find_labels(points, centers):\n    labels = []\n    for point in points:\n        distances = [dist(point, center) for center in centers]\n        labels.append(distances.index(min(distances)))\n    return labels\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    n_dims = len(points[0])\n    centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    counts = [0 for j in range(n_centers)]\n    for label, point in zip(labels, points):\n        counts[label] += 1\n        centers[label] = [a + b for a, b in zip(centers[label], point)]\n    return [[x / count for x in center] for center, count in zip(centers, counts)]\n\ndef kmeans(points, n_clusters):\n    centers = points[-n_clusters:].tolist()\n    while True:\n        old_centers = centers\n        labels = find_labels(points, centers)\n        centers = compute_centers(points, labels)\n        if centers == old_centers:\n            break\n    return labels\n\n\n\nkmeans(points, 10)[:10]\n\n[5, 3, 4, 5, 0, 4, 9, 6, 0, 7]\n\n\n\n%timeit kmeans(points, 10)\n\n2.76 s ± 31 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)",
     "crumbs": [
-      "About"
+      "Strategies for Optimizing Your Python Code"
     ]
+  },
+  {
+    "objectID": "performance-python.html#k-means-the-algorithm",
+    "href": "performance-python.html#k-means-the-algorithm",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "Guess some cluster centers\nRepeat until converged\n\nassign points to the nearest cluster center\nset the cluster centers to the mean of assigned points",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "performance-python.html#section",
+    "href": "performance-python.html#section",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "from sklearn.datasets import make_blobs\n\npoints, labels_true = make_blobs(\n    n_samples=5000, centers=4,\n    random_state=0, cluster_std=0.60\n    )\n\n\nimport matplotlib.pyplot as plt\n\nplt.scatter(points[:, 0], points[:, 1], s=10)\nplt.xlim(-4, 4)\nplt.ylim(-2, 10)\nplt.show()",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "performance-python.html#basic-python-implementation",
+    "href": "performance-python.html#basic-python-implementation",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "def dist(x, y):\n    return sum((xi - yi)**2 for xi, yi in zip(x, y))\n\ndef find_labels(points, centers):\n    labels = []\n    for point in points:\n        distances = [dist(point, center) for center in centers]\n        labels.append(distances.index(min(distances)))\n    return labels\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    n_dims = len(points[0])\n    centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    counts = [0 for j in range(n_centers)]\n    for label, point in zip(labels, points):\n        counts[label] += 1\n        centers[label] = [a + b for a, b in zip(centers[label], point)]\n    return [[x / count for x in center] for center, count in zip(centers, counts)]\n\ndef kmeans(points, n_clusters):\n    centers = points[-n_clusters:].tolist()\n    while True:\n        old_centers = centers\n        labels = find_labels(points, centers)\n        centers = compute_centers(points, labels)\n        if centers == old_centers:\n            break\n    return labels\n\n\n\nkmeans(points, 10)[:10]\n\n[5, 3, 4, 5, 0, 4, 9, 6, 0, 7]\n\n\n\n%timeit kmeans(points, 10)\n\n2.76 s ± 31 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "performance-python.html#section-1",
+    "href": "performance-python.html#section-1",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%lprun -f kmeans kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 4.56715 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: kmeans at line 21\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    21                                           def kmeans(points, n_clusters):\n    22         1     129000.0 129000.0      0.0      centers = points[-n_clusters:].tolist()\n    23        54       9000.0    166.7      0.0      while True:\n    24        54      45000.0    833.3      0.0          old_centers = centers\n    25        54 4389825000.0    8e+07     96.1          labels = find_labels(points, centers)\n    26        54  177088000.0    3e+06      3.9          centers = compute_centers(points, labels)\n    27        54      57000.0   1055.6      0.0          if centers == old_centers:\n    28         1          0.0      0.0      0.0              break\n    29         1       1000.0   1000.0      0.0      return labels",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "performance-python.html#section-2",
+    "href": "performance-python.html#section-2",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%lprun -f find_labels kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 4.57433 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: find_labels at line 4\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n     4                                           def find_labels(points, centers):\n     5        54      72000.0   1333.3      0.0      labels = []\n     6    270054   52908000.0    195.9      1.2      for point in points:\n     7   2970000 4415870000.0   1486.8     96.5          distances = [dist(point, center) for center in centers]\n     8    270000  105452000.0    390.6      2.3          labels.append(distances.index(min(distances)))\n     9        54      24000.0    444.4      0.0      return labels\n\n\nThe majority of the compute time (~97% of the find_labels function, which itself takes up ~96% of the total kmeans function) is spent in calculating the distances, which is an operation repeated over the arrays of point locations.\nFor repeated operations on arrays, Numpy is your first place to turn.",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "performance-python.html#section-3",
+    "href": "performance-python.html#section-3",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "import numpy as np\n\ndef find_labels(points, centers):\n    diff = (points[:, None, :] - centers)\n    distances = (diff**2).sum(-1)\n    return distances.argmin(1)\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    n_dims = len(points[0])\n    \n    centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    counts = [0 for j in range(n_centers)]\n    \n    for label, point in zip(labels, points):\n        counts[label] += 1\n        centers[label] = [a + b for a, b in zip(centers[label], point)]\n        \n    return [[x / count for x in center] for center, count in zip(centers, counts)]\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    return np.array([points[labels == i].mean(0) for i in range(n_centers)])\n\ndef kmeans(points, n_clusters):\n    centers = points[-n_clusters:]\n    while True:\n        old_centers = centers\n        labels = find_labels(points, centers)\n        centers = compute_centers(points, labels)\n        if np.all(centers == old_centers):\n            break\n    return labels\n\n\n\nkmeans(points, 10)[:10]\n\narray([5, 3, 4, 5, 0, 4, 9, 6, 0, 7])\n\n\n\n%timeit kmeans(points, 10)\n\n76 ms ± 169 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)\n\n\n\nUsing NumPy takes the algorithm down from nearly three seconds to below one hundred milliseconds!\n\n\nThe key here is that repeated operations have been pushed into a compiled layer. Use NumPy everywhere when doing numerical calculations with arrays.",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "performance-python.html#use-numpy-everywhere",
+    "href": "performance-python.html#use-numpy-everywhere",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "Use NumPy everywhere!",
+    "text": "Use NumPy everywhere!\n\nAdvantages:\n\n\nPython overhead per array rather than per array element\nCompact domain specific language for array operations\nNumPy is widely available\n\n\nDisadvantages:\n\n\nBatch operations can lead to excessive memory usage\nDifferent way of thinking about writing code",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "performance-python.html#section-4",
+    "href": "performance-python.html#section-4",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%lprun -f kmeans kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 0.142411 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/2497051821.py\nFunction: kmeans at line 25\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    25                                           def kmeans(points, n_clusters):\n    26         1      98000.0  98000.0      0.1      centers = points[-n_clusters:]\n    27        54      15000.0    277.8      0.0      while True:\n    28        54      11000.0    203.7      0.0          old_centers = centers\n    29        54   97292000.0    2e+06     68.3          labels = find_labels(points, centers)\n    30        54   43640000.0 808148.1     30.6          centers = compute_centers(points, labels)\n    31        54    1355000.0  25092.6      1.0          if np.all(centers == old_centers):\n    32         1          0.0      0.0      0.0              break\n    33         1          0.0      0.0      0.0      return labels\n\n\n\n%lprun -f find_labels kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 4.60709 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: find_labels at line 4\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n     4                                           def find_labels(points, centers):\n     5        54      52000.0    963.0      0.0      labels = []\n     6    270054   52181000.0    193.2      1.1      for point in points:\n     7   2970000 4453916000.0   1499.6     96.7          distances = [dist(point, center) for center in centers]\n     8    270000  100907000.0    373.7      2.2          labels.append(distances.index(min(distances)))\n     9        54      33000.0    611.1      0.0      return labels",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "performance-python.html#section-5",
+    "href": "performance-python.html#section-5",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%lprun -f compute_centers kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 0.276425 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: compute_centers at line 11\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    11                                           def compute_centers(points, labels):\n    12        54    2770000.0  51296.3      1.0      n_centers = len(set(labels))\n    13        54     101000.0   1870.4      0.0      n_dims = len(points[0])\n    14      1674     420000.0    250.9      0.2      centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    15       594     100000.0    168.4      0.0      counts = [0 for j in range(n_centers)]\n    16    270054   49242000.0    182.3     17.8      for label, point in zip(labels, points):\n    17    270000   30445000.0    112.8     11.0          counts[label] += 1\n    18    810000  192816000.0    238.0     69.8          centers[label] = [a + b for a, b in zip(centers[label], point)]\n    19      1674     531000.0    317.2      0.2      return [[x / count for x in center] for center, count in zip(centers, counts)]\n\n\n\nWe can see that the time is now somewhat balanced between calculating the distances between points, and computing the centers of the clusters.",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "performance-python.html#section-6",
+    "href": "performance-python.html#section-6",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%lprun -f kmeans kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 0.08276 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3764998874.py\nFunction: kmeans at line 12\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    12                                           def kmeans(points, n_clusters):\n    13         1       8000.0   8000.0      0.0      centers = points[-n_clusters:]\n    14        54       8000.0    148.1      0.0      while True:\n    15        54       9000.0    166.7      0.0          old_centers = centers\n    16        54   56628000.0    1e+06     68.4          labels = find_labels(points, centers)\n    17        54   25563000.0 473388.9     30.9          centers = compute_centers(points, labels)\n    18        54     543000.0  10055.6      0.7          if np.all(centers == old_centers):\n    19         1          0.0      0.0      0.0              break\n    20         1       1000.0   1000.0      0.0      return labels\n\n\n\nRuntime reduced down to ~54 ms, compared to:\n\n\n2.7 s in pure Python\n76 ms with NumPy vectorization\n\n\nby taking advantage of specialized data structures designed for the exact low-level algorithms we need.",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "performance-python.html#section-7",
+    "href": "performance-python.html#section-7",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "Other useful data structures include:\n\nscipy.spatial: for spatial queries like distances, nearest neighbors, etc.\npandas: for SQL-like grouping & aggregation\nxarray: for grouping across multiple dimensions\nscipy.sparse: sparse matrices for two-dimensional structured data\nsparse package: for N-dimensional structured data\nscipy.sparse.csgraph: for graph-like problems (e.g., finding shortest paths)\n\n\nAdvantages: these are often the fastest possible way to solve a particular problem.\n\n\nDisadvantages: require broad & deep understanding of both algorithms and their available implementations.",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "performance-python.html#section-8",
+    "href": "performance-python.html#section-8",
+    "title": "Strategies for Optimizing Your Python Code",
+    "section": "",
+    "text": "%%cython\n\ncimport numpy as np\nimport numpy as np\n\ncdef double dist(double[:] x, double[:] y):\n    cdef double dist = 0\n    for i in range(len(x)):\n        dist += (x[i] - y[i]) ** 2\n    return dist\n\ndef find_labels(double[:, :] points, double[:, :] centers):\n    cdef int n_points = points.shape[0]\n    cdef int n_centers = centers.shape[0]\n    cdef double[:] labels = np.zeros(n_points)\n    cdef double distance, nearest_distance\n    cdef int nearest_index\n    \n    for i in range(n_points):\n        nearest_distance = np.inf\n        for j in range(n_centers):\n            distance = dist(points[i], centers[j])\n            if distance &lt; nearest_distance:\n                nearest_distance = distance\n                nearest_index = j\n        labels[i] = nearest_index\n    return np.asarray(labels)\n\n\ncenters = points[:10]\n%timeit find_labels(points, centers)\n\n347 μs ± 906 ns per loop (mean ± std. dev. of 7 runs, 1,000 loops each)\n\n\n\nAdvantages:\n\nPython-like code at C-like speeds!\n\n\nDisadvantages:\n\n\nExplicit type annotation can be cumbersome\nOften requires restructuring code\nCode build becomes more complicated\n\n\nUse for operations that can’t easily be expressed in NumPy.",
+    "crumbs": [
+      "Strategies for Optimizing Your Python Code"
+    ]
+  },
+  {
+    "objectID": "version-control-revealjs.html#where-is-version-control-needed",
+    "href": "version-control-revealjs.html#where-is-version-control-needed",
+    "title": "Introduction to version control with Git",
+    "section": "Where is version control needed?",
+    "text": "Where is version control needed?\n\nBacking up changing files\nStoring and accessing an annotated history of changes\nManaging the merging of changes between different change sets"
+  },
+  {
+    "objectID": "version-control-revealjs.html#why-is-this-important",
+    "href": "version-control-revealjs.html#why-is-this-important",
+    "title": "Introduction to version control with Git",
+    "section": "Why is this important?",
+    "text": "Why is this important?\n\n\n\nImage credit: Jorge Cham, PhD Comics"
+  },
+  {
+    "objectID": "version-control-revealjs.html#saving-copies",
+    "href": "version-control-revealjs.html#saving-copies",
+    "title": "Introduction to version control with Git",
+    "section": "Saving copies",
+    "text": "Saving copies\n\n important_code.py\n\n\n important_code-2.py\n\n\n important_code-fix.py\n\n\n important_code-final.py\n\n\n important_code-final-4Apr.py"
+  },
+  {
+    "objectID": "version-control-revealjs.html#git-commits",
+    "href": "version-control-revealjs.html#git-commits",
+    "title": "Introduction to version control with Git",
+    "section": "Git commits",
+    "text": "Git commits\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py"
+  },
+  {
+    "objectID": "version-control-revealjs.html#types-of-version-control",
+    "href": "version-control-revealjs.html#types-of-version-control",
+    "title": "Introduction to version control with Git",
+    "section": "Types of version control",
+    "text": "Types of version control\n\nCentralized:\n\n\nConcurrent Version System (cvs)\nSubversion (svn)\nPerforce (p4)\n\n\nDistributed:\n\n\nDecentralized CVS (dcvs)\nmercurial (hg)\nbazaar (bzr)\nGit (git)"
+  },
+  {
+    "objectID": "version-control-revealjs.html#git",
+    "href": "version-control-revealjs.html#git",
+    "title": "Introduction to version control with Git",
+    "section": "Git",
+    "text": "Git\n\n\nGit is a knife whose handle is also a knife. – Philip Guo"
+  },
+  {
+    "objectID": "version-control-revealjs.html#section",
+    "href": "version-control-revealjs.html#section",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "$ git --help\n\n$ git config --global user.name \"Kyle Niemeyer\"\n$ git config --global user.email \"kyle.niemeyer@oregonstate.edu\"\n$ git config --global core.editor \"vim\""
+  },
+  {
+    "objectID": "version-control-revealjs.html#section-1",
+    "href": "version-control-revealjs.html#section-1",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "~ $ mkdir analysis_code\n~ $ cd analysis_code\n\n~/analysis_code $ git init\nInitialized empty Git repository in ~/analysis_code/.git/"
+  },
+  {
+    "objectID": "version-control-revealjs.html#section-2",
+    "href": "version-control-revealjs.html#section-2",
+    "title": "Introduction to version control with Git",
+    "section": "",
+    "text": "~/analysis_code $ ls\n~/analysis_code $ ls -A\n.git\n\n~/analysis_code $ cd .git && ls -A\nHEAD    config    description    hooks    index    info    logs\n\n\n\n\n\n\n\nTip\n\n\nTry this yourself."
+  },
+  {
+    "objectID": "version-control-revealjs.html#adding-files",
+    "href": "version-control-revealjs.html#adding-files",
+    "title": "Introduction to version control with Git",
+    "section": "Adding files",
+    "text": "Adding files\n~/analysis_code $ touch README.md\n~/analysis_code $ git add README.md\n~/analysis_code $ git status\n\n\n\n\n\n\n\nTip\n\n\nTry this yourself."
+  },
+  {
+    "objectID": "version-control-revealjs.html#committing-changes",
+    "href": "version-control-revealjs.html#committing-changes",
+    "title": "Introduction to version control with Git",
+    "section": "Committing changes",
+    "text": "Committing changes\n\nSnapshot of repository = revision\n\n\nCommitting a revision:\n\n\nSaves current state with a unique ID (hash)\nNames you as the author\nAllows you to add a message\n\n~/analysis_code $ git commit\n\n\n\n\n\n\n\nTip\n\n\nTry this yourself."
+  },
+  {
+    "objectID": "version-control-revealjs.html#options-to-save-time",
+    "href": "version-control-revealjs.html#options-to-save-time",
+    "title": "Introduction to version control with Git",
+    "section": "Options to save time",
+    "text": "Options to save time\n~/analysis_code $ git commit -m \"This is my message\"\n~/analysis_code $ git commit -am \"This is my message \n                  committing all changes\""
+  },
+  {
+    "objectID": "version-control-revealjs.html#commit-messages",
+    "href": "version-control-revealjs.html#commit-messages",
+    "title": "Introduction to version control with Git",
+    "section": "Commit messages",
+    "text": "Commit messages\n\nBad commit message:\n\nFixed bug\n\nBetter commit message:\n\nFixed bug in mass calculation\n\nDue to incorrect density value, mass was being calculated\norders of magnitude larger than it should. The correct value\nof density fixed this problem."
+  },
+  {
+    "objectID": "version-control-revealjs.html#viewing-history-and-differences",
+    "href": "version-control-revealjs.html#viewing-history-and-differences",
+    "title": "Introduction to version control with Git",
+    "section": "Viewing history and differences",
+    "text": "Viewing history and differences\n~/analysis_code $ git log\n~/analysis_code $ git diff"
+  },
+  {
+    "objectID": "version-control-revealjs.html#undoing-work",
+    "href": "version-control-revealjs.html#undoing-work",
+    "title": "Introduction to version control with Git",
+    "section": "Undoing work",
+    "text": "Undoing work\n\nUn-add a file that has been staged:\n\n~/analysis_code $ git restore --staged &lt;filename&gt;\n\nReset all tracked files to previous commit:\n\n~/analysis_code $ git reset [mode] [commit]\n\nRemove uncommitted changes:\n\n~/analysis_code $ git checkout -- &lt;filename&gt;"
+  },
+  {
+    "objectID": "version-control-revealjs.html#branches",
+    "href": "version-control-revealjs.html#branches",
+    "title": "Introduction to version control with Git",
+    "section": "Branches",
+    "text": "Branches\n~/analysis_code $ git branch\n* main\n\n~/analysis_code $ git branch experimental\n~/analysis_code $ git branch\n  experimental\n* main\n\n~/analysis_code $ git branch new\n~/analysis_code $ git branch\n  experimental\n* main\n  new\n\n~/analysis_code $ git branch -d new\n~/analysis_code $ git branch\n  experimental\n* main\n\n~/analysis_code $ git switch experimental\n~/analysis_code $ git branch\n* experimental\n  main"
+  },
+  {
+    "objectID": "version-control-revealjs.html#merging-branches",
+    "href": "version-control-revealjs.html#merging-branches",
+    "title": "Introduction to version control with Git",
+    "section": "Merging branches",
+    "text": "Merging branches\n~/analysis_code $ git switch main\n~/analysis_code $ git merge experimental\n~/analysis_code $ git log"
   },
   {
     "objectID": "version-control.html",
@@ -2515,337 +2838,313 @@
     ]
   },
   {
-    "objectID": "version-control-revealjs.html#where-is-version-control-needed",
-    "href": "version-control-revealjs.html#where-is-version-control-needed",
-    "title": "Introduction to version control with Git",
-    "section": "Where is version control needed?",
-    "text": "Where is version control needed?\n\nBacking up changing files\nStoring and accessing an annotated history of changes\nManaging the merging of changes between different change sets"
-  },
-  {
-    "objectID": "version-control-revealjs.html#why-is-this-important",
-    "href": "version-control-revealjs.html#why-is-this-important",
-    "title": "Introduction to version control with Git",
-    "section": "Why is this important?",
-    "text": "Why is this important?\n\n\n\nImage credit: Jorge Cham, PhD Comics"
-  },
-  {
-    "objectID": "version-control-revealjs.html#saving-copies",
-    "href": "version-control-revealjs.html#saving-copies",
-    "title": "Introduction to version control with Git",
-    "section": "Saving copies",
-    "text": "Saving copies\n\n important_code.py\n\n\n important_code-2.py\n\n\n important_code-fix.py\n\n\n important_code-final.py\n\n\n important_code-final-4Apr.py"
-  },
-  {
-    "objectID": "version-control-revealjs.html#git-commits",
-    "href": "version-control-revealjs.html#git-commits",
-    "title": "Introduction to version control with Git",
-    "section": "Git commits",
-    "text": "Git commits\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py\n\n\n important_code.py"
-  },
-  {
-    "objectID": "version-control-revealjs.html#types-of-version-control",
-    "href": "version-control-revealjs.html#types-of-version-control",
-    "title": "Introduction to version control with Git",
-    "section": "Types of version control",
-    "text": "Types of version control\n\nCentralized:\n\n\nConcurrent Version System (cvs)\nSubversion (svn)\nPerforce (p4)\n\n\nDistributed:\n\n\nDecentralized CVS (dcvs)\nmercurial (hg)\nbazaar (bzr)\nGit (git)"
-  },
-  {
-    "objectID": "version-control-revealjs.html#git",
-    "href": "version-control-revealjs.html#git",
-    "title": "Introduction to version control with Git",
-    "section": "Git",
-    "text": "Git\n\n\nGit is a knife whose handle is also a knife. – Philip Guo"
-  },
-  {
-    "objectID": "version-control-revealjs.html#section",
-    "href": "version-control-revealjs.html#section",
-    "title": "Introduction to version control with Git",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
     "section": "",
-    "text": "$ git --help\n\n$ git config --global user.name \"Kyle Niemeyer\"\n$ git config --global user.email \"kyle.niemeyer@oregonstate.edu\"\n$ git config --global core.editor \"vim\""
-  },
-  {
-    "objectID": "version-control-revealjs.html#section-1",
-    "href": "version-control-revealjs.html#section-1",
-    "title": "Introduction to version control with Git",
-    "section": "",
-    "text": "~ $ mkdir analysis_code\n~ $ cd analysis_code\n\n~/analysis_code $ git init\nInitialized empty Git repository in ~/analysis_code/.git/"
-  },
-  {
-    "objectID": "version-control-revealjs.html#section-2",
-    "href": "version-control-revealjs.html#section-2",
-    "title": "Introduction to version control with Git",
-    "section": "",
-    "text": "~/analysis_code $ ls\n~/analysis_code $ ls -A\n.git\n\n~/analysis_code $ cd .git && ls -A\nHEAD    config    description    hooks    index    info    logs\n\n\n\n\n\n\n\nTip\n\n\nTry this yourself."
-  },
-  {
-    "objectID": "version-control-revealjs.html#adding-files",
-    "href": "version-control-revealjs.html#adding-files",
-    "title": "Introduction to version control with Git",
-    "section": "Adding files",
-    "text": "Adding files\n~/analysis_code $ touch README.md\n~/analysis_code $ git add README.md\n~/analysis_code $ git status\n\n\n\n\n\n\n\nTip\n\n\nTry this yourself."
-  },
-  {
-    "objectID": "version-control-revealjs.html#committing-changes",
-    "href": "version-control-revealjs.html#committing-changes",
-    "title": "Introduction to version control with Git",
-    "section": "Committing changes",
-    "text": "Committing changes\n\nSnapshot of repository = revision\n\n\nCommitting a revision:\n\n\nSaves current state with a unique ID (hash)\nNames you as the author\nAllows you to add a message\n\n~/analysis_code $ git commit\n\n\n\n\n\n\n\nTip\n\n\nTry this yourself."
-  },
-  {
-    "objectID": "version-control-revealjs.html#options-to-save-time",
-    "href": "version-control-revealjs.html#options-to-save-time",
-    "title": "Introduction to version control with Git",
-    "section": "Options to save time",
-    "text": "Options to save time\n~/analysis_code $ git commit -m \"This is my message\"\n~/analysis_code $ git commit -am \"This is my message \n                  committing all changes\""
-  },
-  {
-    "objectID": "version-control-revealjs.html#commit-messages",
-    "href": "version-control-revealjs.html#commit-messages",
-    "title": "Introduction to version control with Git",
-    "section": "Commit messages",
-    "text": "Commit messages\n\nBad commit message:\n\nFixed bug\n\nBetter commit message:\n\nFixed bug in mass calculation\n\nDue to incorrect density value, mass was being calculated\norders of magnitude larger than it should. The correct value\nof density fixed this problem."
-  },
-  {
-    "objectID": "version-control-revealjs.html#viewing-history-and-differences",
-    "href": "version-control-revealjs.html#viewing-history-and-differences",
-    "title": "Introduction to version control with Git",
-    "section": "Viewing history and differences",
-    "text": "Viewing history and differences\n~/analysis_code $ git log\n~/analysis_code $ git diff"
-  },
-  {
-    "objectID": "version-control-revealjs.html#undoing-work",
-    "href": "version-control-revealjs.html#undoing-work",
-    "title": "Introduction to version control with Git",
-    "section": "Undoing work",
-    "text": "Undoing work\n\nUn-add a file that has been staged:\n\n~/analysis_code $ git restore --staged &lt;filename&gt;\n\nReset all tracked files to previous commit:\n\n~/analysis_code $ git reset [mode] [commit]\n\nRemove uncommitted changes:\n\n~/analysis_code $ git checkout -- &lt;filename&gt;"
-  },
-  {
-    "objectID": "version-control-revealjs.html#branches",
-    "href": "version-control-revealjs.html#branches",
-    "title": "Introduction to version control with Git",
-    "section": "Branches",
-    "text": "Branches\n~/analysis_code $ git branch\n* main\n\n~/analysis_code $ git branch experimental\n~/analysis_code $ git branch\n  experimental\n* main\n\n~/analysis_code $ git branch new\n~/analysis_code $ git branch\n  experimental\n* main\n  new\n\n~/analysis_code $ git branch -d new\n~/analysis_code $ git branch\n  experimental\n* main\n\n~/analysis_code $ git switch experimental\n~/analysis_code $ git branch\n* experimental\n  main"
-  },
-  {
-    "objectID": "version-control-revealjs.html#merging-branches",
-    "href": "version-control-revealjs.html#merging-branches",
-    "title": "Introduction to version control with Git",
-    "section": "Merging branches",
-    "text": "Merging branches\n~/analysis_code $ git switch main\n~/analysis_code $ git merge experimental\n~/analysis_code $ git log"
-  },
-  {
-    "objectID": "performance-python.html",
-    "href": "performance-python.html",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "Acknowledgements: heavily adopted from Jake VanderPlas’s 2018 PyCon talk:\n\noriginal notebook: https://gist.github.com/jakevdp/256c3ad937af9ec7d4c65a29e5b6d454\nTalk: https://www.youtube.com/watch?v=zQeYx87mfyw\n\n\n\n\nGuess some cluster centers\nRepeat until converged\n\nassign points to the nearest cluster center\nset the cluster centers to the mean of assigned points\n\n\n\n\n\n\nfrom sklearn.datasets import make_blobs\n\npoints, labels_true = make_blobs(\n    n_samples=5000, centers=4,\n    random_state=0, cluster_std=0.60\n    )\n\n\nimport matplotlib.pyplot as plt\n\nplt.scatter(points[:, 0], points[:, 1], s=10)\nplt.xlim(-4, 4)\nplt.ylim(-2, 10)\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\ndef dist(x, y):\n    return sum((xi - yi)**2 for xi, yi in zip(x, y))\n\ndef find_labels(points, centers):\n    labels = []\n    for point in points:\n        distances = [dist(point, center) for center in centers]\n        labels.append(distances.index(min(distances)))\n    return labels\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    n_dims = len(points[0])\n    centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    counts = [0 for j in range(n_centers)]\n    for label, point in zip(labels, points):\n        counts[label] += 1\n        centers[label] = [a + b for a, b in zip(centers[label], point)]\n    return [[x / count for x in center] for center, count in zip(centers, counts)]\n\ndef kmeans(points, n_clusters):\n    centers = points[-n_clusters:].tolist()\n    while True:\n        old_centers = centers\n        labels = find_labels(points, centers)\n        centers = compute_centers(points, labels)\n        if centers == old_centers:\n            break\n    return labels\n\n\n\nkmeans(points, 10)[:10]\n\n[5, 3, 4, 5, 0, 4, 9, 6, 0, 7]\n\n\n\n%timeit kmeans(points, 10)\n\n2.76 s ± 31 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)",
+    "text": "About this site",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "About"
     ]
   },
   {
-    "objectID": "performance-python.html#k-means-the-algorithm",
-    "href": "performance-python.html#k-means-the-algorithm",
-    "title": "Strategies for Optimizing Your Python Code",
+    "objectID": "parallel-computing.html",
+    "href": "parallel-computing.html",
+    "title": "Introduction to parallel computing",
     "section": "",
-    "text": "Guess some cluster centers\nRepeat until converged\n\nassign points to the nearest cluster center\nset the cluster centers to the mean of assigned points",
+    "text": "If you want more, check out CS 475/575 Parallel Programming.\n\n\n\n\nHow do I do many things at once?\nHow do I do one thing faster?\n\n\nComputer: perform many simultaneous tasks\n\n\nDeveloper: determine dependencies between code and data\n\n\n\n\n\nUp until now: serial thinking, like “x then y then z”\n\n\nBenefit of parallelism: problems execute faster—sometimes much faster.\n\n\nDownside to parallelism: harder to program, debug, open files, print to screen.\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nFirst: wait until your code works and you need it.\n\n\n\nThe problem creates or requires too much data for a normal machine.\nThe sun would explode before the computation would finish.\nThe algorithm is easy to parallelize.\nThe physics itself cannot be simulated at all with smaller resources.",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python.html#section",
-    "href": "performance-python.html#section",
-    "title": "Strategies for Optimizing Your Python Code",
+    "objectID": "parallel-computing.html#approaching-parallelism",
+    "href": "parallel-computing.html#approaching-parallelism",
+    "title": "Introduction to parallel computing",
     "section": "",
-    "text": "from sklearn.datasets import make_blobs\n\npoints, labels_true = make_blobs(\n    n_samples=5000, centers=4,\n    random_state=0, cluster_std=0.60\n    )\n\n\nimport matplotlib.pyplot as plt\n\nplt.scatter(points[:, 0], points[:, 1], s=10)\nplt.xlim(-4, 4)\nplt.ylim(-2, 10)\nplt.show()",
+    "text": "How do I do many things at once?\nHow do I do one thing faster?\n\n\nComputer: perform many simultaneous tasks\n\n\nDeveloper: determine dependencies between code and data",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python.html#basic-python-implementation",
-    "href": "performance-python.html#basic-python-implementation",
-    "title": "Strategies for Optimizing Your Python Code",
+    "objectID": "parallel-computing.html#section",
+    "href": "parallel-computing.html#section",
+    "title": "Introduction to parallel computing",
     "section": "",
-    "text": "def dist(x, y):\n    return sum((xi - yi)**2 for xi, yi in zip(x, y))\n\ndef find_labels(points, centers):\n    labels = []\n    for point in points:\n        distances = [dist(point, center) for center in centers]\n        labels.append(distances.index(min(distances)))\n    return labels\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    n_dims = len(points[0])\n    centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    counts = [0 for j in range(n_centers)]\n    for label, point in zip(labels, points):\n        counts[label] += 1\n        centers[label] = [a + b for a, b in zip(centers[label], point)]\n    return [[x / count for x in center] for center, count in zip(centers, counts)]\n\ndef kmeans(points, n_clusters):\n    centers = points[-n_clusters:].tolist()\n    while True:\n        old_centers = centers\n        labels = find_labels(points, centers)\n        centers = compute_centers(points, labels)\n        if centers == old_centers:\n            break\n    return labels\n\n\n\nkmeans(points, 10)[:10]\n\n[5, 3, 4, 5, 0, 4, 9, 6, 0, 7]\n\n\n\n%timeit kmeans(points, 10)\n\n2.76 s ± 31 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)",
+    "text": "Up until now: serial thinking, like “x then y then z”\n\n\nBenefit of parallelism: problems execute faster—sometimes much faster.\n\n\nDownside to parallelism: harder to program, debug, open files, print to screen.",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python.html#section-1",
-    "href": "performance-python.html#section-1",
-    "title": "Strategies for Optimizing Your Python Code",
+    "objectID": "parallel-computing.html#why-go-parallel",
+    "href": "parallel-computing.html#why-go-parallel",
+    "title": "Introduction to parallel computing",
     "section": "",
-    "text": "%lprun -f kmeans kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 4.56715 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: kmeans at line 21\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    21                                           def kmeans(points, n_clusters):\n    22         1     129000.0 129000.0      0.0      centers = points[-n_clusters:].tolist()\n    23        54       9000.0    166.7      0.0      while True:\n    24        54      45000.0    833.3      0.0          old_centers = centers\n    25        54 4389825000.0    8e+07     96.1          labels = find_labels(points, centers)\n    26        54  177088000.0    3e+06      3.9          centers = compute_centers(points, labels)\n    27        54      57000.0   1055.6      0.0          if centers == old_centers:\n    28         1          0.0      0.0      0.0              break\n    29         1       1000.0   1000.0      0.0      return labels",
+    "text": "Important\n\n\n\nFirst: wait until your code works and you need it.\n\n\n\nThe problem creates or requires too much data for a normal machine.\nThe sun would explode before the computation would finish.\nThe algorithm is easy to parallelize.\nThe physics itself cannot be simulated at all with smaller resources.",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python.html#section-2",
-    "href": "performance-python.html#section-2",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "%lprun -f find_labels kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 4.57433 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: find_labels at line 4\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n     4                                           def find_labels(points, centers):\n     5        54      72000.0   1333.3      0.0      labels = []\n     6    270054   52908000.0    195.9      1.2      for point in points:\n     7   2970000 4415870000.0   1486.8     96.5          distances = [dist(point, center) for center in centers]\n     8    270000  105452000.0    390.6      2.3          labels.append(distances.index(min(distances)))\n     9        54      24000.0    444.4      0.0      return labels\n\n\nThe majority of the compute time (~97% of the find_labels function, which itself takes up ~96% of the total kmeans function) is spent in calculating the distances, which is an operation repeated over the arrays of point locations.\nFor repeated operations on arrays, Numpy is your first place to turn.",
+    "objectID": "parallel-computing.html#scale-and-scalability-1",
+    "href": "parallel-computing.html#scale-and-scalability-1",
+    "title": "Introduction to parallel computing",
+    "section": "Scale and scalability",
+    "text": "Scale and scalability\n\nScale: size of problem\n\n\nScale is proportional to number of processes \\(P\\) used, and thus the maximum degree of parallelism possible.\n\n\nFLOPS: number of floating-point operations per second",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python.html#section-3",
-    "href": "performance-python.html#section-3",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "import numpy as np\n\ndef find_labels(points, centers):\n    diff = (points[:, None, :] - centers)\n    distances = (diff**2).sum(-1)\n    return distances.argmin(1)\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    n_dims = len(points[0])\n    \n    centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    counts = [0 for j in range(n_centers)]\n    \n    for label, point in zip(labels, points):\n        counts[label] += 1\n        centers[label] = [a + b for a, b in zip(centers[label], point)]\n        \n    return [[x / count for x in center] for center, count in zip(centers, counts)]\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    return np.array([points[labels == i].mean(0) for i in range(n_centers)])\n\ndef kmeans(points, n_clusters):\n    centers = points[-n_clusters:]\n    while True:\n        old_centers = centers\n        labels = find_labels(points, centers)\n        centers = compute_centers(points, labels)\n        if np.all(centers == old_centers):\n            break\n    return labels\n\n\n\nkmeans(points, 10)[:10]\n\narray([5, 3, 4, 5, 0, 4, 9, 6, 0, 7])\n\n\n\n%timeit kmeans(points, 10)\n\n76 ms ± 169 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)\n\n\n\nUsing NumPy takes the algorithm down from nearly three seconds to below one hundred milliseconds!\n\n\nThe key here is that repeated operations have been pushed into a compiled layer. Use NumPy everywhere when doing numerical calculations with arrays.",
+    "objectID": "parallel-computing.html#scaling-up-code",
+    "href": "parallel-computing.html#scaling-up-code",
+    "title": "Introduction to parallel computing",
+    "section": "Scaling up code",
+    "text": "Scaling up code\n\nScale up slowly—start with one processor, then 10, 100, etc.\n\n\nscalability: how easy or hard it is to scale code",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python.html#use-numpy-everywhere",
-    "href": "performance-python.html#use-numpy-everywhere",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "Use NumPy everywhere!",
-    "text": "Use NumPy everywhere!\n\nAdvantages:\n\n\nPython overhead per array rather than per array element\nCompact domain specific language for array operations\nNumPy is widely available\n\n\nDisadvantages:\n\n\nBatch operations can lead to excessive memory usage\nDifferent way of thinking about writing code",
+    "objectID": "parallel-computing.html#strong-scaling",
+    "href": "parallel-computing.html#strong-scaling",
+    "title": "Introduction to parallel computing",
+    "section": "Strong scaling",
+    "text": "Strong scaling\nstrong scaling: how runtime changes as a function of processor number for a fixed total problem size.\n\nspeedup \\(s\\) ratio of time on one processor (\\(t_1\\)) to time on \\(P\\) processors (\\(t_P\\)):\n\\[\ns(P) = \\frac{t_1}{t_P}\n\\]",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python.html#section-4",
-    "href": "performance-python.html#section-4",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "%lprun -f kmeans kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 0.142411 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/2497051821.py\nFunction: kmeans at line 25\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    25                                           def kmeans(points, n_clusters):\n    26         1      98000.0  98000.0      0.1      centers = points[-n_clusters:]\n    27        54      15000.0    277.8      0.0      while True:\n    28        54      11000.0    203.7      0.0          old_centers = centers\n    29        54   97292000.0    2e+06     68.3          labels = find_labels(points, centers)\n    30        54   43640000.0 808148.1     30.6          centers = compute_centers(points, labels)\n    31        54    1355000.0  25092.6      1.0          if np.all(centers == old_centers):\n    32         1          0.0      0.0      0.0              break\n    33         1          0.0      0.0      0.0      return labels\n\n\n\n%lprun -f find_labels kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 4.60709 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: find_labels at line 4\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n     4                                           def find_labels(points, centers):\n     5        54      52000.0    963.0      0.0      labels = []\n     6    270054   52181000.0    193.2      1.1      for point in points:\n     7   2970000 4453916000.0   1499.6     96.7          distances = [dist(point, center) for center in centers]\n     8    270000  100907000.0    373.7      2.2          labels.append(distances.index(min(distances)))\n     9        54      33000.0    611.1      0.0      return labels",
+    "objectID": "parallel-computing.html#strong-scaling-1",
+    "href": "parallel-computing.html#strong-scaling-1",
+    "title": "Introduction to parallel computing",
+    "section": "Strong scaling",
+    "text": "Strong scaling\nEfficient system: linear strong scaling speedup.\n\nFor example, PyFR computational fluid dynamics code:\n\n\n\n\nRef: P Vincent et al. “PyFR: Next-Generation High-Order Computational Fluid Dynamics on Many-Core Hardware.” 22nd AIAA CFD Conference. 2015.",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python.html#section-5",
-    "href": "performance-python.html#section-5",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "%lprun -f compute_centers kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 0.276425 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: compute_centers at line 11\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    11                                           def compute_centers(points, labels):\n    12        54    2770000.0  51296.3      1.0      n_centers = len(set(labels))\n    13        54     101000.0   1870.4      0.0      n_dims = len(points[0])\n    14      1674     420000.0    250.9      0.2      centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    15       594     100000.0    168.4      0.0      counts = [0 for j in range(n_centers)]\n    16    270054   49242000.0    182.3     17.8      for label, point in zip(labels, points):\n    17    270000   30445000.0    112.8     11.0          counts[label] += 1\n    18    810000  192816000.0    238.0     69.8          centers[label] = [a + b for a, b in zip(centers[label], point)]\n    19      1674     531000.0    317.2      0.2      return [[x / count for x in center] for center, count in zip(centers, counts)]\n\n\n\nWe can see that the time is now somewhat balanced between calculating the distances between points, and computing the centers of the clusters.",
+    "objectID": "parallel-computing.html#weak-scaling",
+    "href": "parallel-computing.html#weak-scaling",
+    "title": "Introduction to parallel computing",
+    "section": "Weak scaling",
+    "text": "Weak scaling\nweak scaling: how runtime changes as a function of processor number for a fixed problem size per processor\n\nsizeup \\(z\\) for a problem size \\(N\\):\n\\[\nz(P) = \\frac{t_1}{t_P} \\times \\frac{N_P}{N_1}\n\\]",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python.html#section-6",
-    "href": "performance-python.html#section-6",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "%lprun -f kmeans kmeans(points, 10)\n\nTimer unit: 1e-09 s\n\nTotal time: 0.08276 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3764998874.py\nFunction: kmeans at line 12\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    12                                           def kmeans(points, n_clusters):\n    13         1       8000.0   8000.0      0.0      centers = points[-n_clusters:]\n    14        54       8000.0    148.1      0.0      while True:\n    15        54       9000.0    166.7      0.0          old_centers = centers\n    16        54   56628000.0    1e+06     68.4          labels = find_labels(points, centers)\n    17        54   25563000.0 473388.9     30.9          centers = compute_centers(points, labels)\n    18        54     543000.0  10055.6      0.7          if np.all(centers == old_centers):\n    19         1          0.0      0.0      0.0              break\n    20         1       1000.0   1000.0      0.0      return labels\n\n\n\nRuntime reduced down to ~54 ms, compared to:\n\n\n2.7 s in pure Python\n76 ms with NumPy vectorization\n\n\nby taking advantage of specialized data structures designed for the exact low-level algorithms we need.",
+    "objectID": "parallel-computing.html#weak-scaling-1",
+    "href": "parallel-computing.html#weak-scaling-1",
+    "title": "Introduction to parallel computing",
+    "section": "Weak scaling",
+    "text": "Weak scaling\nEfficient system: linear sizeup. Or, constant time with additional processors/problem size.\n\nFor example, PyFR computational fluid dynamics code:\n\n\n\n\nRef: P Vincent et al. “PyFR: Next-Generation High-Order Computational Fluid Dynamics on Many-Core Hardware.” 22nd AIAA CFD Conference. 2015.",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python.html#section-7",
-    "href": "performance-python.html#section-7",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "Other useful data structures include:\n\nscipy.spatial: for spatial queries like distances, nearest neighbors, etc.\npandas: for SQL-like grouping & aggregation\nxarray: for grouping across multiple dimensions\nscipy.sparse: sparse matrices for two-dimensional structured data\nsparse package: for N-dimensional structured data\nscipy.sparse.csgraph: for graph-like problems (e.g., finding shortest paths)\n\n\nAdvantages: these are often the fastest possible way to solve a particular problem.\n\n\nDisadvantages: require broad & deep understanding of both algorithms and their available implementations.",
+    "objectID": "parallel-computing.html#amdahls-law",
+    "href": "parallel-computing.html#amdahls-law",
+    "title": "Introduction to parallel computing",
+    "section": "Amdahl’s Law",
+    "text": "Amdahl’s Law\nSome fraction of an algorithm, \\(α\\), cannot be parallelized.\n\nThen, the maximum speedup/sizeup for \\(P\\) processors is:\n\\[\n\\max( s(P) ) = \\frac{1}{\\alpha - \\frac{1-\\alpha}{P}}\n\\]\n\n\nThe theoretically max speedup is:\n\\[\n\\max(s) = \\frac{1}{\\alpha}\n\\]",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python.html#section-8",
-    "href": "performance-python.html#section-8",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "%%cython\n\ncimport numpy as np\nimport numpy as np\n\ncdef double dist(double[:] x, double[:] y):\n    cdef double dist = 0\n    for i in range(len(x)):\n        dist += (x[i] - y[i]) ** 2\n    return dist\n\ndef find_labels(double[:, :] points, double[:, :] centers):\n    cdef int n_points = points.shape[0]\n    cdef int n_centers = centers.shape[0]\n    cdef double[:] labels = np.zeros(n_points)\n    cdef double distance, nearest_distance\n    cdef int nearest_index\n    \n    for i in range(n_points):\n        nearest_distance = np.inf\n        for j in range(n_centers):\n            distance = dist(points[i], centers[j])\n            if distance &lt; nearest_distance:\n                nearest_distance = distance\n                nearest_index = j\n        labels[i] = nearest_index\n    return np.asarray(labels)\n\n\ncenters = points[:10]\n%timeit find_labels(points, centers)\n\n347 μs ± 906 ns per loop (mean ± std. dev. of 7 runs, 1,000 loops each)\n\n\n\nAdvantages:\n\nPython-like code at C-like speeds!\n\n\nDisadvantages:\n\n\nExplicit type annotation can be cumbersome\nOften requires restructuring code\nCode build becomes more complicated\n\n\nUse for operations that can’t easily be expressed in NumPy.",
+    "objectID": "parallel-computing.html#types-of-problems",
+    "href": "parallel-computing.html#types-of-problems",
+    "title": "Introduction to parallel computing",
+    "section": "Types of problems",
+    "text": "Types of problems\n\nembarassingly parallel: algorithms with a high degree of independence and little communication between parts\n\n\nExamples: summing large arrays, matrix multiplication, Monte Carlo simulations, some optimization approaches (e.g., stochastic and genetic algorithms)\n\n\nOther algorithms have unavoidable bottlenecks: inverting a matrix, ODE integration, etc.\n\n\nNot all hope is lost! Some parts may still benefit from parallelization.",
     "crumbs": [
-      "Strategies for Optimizing Your Python Code"
+      "Introduction to parallel computing"
     ]
   },
   {
-    "objectID": "performance-python-revealjs.html#k-means-the-algorithm",
-    "href": "performance-python-revealjs.html#k-means-the-algorithm",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "K Means: The Algorithm",
-    "text": "K Means: The Algorithm\n\nGuess some cluster centers\nRepeat until converged\n\nassign points to the nearest cluster center\nset the cluster centers to the mean of assigned points"
+    "objectID": "parallel-computing.html#equations-of-motion",
+    "href": "parallel-computing.html#equations-of-motion",
+    "title": "Introduction to parallel computing",
+    "section": "Equations of motion",
+    "text": "Equations of motion\n\\[\n\\begin{align}\n\\mathbf{x}_{i,s} &= G \\sum_{j=1, i \\neq j} \\frac{m_j (\\mathbf{x}_{j,s-1} - \\mathbf{x}_{i,s-1})}{||\\mathbf{x}_{j,s-1} - \\mathbf{x}_{i,s-1}||^3} \\Delta t^2 + \\mathbf{v}_{i,s-1} \\Delta t + \\mathbf{x}_{i,s-1} \\\\\n\\mathbf{v}_{i,s} &= G \\sum_{j=1, i \\neq j} \\frac{m_j (\\mathbf{x}_{j,s-1} - \\mathbf{x}_{i,s-1})}{||\\mathbf{x}_{j,s-1} - \\mathbf{x}_{i,s-1}||^3} \\Delta t + \\mathbf{v}_{i,s-1}\n\\end{align}\n\\]",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
   },
   {
-    "objectID": "performance-python-revealjs.html#section",
-    "href": "performance-python-revealjs.html#section",
-    "title": "Strategies for Optimizing Your Python Code",
+    "objectID": "parallel-computing.html#no-parallelism",
+    "href": "parallel-computing.html#no-parallelism",
+    "title": "Introduction to parallel computing",
+    "section": "No parallelism",
+    "text": "No parallelism\n\nimport numpy as np\n\ndef remove_i(x, i):\n    \"\"\"Drops the ith element of an array.\"\"\"\n    shape = (x.shape[0]-1,) + x.shape[1:]\n    y = np.empty(shape, dtype=float)\n    y[:i] = x[:i]\n    y[i:] = x[i+1:]\n    return y\n\ndef a(i, x, G, m):\n    \"\"\"The acceleration of the ith mass.\"\"\"\n    x_i = x[i]\n    x_j = remove_i(x, i) # don't compute on itself\n    m_j = remove_i(m, i)\n    diff = x_j - x_i\n    mag3 = np.sum(diff**2, axis=1)**1.5\n    # compute acceleration on ith mass\n    result = G * np.sum(diff * (m_j / mag3)[:,np.newaxis], axis=0)\n    return result\n\n\n\ndef timestep(x0, v0, G, m, dt):\n    \"\"\"Computes the next position and velocity for all masses given\n    initial conditions and a time step size.\n    \"\"\"\n    N = len(x0)\n    x1 = np.empty(x0.shape, dtype=float)\n    v1 = np.empty(v0.shape, dtype=float)\n    for i in range(N): # update locations for all masses each step\n        a_i0 = a(i, x0, G, m)\n        v1[i] = a_i0 * dt + v0[i]\n        x1[i] = a_i0 * dt**2 + v0[i] * dt + x0[i]\n    return x1, v1\n\ndef initial_cond(N, D):\n    \"\"\"Generates initial conditions for N unity masses at rest\n    starting at random positions in D-dimensional space.\n    \"\"\"\n    x0 = np.random.rand(N, D) # use random initial locations\n    v0 = np.zeros((N, D), dtype=float)\n    m = np.ones(N, dtype=float)\n    return x0, v0, m\n\n\nGenerating initial conditions and taking one timestep:\n\nx0, v0, m = initial_cond(10, 2)\nx1, v1 = timestep(x0, v0, 1.0, m, 1.0e-3)\n\n\nDriver function that simulates \\(S\\) time steps:\n\n\ndef simulate(N, D, S, G, dt):\n    x0, v0, m = initial_cond(N, D)\n    for s in range(S):\n        x1, v1 = timestep(x0, v0, G, m, dt)\n        x0, v0 = x1, v1",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing.html#measuring-performance",
+    "href": "parallel-computing.html#measuring-performance",
+    "title": "Introduction to parallel computing",
+    "section": "Measuring performance",
+    "text": "Measuring performance\n\nimport time\nNs = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]\nruntimes = []\nfor N in Ns:\n    start = time.time()\n    simulate(N, 3, 300, 1.0, 1e-3)\n    stop = time.time()\n    runtimes.append(stop - start)\n\n\n\nimport matplotlib.pyplot as plt\nplt.plot(Ns, runtimes, 'o')\nplt.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\n\nDoes the problem scale quadratically?",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing.html#threads",
+    "href": "parallel-computing.html#threads",
+    "title": "Introduction to parallel computing",
+    "section": "Threads",
+    "text": "Threads\n\nThreads perform work and are not blocked by work of other threads.\nThreads can communicate with each other through state",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing.html#threads-probably-dont-use-in-python.",
+    "href": "parallel-computing.html#threads-probably-dont-use-in-python.",
+    "title": "Introduction to parallel computing",
+    "section": "Threads: probably don’t use in Python.",
+    "text": "Threads: probably don’t use in Python.\n\nAll threads execute in the same process as Python itself.\nWhere to use? If you have high latency tasks where you can use spare time for another task (e.g., downloading a large file)",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing.html#n-body-with-threading",
+    "href": "parallel-computing.html#n-body-with-threading",
+    "title": "Introduction to parallel computing",
+    "section": "N-body with threading",
+    "text": "N-body with threading",
+    "crumbs": [
+      "Introduction to parallel computing"
+    ]
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#approaching-parallelism",
+    "href": "parallel-computing-revealjs.html#approaching-parallelism",
+    "title": "Introduction to parallel computing",
+    "section": "Approaching parallelism",
+    "text": "Approaching parallelism\n\nHow do I do many things at once?\nHow do I do one thing faster?\n\n\nComputer: perform many simultaneous tasks\n\n\nDeveloper: determine dependencies between code and data"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#section",
+    "href": "parallel-computing-revealjs.html#section",
+    "title": "Introduction to parallel computing",
     "section": "",
-    "text": "from sklearn.datasets import make_blobs\n\npoints, labels_true = make_blobs(\n    n_samples=5000, centers=4,\n    random_state=0, cluster_std=0.60\n    )\n\n\nimport matplotlib.pyplot as plt\n\nplt.scatter(points[:, 0], points[:, 1], s=10)\nplt.xlim(-4, 4)\nplt.ylim(-2, 10)\nplt.show()"
+    "text": "Up until now: serial thinking, like “x then y then z”\n\n\nBenefit of parallelism: problems execute faster—sometimes much faster.\n\n\nDownside to parallelism: harder to program, debug, open files, print to screen."
   },
   {
-    "objectID": "performance-python-revealjs.html#basic-python-implementation",
-    "href": "performance-python-revealjs.html#basic-python-implementation",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "Basic Python implementation",
-    "text": "Basic Python implementation\n\ndef dist(x, y):\n    return sum((xi - yi)**2 for xi, yi in zip(x, y))\n\ndef find_labels(points, centers):\n    labels = []\n    for point in points:\n        distances = [dist(point, center) for center in centers]\n        labels.append(distances.index(min(distances)))\n    return labels\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    n_dims = len(points[0])\n    centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    counts = [0 for j in range(n_centers)]\n    for label, point in zip(labels, points):\n        counts[label] += 1\n        centers[label] = [a + b for a, b in zip(centers[label], point)]\n    return [[x / count for x in center] for center, count in zip(centers, counts)]\n\ndef kmeans(points, n_clusters):\n    centers = points[-n_clusters:].tolist()\n    while True:\n        old_centers = centers\n        labels = find_labels(points, centers)\n        centers = compute_centers(points, labels)\n        if centers == old_centers:\n            break\n    return labels"
+    "objectID": "parallel-computing-revealjs.html#why-go-parallel",
+    "href": "parallel-computing-revealjs.html#why-go-parallel",
+    "title": "Introduction to parallel computing",
+    "section": "Why go parallel?",
+    "text": "Why go parallel?\n\n\n\n\n\n\n\nImportant\n\n\nFirst: wait until your code works and you need it.\n\n\n\n\n\nThe problem creates or requires too much data for a normal machine.\nThe sun would explode before the computation would finish.\nThe algorithm is easy to parallelize.\nThe physics itself cannot be simulated at all with smaller resources."
   },
   {
-    "objectID": "performance-python-revealjs.html#section-1",
-    "href": "performance-python-revealjs.html#section-1",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "%lprun -f kmeans kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 4.56715 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: kmeans at line 21\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    21                                           def kmeans(points, n_clusters):\n    22         1     129000.0 129000.0      0.0      centers = points[-n_clusters:].tolist()\n    23        54       9000.0    166.7      0.0      while True:\n    24        54      45000.0    833.3      0.0          old_centers = centers\n    25        54 4389825000.0    8e+07     96.1          labels = find_labels(points, centers)\n    26        54  177088000.0    3e+06      3.9          centers = compute_centers(points, labels)\n    27        54      57000.0   1055.6      0.0          if centers == old_centers:\n    28         1          0.0      0.0      0.0              break\n    29         1       1000.0   1000.0      0.0      return labels"
+    "objectID": "parallel-computing-revealjs.html#scale-and-scalability-1",
+    "href": "parallel-computing-revealjs.html#scale-and-scalability-1",
+    "title": "Introduction to parallel computing",
+    "section": "Scale and scalability",
+    "text": "Scale and scalability\n\nScale: size of problem\n\n\nScale is proportional to number of processes \\(P\\) used, and thus the maximum degree of parallelism possible.\n\n\nFLOPS: number of floating-point operations per second"
   },
   {
-    "objectID": "performance-python-revealjs.html#section-2",
-    "href": "performance-python-revealjs.html#section-2",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "%lprun -f find_labels kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 4.57433 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: find_labels at line 4\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n     4                                           def find_labels(points, centers):\n     5        54      72000.0   1333.3      0.0      labels = []\n     6    270054   52908000.0    195.9      1.2      for point in points:\n     7   2970000 4415870000.0   1486.8     96.5          distances = [dist(point, center) for center in centers]\n     8    270000  105452000.0    390.6      2.3          labels.append(distances.index(min(distances)))\n     9        54      24000.0    444.4      0.0      return labels\n\n\nThe majority of the compute time (~97% of the find_labels function, which itself takes up ~96% of the total kmeans function) is spent in calculating the distances, which is an operation repeated over the arrays of point locations.\nFor repeated operations on arrays, Numpy is your first place to turn."
+    "objectID": "parallel-computing-revealjs.html#scaling-up-code",
+    "href": "parallel-computing-revealjs.html#scaling-up-code",
+    "title": "Introduction to parallel computing",
+    "section": "Scaling up code",
+    "text": "Scaling up code\n\nScale up slowly—start with one processor, then 10, 100, etc.\n\n\nscalability: how easy or hard it is to scale code"
   },
   {
-    "objectID": "performance-python-revealjs.html#section-3",
-    "href": "performance-python-revealjs.html#section-3",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "import numpy as np\n\ndef find_labels(points, centers):\n    diff = (points[:, None, :] - centers)\n    distances = (diff**2).sum(-1)\n    return distances.argmin(1)\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    n_dims = len(points[0])\n    \n    centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    counts = [0 for j in range(n_centers)]\n    \n    for label, point in zip(labels, points):\n        counts[label] += 1\n        centers[label] = [a + b for a, b in zip(centers[label], point)]\n        \n    return [[x / count for x in center] for center, count in zip(centers, counts)]\n\ndef compute_centers(points, labels):\n    n_centers = len(set(labels))\n    return np.array([points[labels == i].mean(0) for i in range(n_centers)])\n\ndef kmeans(points, n_clusters):\n    centers = points[-n_clusters:]\n    while True:\n        old_centers = centers\n        labels = find_labels(points, centers)\n        centers = compute_centers(points, labels)\n        if np.all(centers == old_centers):\n            break\n    return labels"
+    "objectID": "parallel-computing-revealjs.html#strong-scaling",
+    "href": "parallel-computing-revealjs.html#strong-scaling",
+    "title": "Introduction to parallel computing",
+    "section": "Strong scaling",
+    "text": "Strong scaling\nstrong scaling: how runtime changes as a function of processor number for a fixed total problem size.\n\nspeedup \\(s\\) ratio of time on one processor (\\(t_1\\)) to time on \\(P\\) processors (\\(t_P\\)):\n\\[\ns(P) = \\frac{t_1}{t_P}\n\\]"
   },
   {
-    "objectID": "performance-python-revealjs.html#use-numpy-everywhere",
-    "href": "performance-python-revealjs.html#use-numpy-everywhere",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "Use NumPy everywhere!",
-    "text": "Use NumPy everywhere!\n\nAdvantages:\n\n\nPython overhead per array rather than per array element\nCompact domain specific language for array operations\nNumPy is widely available\n\n\nDisadvantages:\n\n\nBatch operations can lead to excessive memory usage\nDifferent way of thinking about writing code"
+    "objectID": "parallel-computing-revealjs.html#strong-scaling-1",
+    "href": "parallel-computing-revealjs.html#strong-scaling-1",
+    "title": "Introduction to parallel computing",
+    "section": "Strong scaling",
+    "text": "Strong scaling\nEfficient system: linear strong scaling speedup.\n\nFor example, PyFR computational fluid dynamics code:\n\n\nRef: P Vincent et al. “PyFR: Next-Generation High-Order Computational Fluid Dynamics on Many-Core Hardware.” 22nd AIAA CFD Conference. 2015."
   },
   {
-    "objectID": "performance-python-revealjs.html#section-4",
-    "href": "performance-python-revealjs.html#section-4",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "%lprun -f kmeans kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 0.142411 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/2497051821.py\nFunction: kmeans at line 25\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    25                                           def kmeans(points, n_clusters):\n    26         1      98000.0  98000.0      0.1      centers = points[-n_clusters:]\n    27        54      15000.0    277.8      0.0      while True:\n    28        54      11000.0    203.7      0.0          old_centers = centers\n    29        54   97292000.0    2e+06     68.3          labels = find_labels(points, centers)\n    30        54   43640000.0 808148.1     30.6          centers = compute_centers(points, labels)\n    31        54    1355000.0  25092.6      1.0          if np.all(centers == old_centers):\n    32         1          0.0      0.0      0.0              break\n    33         1          0.0      0.0      0.0      return labels\n\n\n\n%lprun -f find_labels kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 4.60709 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: find_labels at line 4\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n     4                                           def find_labels(points, centers):\n     5        54      52000.0    963.0      0.0      labels = []\n     6    270054   52181000.0    193.2      1.1      for point in points:\n     7   2970000 4453916000.0   1499.6     96.7          distances = [dist(point, center) for center in centers]\n     8    270000  100907000.0    373.7      2.2          labels.append(distances.index(min(distances)))\n     9        54      33000.0    611.1      0.0      return labels"
+    "objectID": "parallel-computing-revealjs.html#weak-scaling",
+    "href": "parallel-computing-revealjs.html#weak-scaling",
+    "title": "Introduction to parallel computing",
+    "section": "Weak scaling",
+    "text": "Weak scaling\nweak scaling: how runtime changes as a function of processor number for a fixed problem size per processor\n\nsizeup \\(z\\) for a problem size \\(N\\):\n\\[\nz(P) = \\frac{t_1}{t_P} \\times \\frac{N_P}{N_1}\n\\]"
   },
   {
-    "objectID": "performance-python-revealjs.html#section-5",
-    "href": "performance-python-revealjs.html#section-5",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "%lprun -f compute_centers kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 0.276425 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3233416767.py\nFunction: compute_centers at line 11\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    11                                           def compute_centers(points, labels):\n    12        54    2770000.0  51296.3      1.0      n_centers = len(set(labels))\n    13        54     101000.0   1870.4      0.0      n_dims = len(points[0])\n    14      1674     420000.0    250.9      0.2      centers = [[0 for i in range(n_dims)] for j in range(n_centers)]\n    15       594     100000.0    168.4      0.0      counts = [0 for j in range(n_centers)]\n    16    270054   49242000.0    182.3     17.8      for label, point in zip(labels, points):\n    17    270000   30445000.0    112.8     11.0          counts[label] += 1\n    18    810000  192816000.0    238.0     69.8          centers[label] = [a + b for a, b in zip(centers[label], point)]\n    19      1674     531000.0    317.2      0.2      return [[x / count for x in center] for center, count in zip(centers, counts)]\n\n\n\nWe can see that the time is now somewhat balanced between calculating the distances between points, and computing the centers of the clusters."
+    "objectID": "parallel-computing-revealjs.html#weak-scaling-1",
+    "href": "parallel-computing-revealjs.html#weak-scaling-1",
+    "title": "Introduction to parallel computing",
+    "section": "Weak scaling",
+    "text": "Weak scaling\nEfficient system: linear sizeup. Or, constant time with additional processors/problem size.\n\nFor example, PyFR computational fluid dynamics code:\n\n\nRef: P Vincent et al. “PyFR: Next-Generation High-Order Computational Fluid Dynamics on Many-Core Hardware.” 22nd AIAA CFD Conference. 2015."
   },
   {
-    "objectID": "performance-python-revealjs.html#section-6",
-    "href": "performance-python-revealjs.html#section-6",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "%lprun -f kmeans kmeans(points, 10)\n\n\n\nTimer unit: 1e-09 s\n\nTotal time: 0.08276 s\nFile: /var/folders/ng/d9rd9fb92c7bxz9fy7vwpj7m0000gp/T/ipykernel_13369/3764998874.py\nFunction: kmeans at line 12\n\nLine #      Hits         Time  Per Hit   % Time  Line Contents\n==============================================================\n    12                                           def kmeans(points, n_clusters):\n    13         1       8000.0   8000.0      0.0      centers = points[-n_clusters:]\n    14        54       8000.0    148.1      0.0      while True:\n    15        54       9000.0    166.7      0.0          old_centers = centers\n    16        54   56628000.0    1e+06     68.4          labels = find_labels(points, centers)\n    17        54   25563000.0 473388.9     30.9          centers = compute_centers(points, labels)\n    18        54     543000.0  10055.6      0.7          if np.all(centers == old_centers):\n    19         1          0.0      0.0      0.0              break\n    20         1       1000.0   1000.0      0.0      return labels\n\n\n\nRuntime reduced down to ~54 ms, compared to:\n\n\n2.7 s in pure Python\n76 ms with NumPy vectorization\n\n\nby taking advantage of specialized data structures designed for the exact low-level algorithms we need."
+    "objectID": "parallel-computing-revealjs.html#amdahls-law",
+    "href": "parallel-computing-revealjs.html#amdahls-law",
+    "title": "Introduction to parallel computing",
+    "section": "Amdahl’s Law",
+    "text": "Amdahl’s Law\nSome fraction of an algorithm, \\(α\\), cannot be parallelized.\n\nThen, the maximum speedup/sizeup for \\(P\\) processors is:\n\\[\n\\max( s(P) ) = \\frac{1}{\\alpha - \\frac{1-\\alpha}{P}}\n\\]\n\n\nThe theoretically max speedup is:\n\\[\n\\max(s) = \\frac{1}{\\alpha}\n\\]"
   },
   {
-    "objectID": "performance-python-revealjs.html#section-7",
-    "href": "performance-python-revealjs.html#section-7",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "Other useful data structures include:\n\nscipy.spatial: for spatial queries like distances, nearest neighbors, etc.\npandas: for SQL-like grouping & aggregation\nxarray: for grouping across multiple dimensions\nscipy.sparse: sparse matrices for two-dimensional structured data\nsparse package: for N-dimensional structured data\nscipy.sparse.csgraph: for graph-like problems (e.g., finding shortest paths)\n\n\nAdvantages: these are often the fastest possible way to solve a particular problem.\n\n\nDisadvantages: require broad & deep understanding of both algorithms and their available implementations."
+    "objectID": "parallel-computing-revealjs.html#types-of-problems",
+    "href": "parallel-computing-revealjs.html#types-of-problems",
+    "title": "Introduction to parallel computing",
+    "section": "Types of problems",
+    "text": "Types of problems\n\nembarassingly parallel: algorithms with a high degree of independence and little communication between parts\n\n\nExamples: summing large arrays, matrix multiplication, Monte Carlo simulations, some optimization approaches (e.g., stochastic and genetic algorithms)\n\n\nOther algorithms have unavoidable bottlenecks: inverting a matrix, ODE integration, etc.\n\n\nNot all hope is lost! Some parts may still benefit from parallelization."
   },
   {
-    "objectID": "performance-python-revealjs.html#section-8",
-    "href": "performance-python-revealjs.html#section-8",
-    "title": "Strategies for Optimizing Your Python Code",
-    "section": "",
-    "text": "%%cython\n\ncimport numpy as np\nimport numpy as np\n\ncdef double dist(double[:] x, double[:] y):\n    cdef double dist = 0\n    for i in range(len(x)):\n        dist += (x[i] - y[i]) ** 2\n    return dist\n\ndef find_labels(double[:, :] points, double[:, :] centers):\n    cdef int n_points = points.shape[0]\n    cdef int n_centers = centers.shape[0]\n    cdef double[:] labels = np.zeros(n_points)\n    cdef double distance, nearest_distance\n    cdef int nearest_index\n    \n    for i in range(n_points):\n        nearest_distance = np.inf\n        for j in range(n_centers):\n            distance = dist(points[i], centers[j])\n            if distance &lt; nearest_distance:\n                nearest_distance = distance\n                nearest_index = j\n        labels[i] = nearest_index\n    return np.asarray(labels)\n\n\ncenters = points[:10]\n%timeit find_labels(points, centers)\n\n\n\n347 μs ± 906 ns per loop (mean ± std. dev. of 7 runs, 1,000 loops each)"
+    "objectID": "parallel-computing-revealjs.html#equations-of-motion",
+    "href": "parallel-computing-revealjs.html#equations-of-motion",
+    "title": "Introduction to parallel computing",
+    "section": "Equations of motion",
+    "text": "Equations of motion\n\\[\n\\begin{align}\n\\mathbf{x}_{i,s} &= G \\sum_{j=1, i \\neq j} \\frac{m_j (\\mathbf{x}_{j,s-1} - \\mathbf{x}_{i,s-1})}{||\\mathbf{x}_{j,s-1} - \\mathbf{x}_{i,s-1}||^3} \\Delta t^2 + \\mathbf{v}_{i,s-1} \\Delta t + \\mathbf{x}_{i,s-1} \\\\\n\\mathbf{v}_{i,s} &= G \\sum_{j=1, i \\neq j} \\frac{m_j (\\mathbf{x}_{j,s-1} - \\mathbf{x}_{i,s-1})}{||\\mathbf{x}_{j,s-1} - \\mathbf{x}_{i,s-1}||^3} \\Delta t + \\mathbf{v}_{i,s-1}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#no-parallelism",
+    "href": "parallel-computing-revealjs.html#no-parallelism",
+    "title": "Introduction to parallel computing",
+    "section": "No parallelism",
+    "text": "No parallelism\n\nimport numpy as np\n\ndef remove_i(x, i):\n    \"\"\"Drops the ith element of an array.\"\"\"\n    shape = (x.shape[0]-1,) + x.shape[1:]\n    y = np.empty(shape, dtype=float)\n    y[:i] = x[:i]\n    y[i:] = x[i+1:]\n    return y\n\ndef a(i, x, G, m):\n    \"\"\"The acceleration of the ith mass.\"\"\"\n    x_i = x[i]\n    x_j = remove_i(x, i) # don't compute on itself\n    m_j = remove_i(m, i)\n    diff = x_j - x_i\n    mag3 = np.sum(diff**2, axis=1)**1.5\n    # compute acceleration on ith mass\n    result = G * np.sum(diff * (m_j / mag3)[:,np.newaxis], axis=0)\n    return result"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#measuring-performance",
+    "href": "parallel-computing-revealjs.html#measuring-performance",
+    "title": "Introduction to parallel computing",
+    "section": "Measuring performance",
+    "text": "Measuring performance\n\nimport time\nNs = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]\nruntimes = []\nfor N in Ns:\n    start = time.time()\n    simulate(N, 3, 300, 1.0, 1e-3)\n    stop = time.time()\n    runtimes.append(stop - start)"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#threads",
+    "href": "parallel-computing-revealjs.html#threads",
+    "title": "Introduction to parallel computing",
+    "section": "Threads",
+    "text": "Threads\n\nThreads perform work and are not blocked by work of other threads.\nThreads can communicate with each other through state"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#threads-probably-dont-use-in-python.",
+    "href": "parallel-computing-revealjs.html#threads-probably-dont-use-in-python.",
+    "title": "Introduction to parallel computing",
+    "section": "Threads: probably don’t use in Python.",
+    "text": "Threads: probably don’t use in Python.\n\nAll threads execute in the same process as Python itself.\nWhere to use? If you have high latency tasks where you can use spare time for another task (e.g., downloading a large file)"
+  },
+  {
+    "objectID": "parallel-computing-revealjs.html#n-body-with-threading",
+    "href": "parallel-computing-revealjs.html#n-body-with-threading",
+    "title": "Introduction to parallel computing",
+    "section": "N-body with threading",
+    "text": "N-body with threading"
   },
   {
     "objectID": "files-command-line.html",

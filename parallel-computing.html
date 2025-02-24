@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kyle Niemeyer">
-<meta name="dcterms.date" content="2025-01-06">
+<meta name="dcterms.date" content="2025-02-24">
 
-<title>Managing your computational environment – Software Development for Research</title>
+<title>Introduction to parallel computing – Software Development for Research</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -103,6 +103,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -116,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./managing-environment.html">Managing your computational environment</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./parallel-computing.html">Introduction to parallel computing</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -161,7 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./managing-environment.html" class="sidebar-item-text sidebar-link active">
+  <a href="./managing-environment.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Managing your computational environment</span></a>
   </div>
 </li>
@@ -215,7 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./parallel-computing.html" class="sidebar-item-text sidebar-link">
+  <a href="./parallel-computing.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Introduction to parallel computing</span></a>
   </div>
 </li>
@@ -229,38 +258,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-virtual-environments" id="toc-introduction-to-virtual-environments" class="nav-link active" data-scroll-target="#introduction-to-virtual-environments">Introduction to virtual environments</a>
+  <li><a href="#introduction-to-parallel-computing-in-python" id="toc-introduction-to-parallel-computing-in-python" class="nav-link active" data-scroll-target="#introduction-to-parallel-computing-in-python">Introduction to parallel computing (in Python)</a>
   <ul class="collapse">
-  <li><a href="#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages" id="toc-power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages" class="nav-link" data-scroll-target="#power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages">Power of Python for research comes from rich ecosystem of third-party packages</a></li>
-  <li><a href="#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed." id="toc-your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed." class="nav-link" data-scroll-target="#your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.">Your results may depend on the specific versions and combination of packages you have installed.</a></li>
-  <li><a href="#as-a-rule-dont-install-packages-into-your-global-environment" id="toc-as-a-rule-dont-install-packages-into-your-global-environment" class="nav-link" data-scroll-target="#as-a-rule-dont-install-packages-into-your-global-environment">🚨 As a rule, don’t install packages into your global environment!</a>
-  <ul class="collapse">
-  <li><a href="#even-if-the-documentation-says-pip-install-x" id="toc-even-if-the-documentation-says-pip-install-x" class="nav-link" data-scroll-target="#even-if-the-documentation-says-pip-install-x">… even if the documentation says <code>pip install x</code></a></li>
-  </ul></li>
-  <li><a href="#best-practice-use-virtual-environments" id="toc-best-practice-use-virtual-environments" class="nav-link" data-scroll-target="#best-practice-use-virtual-environments">Best practice: use virtual environments</a></li>
-  </ul></li>
-  <li><a href="#using-venv-to-manage-virtual-environments" id="toc-using-venv-to-manage-virtual-environments" class="nav-link" data-scroll-target="#using-venv-to-manage-virtual-environments">Using venv to manage virtual environments</a>
-  <ul class="collapse">
-  <li><a href="#creating-and-activating-a-virtual-environment" id="toc-creating-and-activating-a-virtual-environment" class="nav-link" data-scroll-target="#creating-and-activating-a-virtual-environment">Creating and activating a virtual environment</a></li>
-  <li><a href="#installing-packages" id="toc-installing-packages" class="nav-link" data-scroll-target="#installing-packages">Installing packages</a></li>
-  </ul></li>
-  <li><a href="#alternatives-for-managing-virtual-environments" id="toc-alternatives-for-managing-virtual-environments" class="nav-link" data-scroll-target="#alternatives-for-managing-virtual-environments">Alternatives for managing virtual environments</a>
-  <ul class="collapse">
-  <li><a href="#pip-family" id="toc-pip-family" class="nav-link" data-scroll-target="#pip-family">pip family</a></li>
-  <li><a href="#conda-family" id="toc-conda-family" class="nav-link" data-scroll-target="#conda-family">Conda family</a></li>
+  <li><a href="#approaching-parallelism" id="toc-approaching-parallelism" class="nav-link" data-scroll-target="#approaching-parallelism">Approaching parallelism</a></li>
   <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
-  <li><a href="#conda-based-package-managers" id="toc-conda-based-package-managers" class="nav-link" data-scroll-target="#conda-based-package-managers">Conda-based package managers</a></li>
+  <li><a href="#why-go-parallel" id="toc-why-go-parallel" class="nav-link" data-scroll-target="#why-go-parallel">Why go parallel?</a></li>
   </ul></li>
-  <li><a href="#references-and-further-reading" id="toc-references-and-further-reading" class="nav-link" data-scroll-target="#references-and-further-reading">References and further reading</a></li>
+  <li><a href="#scale-and-scalability" id="toc-scale-and-scalability" class="nav-link" data-scroll-target="#scale-and-scalability">Scale and scalability</a>
+  <ul class="collapse">
+  <li><a href="#scale-and-scalability-1" id="toc-scale-and-scalability-1" class="nav-link" data-scroll-target="#scale-and-scalability-1">Scale and scalability</a></li>
+  <li><a href="#scaling-up-code" id="toc-scaling-up-code" class="nav-link" data-scroll-target="#scaling-up-code">Scaling up code</a></li>
+  <li><a href="#strong-scaling" id="toc-strong-scaling" class="nav-link" data-scroll-target="#strong-scaling">Strong scaling</a></li>
+  <li><a href="#strong-scaling-1" id="toc-strong-scaling-1" class="nav-link" data-scroll-target="#strong-scaling-1">Strong scaling</a></li>
+  <li><a href="#weak-scaling" id="toc-weak-scaling" class="nav-link" data-scroll-target="#weak-scaling">Weak scaling</a></li>
+  <li><a href="#weak-scaling-1" id="toc-weak-scaling-1" class="nav-link" data-scroll-target="#weak-scaling-1">Weak scaling</a></li>
+  <li><a href="#amdahls-law" id="toc-amdahls-law" class="nav-link" data-scroll-target="#amdahls-law">Amdahl’s Law</a></li>
+  <li><a href="#types-of-problems" id="toc-types-of-problems" class="nav-link" data-scroll-target="#types-of-problems">Types of problems</a></li>
+  </ul></li>
+  <li><a href="#example-n-body-problem" id="toc-example-n-body-problem" class="nav-link" data-scroll-target="#example-n-body-problem">Example: N-body problem</a>
+  <ul class="collapse">
+  <li><a href="#equations-of-motion" id="toc-equations-of-motion" class="nav-link" data-scroll-target="#equations-of-motion">Equations of motion</a></li>
+  <li><a href="#no-parallelism" id="toc-no-parallelism" class="nav-link" data-scroll-target="#no-parallelism">No parallelism</a></li>
+  <li><a href="#measuring-performance" id="toc-measuring-performance" class="nav-link" data-scroll-target="#measuring-performance">Measuring performance</a></li>
+  <li><a href="#threads" id="toc-threads" class="nav-link" data-scroll-target="#threads">Threads</a></li>
+  <li><a href="#threads-probably-dont-use-in-python." id="toc-threads-probably-dont-use-in-python." class="nav-link" data-scroll-target="#threads-probably-dont-use-in-python.">Threads: probably don’t use in Python.</a></li>
+  <li><a href="#n-body-with-threading" id="toc-n-body-with-threading" class="nav-link" data-scroll-target="#n-body-with-threading">N-body with threading</a></li>
+  </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="managing-environment-revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="parallel-computing-revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Managing your computational environment</h1>
+<h1 class="title">Introduction to parallel computing</h1>
 </div>
 
 
@@ -284,7 +316,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 6, 2025</p>
+      <p class="date">February 24, 2025</p>
     </div>
   </div>
   
@@ -296,155 +328,297 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction-to-virtual-environments" class="level1">
-<h1>Introduction to virtual environments</h1>
-<section id="power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages" class="level2">
-<h2 class="anchored" data-anchor-id="power-of-python-for-research-comes-from-rich-ecosystem-of-third-party-packages">Power of Python for research comes from rich ecosystem of third-party packages</h2>
+<section id="introduction-to-parallel-computing-in-python" class="level1">
+<h1>Introduction to parallel computing (in Python)</h1>
 <div class="fragment">
-<p>These include general numerical and scientific tools like NumPy, SciPy, and Pandas, and domain-specific software like Cantera. You should rely on mature packages that provide useful features when possible—don’t reinvent the wheel!</p>
+<p>If you want more, check out CS 475/575 Parallel Programming.</p>
 </div>
-<div class="fragment">
-<p>But, each software package has its own set of dependencies, and might require a specific version of some other package (like when a newer version breaks or changes some functionality).</p>
-</div>
-</section>
-<section id="your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed." class="level2 center">
-<h2 class="center anchored" data-anchor-id="your-results-may-depend-on-the-specific-versions-and-combination-of-packages-you-have-installed.">Your results may depend on the specific versions and combination of packages you have installed.</h2>
-<div class="fragment">
-<p>This is particularly important for research analysis.</p>
-</div>
-</section>
-<section id="as-a-rule-dont-install-packages-into-your-global-environment" class="level2 center">
-<h2 class="center anchored" data-anchor-id="as-a-rule-dont-install-packages-into-your-global-environment">🚨 As a rule, don’t install packages into your global environment!</h2>
-<div class="fragment">
-<section id="even-if-the-documentation-says-pip-install-x" class="level3">
-<h3 class="anchored" data-anchor-id="even-if-the-documentation-says-pip-install-x">… even if the documentation says <code>pip install x</code></h3>
-</section>
-</div>
-</section>
-<section id="best-practice-use-virtual-environments" class="level2">
-<h2 class="anchored" data-anchor-id="best-practice-use-virtual-environments">Best practice: use virtual environments</h2>
+<section id="approaching-parallelism" class="level2">
+<h2 class="anchored" data-anchor-id="approaching-parallelism">Approaching parallelism</h2>
 <ul>
-<li><p>Virtual environments are lightweight installations of packages in a particular location (like in your working directory or project project) that build on top of your system Python installation.</p></li>
-<li><p>Virtual environments isolate the set of dependencies for a project or package from each other, and from your system configuration.</p></li>
-<li><p>These are intended to be easy to set up, disposable, and replaceable.</p></li>
+<li>How do I do many things at once?</li>
+<li>How do I do one thing faster?</li>
 </ul>
-<hr>
-<ul>
-<li><p>On a Mac or Linux machine, I recommend using the built-in <a href="https://docs.python.org/3/library/venv.html"><code>venv</code> module</a> to create a virtual environment for your work, then install inside that using the <code>pip</code> installer.</p></li>
-<li><p>On Windows, your best bet is probably the <a href="https://www.anaconda.com/download">Anaconda Distribution</a>. Anaconda comes with hundreds of scientific packages already, and also lets you set up system-wide virtual environments.</p></li>
-</ul>
-</section>
-</section>
-<section id="using-venv-to-manage-virtual-environments" class="level1">
-<h1>Using venv to manage virtual environments</h1>
-<section id="creating-and-activating-a-virtual-environment" class="level2">
-<h2 class="anchored" data-anchor-id="creating-and-activating-a-virtual-environment">Creating and activating a virtual environment</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
-<p>This creates a new directory <code>.venv</code> with:</p>
+<p>Computer: perform many simultaneous tasks</p>
 </div>
-<ul>
-<li><code>.venv/bin</code> with link to Python, <code>pip</code>, and activation scripts; and</li>
-<li><code>.venv/lib/site-packages</code> where packages will be installed.</li>
-</ul>
-<hr>
 <div class="fragment">
-<p>To activate the environment, source the activation script:</p>
+<p>Developer: determine dependencies between code and data</p>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="fragment callout callout-style-default callout-tip callout-titled">
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<div class="fragment">
+<p>Up until now: serial thinking, like “x then y then z”</p>
+</div>
+<div class="fragment">
+<p>Benefit of parallelism: problems execute faster—sometimes <strong>much</strong> faster.</p>
+</div>
+<div class="fragment">
+<p>Downside to parallelism: harder to program, debug, open files, print to screen.</p>
+</div>
+</section>
+<section id="why-go-parallel" class="level2">
+<h2 class="anchored" data-anchor-id="why-go-parallel">Why go parallel?</h2>
+<div class="fragment callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Try this yourself. <code>.venv/bin</code> will be added to your PATH, and your shell will usually indicate you are “in” a virtual environment.</p>
+<p>First: wait until your code works and you need it.</p>
 </div>
+</div>
+<ul>
+<li>The problem creates or requires too much data for a normal machine.</li>
+<li>The sun would explode before the computation would finish.</li>
+<li>The algorithm is easy to parallelize.</li>
+<li>The physics itself cannot be simulated at all with smaller resources.</li>
+</ul>
+</section>
+</section>
+<section id="scale-and-scalability" class="level1">
+<h1>Scale and scalability</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/sense-and-sensibility.jpg" class="img-fluid figure-img"></p>
+<figcaption>“Scale and Scalability” book cover</figcaption>
+</figure>
+</div>
+<section id="scale-and-scalability-1" class="level2">
+<h2 class="anchored" data-anchor-id="scale-and-scalability-1">Scale and scalability</h2>
+<div class="fragment">
+<p><strong>Scale</strong>: size of problem</p>
 </div>
 <div class="fragment">
-<p>To leave the virtual environment, run the deactivate function:</p>
+<p>Scale is proportional to number of processes <span class="math inline">\(P\)</span> used, and thus the maximum <em>degree of parallelism</em> possible.</p>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">deactivate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="fragment callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Closing/terminating your shell will automatically deactivate the virtual environment, and you’ll need to manually activate whenever you start a new session.</p>
-</div>
+<div class="fragment">
+<p><strong>FLOPS</strong>: number of floating-point operations per second</p>
 </div>
 </section>
-<section id="installing-packages" class="level2">
-<h2 class="anchored" data-anchor-id="installing-packages">Installing packages</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="op">&lt;</span>package<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="scaling-up-code" class="level2">
+<h2 class="anchored" data-anchor-id="scaling-up-code">Scaling up code</h2>
+<div class="fragment">
+<p>Scale up slowly—start with one processor, then 10, 100, etc.</p>
+</div>
+<div class="fragment">
+<p><strong>scalability</strong>: how easy or hard it is to scale code</p>
+</div>
+</section>
+<section id="strong-scaling" class="level2">
+<h2 class="anchored" data-anchor-id="strong-scaling">Strong scaling</h2>
+<p><strong>strong scaling</strong>: how runtime changes as a function of processor number for a fixed total problem size.</p>
+<div class="fragment">
+<p>speedup <span class="math inline">\(s\)</span> ratio of time on one processor (<span class="math inline">\(t_1\)</span>) to time on <span class="math inline">\(P\)</span> processors (<span class="math inline">\(t_P\)</span>):</p>
+<p><span class="math display">\[
+s(P) = \frac{t_1}{t_P}
+\]</span></p>
+</div>
+</section>
+<section id="strong-scaling-1" class="level2">
+<h2 class="anchored" data-anchor-id="strong-scaling-1">Strong scaling</h2>
+<p>Efficient system: linear strong scaling speedup.</p>
+<div class="fragment">
+<p>For example, <a href="http://www.pyfr.org/">PyFR</a> computational fluid dynamics code:</p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/pyfr-strongscaling.png" class="r-stretch fragment img-fluid figure-img"></p>
+<figcaption>Ref: P Vincent et al.&nbsp;“PyFR: Next-Generation High-Order Computational Fluid Dynamics on Many-Core Hardware.” 22nd AIAA CFD Conference. 2015.</figcaption>
+</figure>
+</div>
+</section>
+<section id="weak-scaling" class="level2">
+<h2 class="anchored" data-anchor-id="weak-scaling">Weak scaling</h2>
+<p><strong>weak scaling</strong>: how runtime changes as a function of processor number for a fixed problem size per processor</p>
+<div class="fragment">
+<p>sizeup <span class="math inline">\(z\)</span> for a problem size <span class="math inline">\(N\)</span>:</p>
+<p><span class="math display">\[
+z(P) = \frac{t_1}{t_P} \times \frac{N_P}{N_1}
+\]</span></p>
+</div>
+</section>
+<section id="weak-scaling-1" class="level2">
+<h2 class="anchored" data-anchor-id="weak-scaling-1">Weak scaling</h2>
+<p>Efficient system: linear sizeup. Or, constant time with additional processors/problem size.</p>
+<div class="fragment">
+<p>For example, <a href="http://www.pyfr.org/">PyFR</a> computational fluid dynamics code:</p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/pyfr-weakscaling.png" class="r-stretch fragment img-fluid figure-img"></p>
+<figcaption>Ref: P Vincent et al.&nbsp;“PyFR: Next-Generation High-Order Computational Fluid Dynamics on Many-Core Hardware.” 22nd AIAA CFD Conference. 2015.</figcaption>
+</figure>
+</div>
+</section>
+<section id="amdahls-law" class="level2">
+<h2 class="anchored" data-anchor-id="amdahls-law">Amdahl’s Law</h2>
+<p>Some fraction of an algorithm, <span class="math inline">\(α\)</span>, cannot be parallelized.</p>
+<div class="fragment">
+<p>Then, the maximum speedup/sizeup for <span class="math inline">\(P\)</span> processors is:</p>
+<p><span class="math display">\[
+\max( s(P) ) = \frac{1}{\alpha - \frac{1-\alpha}{P}}
+\]</span></p>
+</div>
+<div class="fragment">
+<p>The theoretically max speedup is:</p>
+<p><span class="math display">\[
+\max(s) = \frac{1}{\alpha}
+\]</span></p>
+</div>
+</section>
+<section id="types-of-problems" class="level2">
+<h2 class="anchored" data-anchor-id="types-of-problems">Types of problems</h2>
+<div class="fragment">
+<p><strong>embarassingly parallel</strong>: algorithms with a high degree of independence and little communication between parts</p>
+</div>
+<div class="fragment">
+<p>Examples: summing large arrays, matrix multiplication, Monte Carlo simulations, some optimization approaches (e.g., stochastic and genetic algorithms)</p>
+</div>
+<div class="fragment">
+<p>Other algorithms have unavoidable bottlenecks: inverting a matrix, ODE integration, etc.</p>
+</div>
+<div class="fragment">
+<p>Not all hope is lost! Some parts may still benefit from parallelization.</p>
+</div>
 </section>
 </section>
-<section id="alternatives-for-managing-virtual-environments" class="level1">
-<h1>Alternatives for managing virtual environments</h1>
-<section id="pip-family" class="level2">
-<h2 class="anchored" data-anchor-id="pip-family">pip family</h2>
-<p>Tools that all work similarly to <code>venv</code>:</p>
-<ul>
-<li><code>venv</code>: comes with Python, simple</li>
-<li><a href="https://virtualenv.pypa.io/"><code>virtualenv</code></a>: installable package with same interface as <code>venv</code>, but faster and with more options</li>
-<li><a href="https://docs.astral.sh/uv/"><code>uv</code></a>: written in Rust and extremely fast</li>
-</ul>
+<section id="example-n-body-problem" class="level1">
+<h1>Example: N-body problem</h1>
+<div class="fragment">
+<p>Generalization of the classic two-body problem that governs the equations of motion for two masses. From Newton’s law of gravity:</p>
+<p><span class="math display">\[
+\frac{dp}{dt} = G \frac{m_1 m_2}{r^2}
+\]</span></p>
+</div>
+<section id="equations-of-motion" class="level2">
+<h2 class="anchored" data-anchor-id="equations-of-motion">Equations of motion</h2>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{x}_{i,s} &amp;= G \sum_{j=1, i \neq j} \frac{m_j (\mathbf{x}_{j,s-1} - \mathbf{x}_{i,s-1})}{||\mathbf{x}_{j,s-1} - \mathbf{x}_{i,s-1}||^3} \Delta t^2 + \mathbf{v}_{i,s-1} \Delta t + \mathbf{x}_{i,s-1} \\
+\mathbf{v}_{i,s} &amp;= G \sum_{j=1, i \neq j} \frac{m_j (\mathbf{x}_{j,s-1} - \mathbf{x}_{i,s-1})}{||\mathbf{x}_{j,s-1} - \mathbf{x}_{i,s-1}||^3} \Delta t + \mathbf{v}_{i,s-1}
+\end{align}
+\]</span></p>
+</section>
+<section id="no-parallelism" class="level2">
+<h2 class="anchored" data-anchor-id="no-parallelism">No parallelism</h2>
+<div id="71aefb75-11e9-4ee8-b511-3088b7687057" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> remove_i(x, i):</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Drops the ith element of an array."""</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    shape <span class="op">=</span> (x.shape[<span class="dv">0</span>]<span class="op">-</span><span class="dv">1</span>,) <span class="op">+</span> x.shape[<span class="dv">1</span>:]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.empty(shape, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    y[:i] <span class="op">=</span> x[:i]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    y[i:] <span class="op">=</span> x[i<span class="op">+</span><span class="dv">1</span>:]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> a(i, x, G, m):</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""The acceleration of the ith mass."""</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    x_i <span class="op">=</span> x[i]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    x_j <span class="op">=</span> remove_i(x, i) <span class="co"># don't compute on itself</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    m_j <span class="op">=</span> remove_i(m, i)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> x_j <span class="op">-</span> x_i</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    mag3 <span class="op">=</span> np.<span class="bu">sum</span>(diff<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)<span class="op">**</span><span class="fl">1.5</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># compute acceleration on ith mass</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> G <span class="op">*</span> np.<span class="bu">sum</span>(diff <span class="op">*</span> (m_j <span class="op">/</span> mag3)[:,np.newaxis], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <hr>
-<p>In addition, there are project management tools that both handle environments, packaging, production, etc.:</p>
-<ul>
-<li><a href="https://hatch.pypa.io/">Hatch</a></li>
-<li><a href="https://python-poetry.org">Poetry</a></li>
-<li><a href="https://pipenv.pypa.io/en/">Pipenv</a></li>
-</ul>
-<div class="fragment">
-<p>These work a bit differently, but can be quite powerful particularly for locking specific versions of dependencies. Consider returning to these when we are thinking about packaging and distribution.</p>
+<div id="d1873619-130f-4fc5-9112-94ad31e9ef5a" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> timestep(x0, v0, G, m, dt):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Computes the next position and velocity for all masses given</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    initial conditions and a time step size.</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(x0)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> np.empty(x0.shape, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    v1 <span class="op">=</span> np.empty(v0.shape, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N): <span class="co"># update locations for all masses each step</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        a_i0 <span class="op">=</span> a(i, x0, G, m)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        v1[i] <span class="op">=</span> a_i0 <span class="op">*</span> dt <span class="op">+</span> v0[i]</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        x1[i] <span class="op">=</span> a_i0 <span class="op">*</span> dt<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> v0[i] <span class="op">*</span> dt <span class="op">+</span> x0[i]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x1, v1</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> initial_cond(N, D):</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Generates initial conditions for N unity masses at rest</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">    starting at random positions in D-dimensional space.</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> np.random.rand(N, D) <span class="co"># use random initial locations</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    v0 <span class="op">=</span> np.zeros((N, D), dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> np.ones(N, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x0, v0, m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="conda-family" class="level2">
-<h2 class="anchored" data-anchor-id="conda-family">Conda family</h2>
-<div class="fragment">
-<p>Conda is an open-source tool for managing virtual environments across your system, originally designed for Python package management but now supports a wide range of software (e.g., compiled C++ dependencies).</p>
-</div>
-<div class="fragment">
-<p>Virtual environments created with Conda are not location-dependent like <code>venv</code>, but the same approach applies: do not install in the base/default environment.</p>
-</div>
-<div class="fragment">
-<p>Conda is recommended if you expect to need non-Python dependencies.</p>
-</div>
-</section>
-<section id="section" class="level2 center">
-<h2 class="center anchored" data-anchor-id="section"></h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--set</span> auto_activate_base false  <span class="co"># turn off the default environment</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-n</span> some_name  <span class="co"># or use paths with `-p`</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate some_name</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="conda-based-package-managers" class="level2">
-<h2 class="anchored" data-anchor-id="conda-based-package-managers">Conda-based package managers</h2>
-<p>Some alternatives to conda exist and offer some advantages, including speed:</p>
-<ul>
-<li><a href="https://docs.anaconda.com/miniconda/">Miniconda</a>: minimal Conda installation without all the packages that come with the full Anaconda distribution</li>
-<li><a href="https://pixi.sh/latest/">Pixi</a>: fast, Rust-based package manager and workflow tool Some other</li>
-<li><a href="https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html">Micromamba</a>: tiny version of Mamba, statically linked C++ binary</li>
-</ul>
-</section>
-</section>
-<section id="references-and-further-reading" class="level1">
-<h1>References and further reading</h1>
 <hr>
-<p>Schreiner, H., Niemeyer, K., Holland, J. G., Dang, G., &amp; Restrepo, M. I. (2024). “INTERSECT: Packaging” [Data set]. <a href="https://github.com/INTERSECT-training/packaging" class="uri">https://github.com/INTERSECT-training/packaging</a></p>
-<p><a href="https://learn.scientific-python.org/development/">Scientific Python Library Development Guide</a></p>
+<p>Generating initial conditions and taking one timestep:</p>
+<div id="b59fba1f-96f3-4492-8a5e-25e71489e119" class="cell fragment" data-output-location="fragment" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x0, v0, m <span class="op">=</span> initial_cond(<span class="dv">10</span>, <span class="dv">2</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x1, v1 <span class="op">=</span> timestep(x0, v0, <span class="fl">1.0</span>, m, <span class="fl">1.0e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p>Driver function that simulates <span class="math inline">\(S\)</span> time steps:</p>
+</div>
+<div id="303cd40d-f6ff-4bdd-a0e2-17ea337ebe5c" class="cell fragment" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate(N, D, S, G, dt):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    x0, v0, m <span class="op">=</span> initial_cond(N, D)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(S):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        x1, v1 <span class="op">=</span> timestep(x0, v0, G, m, dt)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        x0, v0 <span class="op">=</span> x1, v1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="measuring-performance" class="level2">
+<h2 class="anchored" data-anchor-id="measuring-performance">Measuring performance</h2>
+<div id="f23c4c7d-7e75-487e-92ad-64eaab126ae7" class="cell fragment" data-output-location="fragment" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Ns <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">32</span>, <span class="dv">64</span>, <span class="dv">128</span>, <span class="dv">256</span>, <span class="dv">512</span>, <span class="dv">1024</span>, <span class="dv">2048</span>, <span class="dv">4096</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>runtimes <span class="op">=</span> []</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> N <span class="kw">in</span> Ns:</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> time.time()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    simulate(N, <span class="dv">3</span>, <span class="dv">300</span>, <span class="fl">1.0</span>, <span class="fl">1e-3</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    stop <span class="op">=</span> time.time()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    runtimes.append(stop <span class="op">-</span> start)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div id="ae7e8177-6c06-45fe-86da-5f63643bf9af" class="cell" data-output-location="fragment" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.plot(Ns, runtimes, <span class="st">'o'</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="parallel-computing_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Does the problem scale quadratically?</p>
+</div>
+</section>
+<section id="threads" class="level2">
+<h2 class="anchored" data-anchor-id="threads">Threads</h2>
+<ul>
+<li>Threads perform work and are not blocked by work of other threads.</li>
+<li>Threads can communicate with each other through state</li>
+</ul>
+</section>
+<section id="threads-probably-dont-use-in-python." class="level2">
+<h2 class="anchored" data-anchor-id="threads-probably-dont-use-in-python.">Threads: probably don’t use in Python.</h2>
+<ul>
+<li>All threads execute in the same process as Python itself.</li>
+<li>Where to use? If you have high latency tasks where you can use spare time for another task (e.g., downloading a large file)</li>
+</ul>
+</section>
+<section id="n-body-with-threading" class="level2">
+<h2 class="anchored" data-anchor-id="n-body-with-threading">N-body with threading</h2>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
