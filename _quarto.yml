@@ -26,6 +26,7 @@ website:
       - testing-continuous-integration.ipynb
       - documentation.ipynb
       - performance-python.ipynb
+      - parallel-computing.ipynb
 
 format:
   html:
