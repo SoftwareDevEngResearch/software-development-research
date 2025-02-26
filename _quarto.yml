@@ -27,6 +27,7 @@ website:
       - documentation.ipynb
       - performance-python.ipynb
       - parallel-computing.ipynb
+      - automation-make.ipynb
 
 format:
   html:
