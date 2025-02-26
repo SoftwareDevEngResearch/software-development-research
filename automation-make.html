@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kyle Niemeyer">
-<meta name="dcterms.date" content="2025-01-08">
+<meta name="dcterms.date" content="2025-02-26">
 
-<title>Introduction to version control with Git – Software Development for Research</title>
+<title>Automating analyses with make – Software Development for Research</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -116,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./version-control.html">Introduction to version control with Git</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./automation-make.html">Automating analyses with make</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -167,7 +167,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./version-control.html" class="sidebar-item-text sidebar-link active">
+  <a href="./version-control.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to version control with Git</span></a>
   </div>
 </li>
@@ -221,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./automation-make.html" class="sidebar-item-text sidebar-link">
+  <a href="./automation-make.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Automating analyses with make</span></a>
   </div>
 </li>
@@ -235,38 +235,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-version-control" id="toc-introduction-to-version-control" class="nav-link active" data-scroll-target="#introduction-to-version-control">Introduction to version control</a>
+  <li><a href="#automating-analyses-using-make" id="toc-automating-analyses-using-make" class="nav-link active" data-scroll-target="#automating-analyses-using-make">Automating analyses using make</a>
   <ul class="collapse">
-  <li><a href="#where-is-version-control-needed" id="toc-where-is-version-control-needed" class="nav-link" data-scroll-target="#where-is-version-control-needed">Where is version control needed?</a></li>
-  <li><a href="#why-is-this-important" id="toc-why-is-this-important" class="nav-link" data-scroll-target="#why-is-this-important">Why is this important?</a></li>
-  <li><a href="#saving-copies" id="toc-saving-copies" class="nav-link" data-scroll-target="#saving-copies">Saving copies</a></li>
-  <li><a href="#git-commits" id="toc-git-commits" class="nav-link" data-scroll-target="#git-commits">Git commits</a></li>
-  <li><a href="#types-of-version-control" id="toc-types-of-version-control" class="nav-link" data-scroll-target="#types-of-version-control">Types of version control</a></li>
-  <li><a href="#git" id="toc-git" class="nav-link" data-scroll-target="#git">Git</a></li>
-  </ul></li>
-  <li><a href="#getting-started-with-git" id="toc-getting-started-with-git" class="nav-link" data-scroll-target="#getting-started-with-git">Getting started with Git</a>
-  <ul class="collapse">
+  <li><a href="#automated-analyses" id="toc-automated-analyses" class="nav-link" data-scroll-target="#automated-analyses">Automated analyses?</a></li>
+  <li><a href="#build-manager-make" id="toc-build-manager-make" class="nav-link" data-scroll-target="#build-manager-make">Build manager: make</a></li>
+  <li><a href="#how-does-make-work" id="toc-how-does-make-work" class="nav-link" data-scroll-target="#how-does-make-work">How does Make work?</a></li>
+  <li><a href="#update-single-file" id="toc-update-single-file" class="nav-link" data-scroll-target="#update-single-file">Update single file</a></li>
+  <li><a href="#what-happens" id="toc-what-happens" class="nav-link" data-scroll-target="#what-happens">What happens?</a></li>
+  <li><a href="#managing-multiple-files" id="toc-managing-multiple-files" class="nav-link" data-scroll-target="#managing-multiple-files">Managing multiple files</a></li>
+  <li><a href="#what-happens-1" id="toc-what-happens-1" class="nav-link" data-scroll-target="#what-happens-1">What happens?</a></li>
+  <li><a href="#other-phony-target-clean" id="toc-other-phony-target-clean" class="nav-link" data-scroll-target="#other-phony-target-clean">Other phony target: <code>clean</code></a></li>
+  <li><a href="#add-programs-to-prerequisites" id="toc-add-programs-to-prerequisites" class="nav-link" data-scroll-target="#add-programs-to-prerequisites">Add programs to prerequisites</a></li>
+  <li><a href="#reducing-repetition-variables" id="toc-reducing-repetition-variables" class="nav-link" data-scroll-target="#reducing-repetition-variables">Reducing repetition: variables</a></li>
+  <li><a href="#automatic-variables" id="toc-automatic-variables" class="nav-link" data-scroll-target="#automatic-variables">Automatic variables</a></li>
+  <li><a href="#generic-rules" id="toc-generic-rules" class="nav-link" data-scroll-target="#generic-rules">Generic rules</a></li>
   <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
-  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
-  <li><a href="#adding-files" id="toc-adding-files" class="nav-link" data-scroll-target="#adding-files">Adding files</a></li>
-  <li><a href="#committing-changes" id="toc-committing-changes" class="nav-link" data-scroll-target="#committing-changes">Committing changes</a></li>
-  <li><a href="#options-to-save-time" id="toc-options-to-save-time" class="nav-link" data-scroll-target="#options-to-save-time">Options to save time</a></li>
-  <li><a href="#commit-messages" id="toc-commit-messages" class="nav-link" data-scroll-target="#commit-messages">Commit messages</a></li>
-  <li><a href="#viewing-history-and-differences" id="toc-viewing-history-and-differences" class="nav-link" data-scroll-target="#viewing-history-and-differences">Viewing history and differences</a></li>
-  <li><a href="#undoing-work" id="toc-undoing-work" class="nav-link" data-scroll-target="#undoing-work">Undoing work</a></li>
-  <li><a href="#branches" id="toc-branches" class="nav-link" data-scroll-target="#branches">Branches</a></li>
-  <li><a href="#merging-branches" id="toc-merging-branches" class="nav-link" data-scroll-target="#merging-branches">Merging branches</a></li>
+  <li><a href="#define-sets-of-files" id="toc-define-sets-of-files" class="nav-link" data-scroll-target="#define-sets-of-files">Define sets of files</a></li>
+  <li><a href="#settings-target" id="toc-settings-target" class="nav-link" data-scroll-target="#settings-target"><code>settings</code> target</a></li>
+  <li><a href="#further-streamlining" id="toc-further-streamlining" class="nav-link" data-scroll-target="#further-streamlining">Further streamlining</a></li>
+  <li><a href="#documenting-a-makefile" id="toc-documenting-a-makefile" class="nav-link" data-scroll-target="#documenting-a-makefile">Documenting a Makefile</a></li>
+  <li><a href="#auto-documenting-a-makefile" id="toc-auto-documenting-a-makefile" class="nav-link" data-scroll-target="#auto-documenting-a-makefile">“Auto”-documenting a Makefile</a></li>
+  </ul></li>
+  <li><a href="#other-uses-for-make" id="toc-other-uses-for-make" class="nav-link" data-scroll-target="#other-uses-for-make">Other uses for Make ?</a>
+  <ul class="collapse">
+  <li><a href="#example-with-latex" id="toc-example-with-latex" class="nav-link" data-scroll-target="#example-with-latex">Example with LaTeX</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="version-control-revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="automation-make-revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction to version control with Git</h1>
+<h1 class="title">Automating analyses with make</h1>
 </div>
 
 
@@ -290,7 +292,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 8, 2025</p>
+      <p class="date">February 26, 2025</p>
     </div>
   </div>
   
@@ -302,263 +304,338 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction-to-version-control" class="level1">
-<h1>Introduction to version control</h1>
-<section id="where-is-version-control-needed" class="level2">
-<h2 class="anchored" data-anchor-id="where-is-version-control-needed">Where is version control needed?</h2>
+<section id="automating-analyses-using-make" class="level1">
+<h1>Automating analyses using make</h1>
+<section id="automated-analyses" class="level2">
+<h2 class="anchored" data-anchor-id="automated-analyses">Automated analyses?</h2>
 <ul>
-<li>Backing up changing files</li>
-<li>Storing and accessing an annotated history of changes</li>
-<li>Managing the merging of changes between different change sets</li>
+<li>What if analysis depends on many files?</li>
+<li>Need to redo analysis with new data?</li>
+<li>What if analysis has several steps in a particular order?</li>
 </ul>
 </section>
-<section id="why-is-this-important" class="level2">
-<h2 class="anchored" data-anchor-id="why-is-this-important">Why is this important?</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="http://phdcomics.com/comics/archive.php?comicid=1323"><img src="./images/phd-comics-versions.gif" class="img-fluid figure-img" alt="Comic on file versions from PhD Comics https://phdcomics.com/comics/archive.php?comicid=1323"></a></p>
-<figcaption>Image credit: Jorge Cham, PhD Comics</figcaption>
-</figure>
+<section id="build-manager-make" class="level2">
+<h2 class="anchored" data-anchor-id="build-manager-make">Build manager: make</h2>
+<div class="fragment">
+<p>Tools like “Make” were developed to help compile complex software, but can also be used to automate any workflow.</p>
 </div>
 </section>
-<section id="saving-copies" class="level2">
-<h2 class="anchored" data-anchor-id="saving-copies">Saving copies</h2>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code-2.py</code>
-</p>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code-fix.py</code>
-</p>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code-final.py</code>
-</p>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code-final-4Apr.py</code>
-</p>
+<section id="how-does-make-work" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-make-work">How does Make work?</h2>
+<ol type="1">
+<li>Each time the operating system creates, reads, or changes a file, it updates a <strong>timestamp</strong> on the file. Make compares these timestamps.</li>
+<li>User describes which files depend on each other by writing <strong>rules</strong> in a <code>Makefile</code>.</li>
+<li>Rules tell Make how to update an out-of-date file.</li>
+<li>When running Make, it checks all the rules and runs the commands needed to update those that are out of date. If <strong>transitive dependencies</strong>, then Make traces through to run rules in the right order.</li>
+</ol>
 </section>
-<section id="git-commits" class="level2">
-<h2 class="anchored" data-anchor-id="git-commits">Git commits</h2>
-<p class="fragment current-visible">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-<p class="fragment current-visible">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-<p class="fragment current-visible">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-<p class="fragment current-visible">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-<p class="fragment">
-<img src="./images/code-file.png" height="50" style="vertical-align:middle"> <code>important_code.py</code>
-</p>
-</section>
-<section id="types-of-version-control" class="level2">
-<h2 class="anchored" data-anchor-id="types-of-version-control">Types of version control</h2>
-<div class="fragment">
-<p>Centralized:</p>
+<section id="update-single-file" class="level2">
+<h2 class="anchored" data-anchor-id="update-single-file">Update single file</h2>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Makefile</strong></pre>
+</div>
+<pre class="make fragment" data-filename="Makefile"><code># regenerate results
+results/moby_dick.csv : data/moby_dick.txt 
+    python src/countwords.py \
+    data/moby_dick.txt &gt; results/moby_dick.csv</code></pre>
 </div>
 <ul>
-<li>Concurrent Version System (cvs)</li>
-<li>Subversion (svn)</li>
-<li>Perforce (p4)</li>
+<li><code>#</code> indicates a comment</li>
+<li>2nd and 3rd lines: build rule, using format <code>target : prerequisite</code></li>
+<li>backslash (<code>\</code>) splits line</li>
+<li>recipe consists of 1+ shell commands, prefixed by single tab character (no spaces)</li>
 </ul>
 <div class="fragment">
-<p>Distributed:</p>
-</div>
-<ul>
-<li>Decentralized CVS (dcvs)</li>
-<li>mercurial (hg)</li>
-<li>bazaar (bzr)</li>
-<li><strong>Git (git)</strong></li>
-</ul>
-</section>
-<section id="git" class="level2">
-<h2 class="anchored" data-anchor-id="git">Git</h2>
-<p><img src="./images/giant-swiss-army-knife.jpg" class="img-fluid" style="width:60.0%" alt="giant Swiss Army knife with far too many tools"></p>
-<blockquote class="blockquote">
-<p>Git is a knife whose handle is also a knife. – <a href="https://ixd.ucsd.edu/home/f16/index.php">Philip Guo</a></p>
-</blockquote>
-<hr>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/xkcd-git.png" class="img-fluid figure-img" style="width:60.0%" alt="If that doesn't fix it, git.txt contains the phone number of a friend of mine who understands git. Just wait through a few minutes of 'It's really pretty simple, just think of branches as...' and eventually you'll learn the commands that will fix everything."></p>
-<figcaption>Image credit: <a href="https://xkcd.com/1597/">xkcd</a></figcaption>
-</figure>
+<p>Run using command <code>make</code></p>
 </div>
 </section>
+<section id="what-happens" class="level2">
+<h2 class="anchored" data-anchor-id="what-happens">What happens?</h2>
+<ol type="1">
+<li>If <code>results/moby_dick.csv</code> doesn’t exist, Make runs recipe to create it</li>
+<li>If <code>data/moby_dick.txt</code> is newer than <code>results/moby_dick.csv</code>, Make runs recipe to update it</li>
+<li>If <code>results/moby_dick.csv</code> is newer than its prerequisite, nothing happens</li>
+</ol>
 </section>
-<section id="getting-started-with-git" class="level1">
-<h1>Getting started with Git</h1>
-<hr>
-<section id="section" class="level2 center">
-<h2 class="center anchored" data-anchor-id="section"></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git <span class="at">--help</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git config <span class="at">--global</span> user.name <span class="st">"Kyle Niemeyer"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git config <span class="at">--global</span> user.email <span class="st">"kyle.niemeyer@oregonstate.edu"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git config <span class="at">--global</span> core.editor <span class="st">"vim"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="section-1" class="level2 center">
-<h2 class="center anchored" data-anchor-id="section-1"></h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~</span> $ mkdir analysis_code</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~</span> $ cd analysis_code</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git init</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Initialized</span> empty Git repository in ~/analysis_code/.git/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="section-2" class="level2 center">
-<h2 class="center anchored" data-anchor-id="section-2"></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ ls</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ ls <span class="at">-A</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">.git</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ cd .git <span class="kw">&amp;&amp;</span> <span class="fu">ls</span> <span class="at">-A</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">HEAD</span>    config    description    hooks    index    info    logs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="fragment callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="managing-multiple-files" class="level2">
+<h2 class="anchored" data-anchor-id="managing-multiple-files">Managing multiple files</h2>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Makefile</strong></pre>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Try this yourself.</p>
-</div>
-</div>
-</section>
-<section id="adding-files" class="level2 center">
-<h2 class="center anchored" data-anchor-id="adding-files">Adding files</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ touch README.md</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git add README.md</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="fragment callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Try this yourself.</p>
-</div>
-</div>
-</section>
-<section id="committing-changes" class="level2">
-<h2 class="anchored" data-anchor-id="committing-changes">Committing changes</h2>
-<div class="fragment">
-<p>Snapshot of repository = <strong>revision</strong></p>
-</div>
-<div class="fragment">
-<p>Committing a revision:</p>
-</div>
-<ul>
-<li>Saves current state with a unique ID (hash)</li>
-<li>Names you as the author</li>
-<li>Allows you to add a message</li>
-</ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git commit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="fragment callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Try this yourself.</p>
-</div>
-</div>
-</section>
-<section id="options-to-save-time" class="level2 center">
-<h2 class="center anchored" data-anchor-id="options-to-save-time">Options to save time</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git commit <span class="at">-m</span> <span class="st">"This is my message"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git commit <span class="at">-am</span> <span class="st">"This is my message </span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="st">                  committing all changes"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="commit-messages" class="level2 center">
-<h2 class="center anchored" data-anchor-id="commit-messages">Commit messages</h2>
-<div class="fragment">
-<p>Bad commit message:</p>
-</div>
-<pre class="text fragment"><code>Fixed bug</code></pre>
-<div class="fragment">
-<p>Better commit message:</p>
-</div>
-<pre class="text fragment"><code>Fixed bug in mass calculation
+<pre class="make fragment" data-filename="Makefile"><code># regenerate results for "Moby Dick"
+results/moby_dick.csv : data/moby_dick.txt 
+    python src/countwords.py data/moby_dick.txt &gt; results/moby_dick.csv
 
-Due to incorrect density value, mass was being calculated
-orders of magnitude larger than it should. The correct value
-of density fixed this problem.</code></pre>
-<hr>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/xkcd-git_commit.png" class="img-fluid figure-img" style="width:50.0%" alt="Merge branch 'asdfasjkfdlas/alkdjf' into sdkjfls-final"></p>
-<figcaption>Image credit: <a href="https://xkcd.com/1296/">xkcd</a></figcaption>
-</figure>
+# regenerate results for "Jane Eyre"
+results/jane_eyre.csv : data/jane_eyre.txt 
+    python src/countwords.py data/jane_eyre.txt &gt; results/jane_eyre.csv</code></pre>
 </div>
 </section>
-<section id="viewing-history-and-differences" class="level2 center">
-<h2 class="center anchored" data-anchor-id="viewing-history-and-differences">Viewing history and differences</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="undoing-work" class="level2 center">
-<h2 class="center anchored" data-anchor-id="undoing-work">Undoing work</h2>
+<section id="what-happens-1" class="level2">
+<h2 class="anchored" data-anchor-id="what-happens-1">What happens?</h2>
 <div class="fragment">
-<p>Un-add a file that has been staged:</p>
+<p>By default, Make only attempts to update the first target (default target)</p>
 </div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git restore <span class="at">--staged</span> <span class="op">&lt;</span>filename<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
-<p>Reset all tracked files to previous commit:</p>
+<p>Could specify target directly: <code>make results/jane_eyre.csv</code></p>
 </div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git reset <span class="pp">[</span><span class="ss">mode</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">commit</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
-<p>Remove uncommitted changes:</p>
+<p>Better, create “phony target” and place at top: <code>all</code></p>
 </div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git checkout <span class="at">--</span> <span class="op">&lt;</span>filename<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="make fragment"><code># regenerate all results
+all : results/moby_dick.csv results/jane_eyre.csv
+
+...</code></pre>
+<div class="fragment">
+<p>Then type <code>make all</code></p>
+</div>
 </section>
-<section id="branches" class="level2">
-<h2 class="anchored" data-anchor-id="branches">Branches</h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> main</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch experimental</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">experimental</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> main</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch new</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">experimental</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> main</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="ex">new</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch <span class="at">-d</span> new</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="ex">experimental</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> main</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git switch experimental</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git branch</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> experimental</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  <span class="ex">main</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="other-phony-target-clean" class="level2">
+<h2 class="anchored" data-anchor-id="other-phony-target-clean">Other phony target: <code>clean</code></h2>
+<p>By convention a clean target provides rules to remove results/generated outputs</p>
+<pre class="make fragment"><code># remove all generated files
+clean : 
+    rm -rf results/*.csv</code></pre>
+<div class="fragment">
+<p>Then type <code>make clean</code>. Safer than manually typing!</p>
+</div>
+<div class="fragment">
+<p>Problem if file/directory named <code>clean</code>. Avoid this by explicitly telling phony targets at top of file:</p>
+<pre class="make"><code>.PHONY : all clean</code></pre>
+</div>
 </section>
-<section id="merging-branches" class="level2 center">
-<h2 class="center anchored" data-anchor-id="merging-branches">Merging branches</h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git switch main</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git merge experimental</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">~/analysis_code</span> $ git log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="add-programs-to-prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="add-programs-to-prerequisites">Add programs to prerequisites</h2>
+<div class="fragment">
+<p>The results also depend on the programs used to generate them, so add to prerequisites:</p>
+</div>
+<pre class="make fragment"><code># regenerate results for "Moby Dick"
+results/moby_dick.csv : data/moby_dick.txt src/countwords.py
+    python src/countwords.py data/moby_dick.txt &gt; results/moby_dick.csv
+
+# regenerate results for "Jane Eyre"
+results/jane_eyre.csv : data/jane_eyre.txt src/countwords.py
+    python src/countwords.py data/jane_eyre.txt &gt; results/jane_eyre.csv</code></pre>
+</section>
+<section id="reducing-repetition-variables" class="level2">
+<h2 class="anchored" data-anchor-id="reducing-repetition-variables">Reducing repetition: variables</h2>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Makefile</strong></pre>
+</div>
+<pre class="make fragment" data-filename="Makefile"><code>.PHONY : all clean
+
+COUNT=src/countwords.py 
+RUN_COUNT=python $(COUNT)
+
+# regenerate all results
+all : results/moby_dick.csv results/jane_eyre.csv
+
+# regenerate results for "Moby Dick"
+results/moby_dick.csv : data/moby_dick.txt $(COUNT)
+    $(RUN_COUNT) data/moby_dick.txt &gt; results/moby_dick.csv
+
+# regenerate results for "Jane Eyre"
+results/jane_eyre.csv : data/jane_eyre.txt $(COUNT)
+    $(RUN_COUNT) data/jane_eyre.txt &gt; results/jane_eyre.csv
+
+# remove all generated files
+clean :
+    rm -f results/*.csv</code></pre>
+</div>
+</section>
+<section id="automatic-variables" class="level2">
+<h2 class="anchored" data-anchor-id="automatic-variables">Automatic variables</h2>
+<div class="fragment">
+<p>Automatic variable for target of the rule: <code>$@</code></p>
+</div>
+<pre class="make fragment"><code># regenerate results for "Moby Dick"
+results/moby_dick.csv : data/moby_dick.txt $(COUNT)
+    $(RUN_COUNT) data/moby_dick.txt &gt; $@</code></pre>
+<div class="fragment">
+<p>The first prerequisite of the rule: <code>$&lt;</code></p>
+</div>
+<pre class="make fragment"><code># regenerate results for "Moby Dick"
+results/moby_dick.csv : data/moby_dick.txt $(COUNT)
+    $(RUN_COUNT) $&lt; &gt; $@</code></pre>
+<div class="fragment">
+<p>Also: all prerequisites of the rule: <code>$^</code></p>
+</div>
+</section>
+<section id="generic-rules" class="level2">
+<h2 class="anchored" data-anchor-id="generic-rules">Generic rules</h2>
+<div class="fragment">
+<p>Create pattern rule using wildcard: <code>%</code></p>
+</div>
+<pre class="make fragment"><code>results/%.csv : data/%.txt $(COUNT)
+    $(RUN_COUNT) $&lt; &gt; $@</code></pre>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<p>So full Makefile is:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Makefile</strong></pre>
+</div>
+<pre class="make fragment" data-filename="Makefile"><code>.PHONY : all clean 
+
+COUNT=src/countwords.py 
+RUN_COUNT=python $(COUNT)
+
+# regenerate all results
+all : results/moby_dick.csv results/jane_eyre.csv \
+  results/time_machine.csv
+
+# regenerate results for any book
+results/%.csv : data/%.txt $(COUNT)
+    $(RUN_COUNT) $&lt; &gt; $@
+
+# remove all generated files
+clean :
+    rm -f results/*.csv</code></pre>
+</div>
+</section>
+<section id="define-sets-of-files" class="level2">
+<h2 class="anchored" data-anchor-id="define-sets-of-files">Define sets of files</h2>
+<p>Use variable to list all results files present:</p>
+<pre class="make fragment"><code>RESULTS=results/*.csv
+all : $(RESULTS)</code></pre>
+<div class="fragment">
+<p>But, only works if results already exist. Instead, use list of files <code>data/</code> directory.</p>
+</div>
+<pre class="make fragment"><code>DATA=$(wildcard data/*.txt)</code></pre>
+<div class="fragment">
+<p>Use pattern substitution to create corresponding output files:</p>
+</div>
+<pre class="make fragment"><code>RESULTS=$(patsubst data/%.txt,results/%.csv,$(DATA))</code></pre>
+</section>
+<section id="settings-target" class="level2">
+<h2 class="anchored" data-anchor-id="settings-target"><code>settings</code> target</h2>
+<p>Use <code>settings</code> target to print variables, using <code>@</code> to avoid repeating command in output:</p>
+<pre class="make fragment"><code># ... rest of Makefile
+
+# show variables' values
+settings :
+    @echo COUNT: $(COUNT)
+    @echo DATA: $(DATA)
+    @echo RESULTS: $(RESULTS)</code></pre>
+</section>
+<section id="further-streamlining" class="level2">
+<h2 class="anchored" data-anchor-id="further-streamlining">Further streamlining</h2>
+<p>Remove <code>RUN_COUNT</code> variable:</p>
+<pre class="make fragment"><code># regenerate results for any book
+results/%.csv : data/%.txt $(COUNT)
+    python $(COUNT) $&lt; &gt; $@</code></pre>
+<div class="fragment">
+<p>Since all depends on <code>$(RESULTS)</code> we can regenerate in one step:</p>
+</div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> clean</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="documenting-a-makefile" class="level2">
+<h2 class="anchored" data-anchor-id="documenting-a-makefile">Documenting a Makefile</h2>
+<div class="fragment">
+<p>Create a phony target <code>help</code> to print commands:</p>
+</div>
+<pre class="make fragment"><code>.PHONY: all clean help settings
+
+# ... other definitions ... 
+
+# show help
+help :
+    @echo "all : regenerate all results."
+    @echo "results/*.csv : regenerate result for any book."
+    @echo "clean : remove all generated files."
+    @echo "settings : show variables' values."
+    @echo "help : show this message."</code></pre>
+<div class="fragment">
+<p>Problem with this? It requires manual updates.</p>
+</div>
+</section>
+<section id="auto-documenting-a-makefile" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="auto-documenting-a-makefile">“Auto”-documenting a Makefile</h2>
+<div class="fragment">
+<p>Use <code>##</code> to mark lines to display and <code>grep</code> to pull lines:</p>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Makefile</strong></pre>
+</div>
+<pre class="make fragment" data-filename="Makefile"><code>.PHONY: all clean help settings
+
+COUNT=src/countwords.py 
+DATA=$(wildcard data/*.txt) 
+RESULTS=$(patsubst data/%.txt,results/%.csv,$(DATA))
+
+## all : regenerate all results.
+all : $(RESULTS)
+
+## results/%.csv : regenerate result for any book.
+results/%.csv : data/%.txt $(COUNT)
+    python $(COUNT) $&lt; &gt; $@
+
+## clean : remove all generated files.
+clean :
+    rm -f $(RESULTS)
+
+## settings : show variables' names
+settings :
+    @echo COUNT: $(COUNT)
+    @echo DATA: $(DATA)
+    @echo RESULTS: $(RESULTS)
+
+## help : show this message
+help :
+    @grep '^##' ./Makefile</code></pre>
+</div>
+</section>
+</section>
+<section id="other-uses-for-make" class="level1">
+<h1>Other uses for Make ?</h1>
+<ul>
+<li>Use Make to automate analyses</li>
+<li>You could also include building a LaTeX document</li>
+</ul>
+<section id="example-with-latex" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="example-with-latex">Example with LaTeX</h2>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Makefile</strong></pre>
+</div>
+<pre class="make" data-filename="Makefile"><code>.PHONY: all paper clean help settings
+
+COUNT=src/countwords.py 
+DATA=$(wildcard data/*.txt) 
+RESULTS=$(patsubst data/%.txt,results/%.csv,$(DATA))
+
+## all : regenerate paper and all results.
+all : paper.pdf $(RESULTS)
+
+## results/%.csv : regenerate result for any book.
+results/%.csv : data/%.txt $(COUNT)
+    python $(COUNT) $&lt; &gt; $@
+
+## paper.pdf : regenerate paper.
+paper.pdf : paper.tex paper.bib $(RESULTS)
+    latexmk -pdf $&lt;
+
+## clean : remove all generated files.
+clean :
+    rm -f $(RESULTS)
+    latexmk -c
+
+## settings : show variables' names
+settings :
+    @echo COUNT: $(COUNT)
+    @echo DATA: $(DATA)
+    @echo RESULTS: $(RESULTS)
+
+## help : show this message
+help :
+    @grep '^##' ./Makefile</code></pre>
+</div>
 
 
 </section>
