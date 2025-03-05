@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kyle Niemeyer">
-<meta name="dcterms.date" content="2025-02-26">
+<meta name="dcterms.date" content="2025-03-05">
 
-<title>Automating analyses with make – Software Development for Research</title>
+<title>Open science, software citation, reproducibility best practices – Software Development for Research</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -116,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./automation-make.html">Automating analyses with make</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./open-science.html">Open science, software citation, reproducibility best practices</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -221,13 +187,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./automation-make.html" class="sidebar-item-text sidebar-link active">
+  <a href="./automation-make.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Automating analyses with make</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./open-science.html" class="sidebar-item-text sidebar-link">
+  <a href="./open-science.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Open science, software citation, reproducibility best practices</span></a>
   </div>
 </li>
@@ -241,40 +207,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#automating-analyses-using-make" id="toc-automating-analyses-using-make" class="nav-link active" data-scroll-target="#automating-analyses-using-make">Automating analyses using make</a>
+  <li><a href="#topics" id="toc-topics" class="nav-link active" data-scroll-target="#topics">Topics</a></li>
+  <li><a href="#open-science-best-practices" id="toc-open-science-best-practices" class="nav-link" data-scroll-target="#open-science-best-practices">Open science best practices</a>
   <ul class="collapse">
-  <li><a href="#automated-analyses" id="toc-automated-analyses" class="nav-link" data-scroll-target="#automated-analyses">Automated analyses?</a></li>
-  <li><a href="#build-manager-make" id="toc-build-manager-make" class="nav-link" data-scroll-target="#build-manager-make">Build manager: make</a></li>
-  <li><a href="#how-does-make-work" id="toc-how-does-make-work" class="nav-link" data-scroll-target="#how-does-make-work">How does Make work?</a></li>
-  <li><a href="#update-single-file" id="toc-update-single-file" class="nav-link" data-scroll-target="#update-single-file">Update single file</a></li>
-  <li><a href="#what-happens" id="toc-what-happens" class="nav-link" data-scroll-target="#what-happens">What happens?</a></li>
-  <li><a href="#managing-multiple-files" id="toc-managing-multiple-files" class="nav-link" data-scroll-target="#managing-multiple-files">Managing multiple files</a></li>
-  <li><a href="#what-happens-1" id="toc-what-happens-1" class="nav-link" data-scroll-target="#what-happens-1">What happens?</a></li>
-  <li><a href="#other-phony-target-clean" id="toc-other-phony-target-clean" class="nav-link" data-scroll-target="#other-phony-target-clean">Other phony target: <code>clean</code></a></li>
-  <li><a href="#add-programs-to-prerequisites" id="toc-add-programs-to-prerequisites" class="nav-link" data-scroll-target="#add-programs-to-prerequisites">Add programs to prerequisites</a></li>
-  <li><a href="#reducing-repetition-variables" id="toc-reducing-repetition-variables" class="nav-link" data-scroll-target="#reducing-repetition-variables">Reducing repetition: variables</a></li>
-  <li><a href="#automatic-variables" id="toc-automatic-variables" class="nav-link" data-scroll-target="#automatic-variables">Automatic variables</a></li>
-  <li><a href="#generic-rules" id="toc-generic-rules" class="nav-link" data-scroll-target="#generic-rules">Generic rules</a></li>
   <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
-  <li><a href="#define-sets-of-files" id="toc-define-sets-of-files" class="nav-link" data-scroll-target="#define-sets-of-files">Define sets of files</a></li>
-  <li><a href="#settings-target" id="toc-settings-target" class="nav-link" data-scroll-target="#settings-target"><code>settings</code> target</a></li>
-  <li><a href="#further-streamlining" id="toc-further-streamlining" class="nav-link" data-scroll-target="#further-streamlining">Further streamlining</a></li>
-  <li><a href="#documenting-a-makefile" id="toc-documenting-a-makefile" class="nav-link" data-scroll-target="#documenting-a-makefile">Documenting a Makefile</a></li>
-  <li><a href="#auto-documenting-a-makefile" id="toc-auto-documenting-a-makefile" class="nav-link" data-scroll-target="#auto-documenting-a-makefile">“Auto”-documenting a Makefile</a></li>
+  <li><a href="#open-source-software" id="toc-open-source-software" class="nav-link" data-scroll-target="#open-source-software">Open source software</a></li>
+  <li><a href="#great-all-done" id="toc-great-all-done" class="nav-link" data-scroll-target="#great-all-done">Great! All done?</a></li>
+  <li><a href="#archiving" id="toc-archiving" class="nav-link" data-scroll-target="#archiving">Archiving</a></li>
+  <li><a href="#live-demo-connect-github-to-zenodo" id="toc-live-demo-connect-github-to-zenodo" class="nav-link" data-scroll-target="#live-demo-connect-github-to-zenodo">Live demo: connect GitHub to Zenodo</a></li>
   </ul></li>
-  <li><a href="#other-uses-for-make" id="toc-other-uses-for-make" class="nav-link" data-scroll-target="#other-uses-for-make">Other uses for Make ?</a>
+  <li><a href="#software-citation" id="toc-software-citation" class="nav-link" data-scroll-target="#software-citation">Software citation</a>
   <ul class="collapse">
-  <li><a href="#example-with-latex" id="toc-example-with-latex" class="nav-link" data-scroll-target="#example-with-latex">Example with LaTeX</a></li>
+  <li><a href="#modern-science-and-engineering-research-depend-on-software." id="toc-modern-science-and-engineering-research-depend-on-software." class="nav-link" data-scroll-target="#modern-science-and-engineering-research-depend-on-software.">Modern science and engineering research depend on software.</a></li>
+  <li><a href="#citing-software-data-is-important." id="toc-citing-software-data-is-important." class="nav-link" data-scroll-target="#citing-software-data-is-important.">Citing software &amp; data is important.</a></li>
+  <li><a href="#software-citation-principles" id="toc-software-citation-principles" class="nav-link" data-scroll-target="#software-citation-principles">Software citation principles</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
+  <li><a href="#software-citation-principles-1" id="toc-software-citation-principles-1" class="nav-link" data-scroll-target="#software-citation-principles-1">Software citation principles</a></li>
+  <li><a href="#software-citation-principles-2" id="toc-software-citation-principles-2" class="nav-link" data-scroll-target="#software-citation-principles-2">Software citation principles</a></li>
+  <li><a href="#how-to-cite" id="toc-how-to-cite" class="nav-link" data-scroll-target="#how-to-cite">How to cite?</a></li>
+  <li><a href="#where-to-cite" id="toc-where-to-cite" class="nav-link" data-scroll-target="#where-to-cite">Where to cite?</a></li>
   </ul></li>
+  <li><a href="#publishing-your-software" id="toc-publishing-your-software" class="nav-link" data-scroll-target="#publishing-your-software">Publishing your software</a>
+  <ul class="collapse">
+  <li><a href="#journal-of-open-source-software-joss" id="toc-journal-of-open-source-software-joss" class="nav-link" data-scroll-target="#journal-of-open-source-software-joss">Journal of Open Source Software (JOSS)</a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
+  <li><a href="#joss-paper-submission" id="toc-joss-paper-submission" class="nav-link" data-scroll-target="#joss-paper-submission">JOSS paper submission</a></li>
+  <li><a href="#joss-paper-reviews" id="toc-joss-paper-reviews" class="nav-link" data-scroll-target="#joss-paper-reviews">JOSS paper reviews</a></li>
+  <li><a href="#joss-review" id="toc-joss-review" class="nav-link" data-scroll-target="#joss-review">JOSS review</a></li>
+  </ul></li>
+  <li><a href="#reproducibility-best-practices" id="toc-reproducibility-best-practices" class="nav-link" data-scroll-target="#reproducibility-best-practices">Reproducibility best practices</a>
+  <ul class="collapse">
+  <li><a href="#repro-packs" id="toc-repro-packs" class="nav-link" data-scroll-target="#repro-packs">“Repro-packs”</a></li>
+  <li><a href="#my-repro-pack-practice" id="toc-my-repro-pack-practice" class="nav-link" data-scroll-target="#my-repro-pack-practice">My repro-pack practice</a></li>
+  <li><a href="#benefits" id="toc-benefits" class="nav-link" data-scroll-target="#benefits">Benefits</a></li>
+  <li><a href="#how-to-citemention" id="toc-how-to-citemention" class="nav-link" data-scroll-target="#how-to-citemention">How to cite/mention</a></li>
+  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3"></a></li>
+  <li><a href="#best-practice-example" id="toc-best-practice-example" class="nav-link" data-scroll-target="#best-practice-example">Best practice example</a></li>
+  </ul></li>
+  <li><a href="#publishing-and-open-access" id="toc-publishing-and-open-access" class="nav-link" data-scroll-target="#publishing-and-open-access">Publishing and open access</a>
+  <ul class="collapse">
+  <li><a href="#open-access-journals" id="toc-open-access-journals" class="nav-link" data-scroll-target="#open-access-journals">Open-access journals</a></li>
+  <li><a href="#types-of-open-access" id="toc-types-of-open-access" class="nav-link" data-scroll-target="#types-of-open-access">Types of open access</a></li>
+  <li><a href="#gold-oa" id="toc-gold-oa" class="nav-link" data-scroll-target="#gold-oa">Gold OA</a></li>
+  <li><a href="#green-oa" id="toc-green-oa" class="nav-link" data-scroll-target="#green-oa">Green OA</a></li>
+  <li><a href="#osu-open-access-policy" id="toc-osu-open-access-policy" class="nav-link" data-scroll-target="#osu-open-access-policy">OSU Open Access policy</a></li>
+  <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4"></a></li>
+  <li><a href="#section-5" id="toc-section-5" class="nav-link" data-scroll-target="#section-5"></a></li>
+  </ul></li>
+  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions?</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="automation-make-revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="open-science-revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Automating analyses with make</h1>
+<h1 class="title">Open science, software citation, reproducibility best practices</h1>
 </div>
 
 
@@ -298,7 +287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 26, 2025</p>
+      <p class="date">March 5, 2025</p>
     </div>
   </div>
   
@@ -310,341 +299,375 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="automating-analyses-using-make" class="level1">
-<h1>Automating analyses using make</h1>
-<section id="automated-analyses" class="level2">
-<h2 class="anchored" data-anchor-id="automated-analyses">Automated analyses?</h2>
+<section id="topics" class="level1">
+<h1>Topics</h1>
 <ul>
-<li>What if analysis depends on many files?</li>
-<li>Need to redo analysis with new data?</li>
-<li>What if analysis has several steps in a particular order?</li>
+<li>Software archival</li>
+<li>Software citation</li>
+<li>Venues for sharing and publication</li>
+<li>Best practices for reproducibility</li>
 </ul>
 </section>
-<section id="build-manager-make" class="level2">
-<h2 class="anchored" data-anchor-id="build-manager-make">Build manager: make</h2>
-<div class="fragment">
-<p>Tools like “Make” were developed to help compile complex software, but can also be used to automate any workflow.</p>
-</div>
-</section>
-<section id="how-does-make-work" class="level2">
-<h2 class="anchored" data-anchor-id="how-does-make-work">How does Make work?</h2>
-<ol type="1">
-<li>Each time the operating system creates, reads, or changes a file, it updates a <strong>timestamp</strong> on the file. Make compares these timestamps.</li>
-<li>User describes which files depend on each other by writing <strong>rules</strong> in a <code>Makefile</code>.</li>
-<li>Rules tell Make how to update an out-of-date file.</li>
-<li>When running Make, it checks all the rules and runs the commands needed to update those that are out of date. If <strong>transitive dependencies</strong>, then Make traces through to run rules in the right order.</li>
-</ol>
-</section>
-<section id="update-single-file" class="level2">
-<h2 class="anchored" data-anchor-id="update-single-file">Update single file</h2>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Makefile</strong></pre>
-</div>
-<pre class="make fragment" data-filename="Makefile"><code># regenerate results
-results/moby_dick.csv : data/moby_dick.txt 
-    python src/countwords.py \
-    data/moby_dick.txt &gt; results/moby_dick.csv</code></pre>
-</div>
-<ul>
-<li><code>#</code> indicates a comment</li>
-<li>2nd and 3rd lines: build rule, using format <code>target : prerequisite</code></li>
-<li>backslash (<code>\</code>) splits line</li>
-<li>recipe consists of 1+ shell commands, prefixed by single tab character (no spaces)</li>
-</ul>
-<div class="fragment">
-<p>Run using command <code>make</code></p>
-</div>
-</section>
-<section id="what-happens" class="level2">
-<h2 class="anchored" data-anchor-id="what-happens">What happens?</h2>
-<ol type="1">
-<li>If <code>results/moby_dick.csv</code> doesn’t exist, Make runs recipe to create it</li>
-<li>If <code>data/moby_dick.txt</code> is newer than <code>results/moby_dick.csv</code>, Make runs recipe to update it</li>
-<li>If <code>results/moby_dick.csv</code> is newer than its prerequisite, nothing happens</li>
-</ol>
-</section>
-<section id="managing-multiple-files" class="level2">
-<h2 class="anchored" data-anchor-id="managing-multiple-files">Managing multiple files</h2>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Makefile</strong></pre>
-</div>
-<pre class="make fragment" data-filename="Makefile"><code># regenerate results for "Moby Dick"
-results/moby_dick.csv : data/moby_dick.txt 
-    python src/countwords.py data/moby_dick.txt &gt; results/moby_dick.csv
-
-# regenerate results for "Jane Eyre"
-results/jane_eyre.csv : data/jane_eyre.txt 
-    python src/countwords.py data/jane_eyre.txt &gt; results/jane_eyre.csv</code></pre>
-</div>
-</section>
-<section id="what-happens-1" class="level2">
-<h2 class="anchored" data-anchor-id="what-happens-1">What happens?</h2>
-<div class="fragment">
-<p>By default, Make only attempts to update the first target (default target)</p>
-</div>
-<div class="fragment">
-<p>Could specify target directly: <code>make results/jane_eyre.csv</code></p>
-</div>
-<div class="fragment">
-<p>Better, create “phony target” and place at top: <code>all</code></p>
-</div>
-<pre class="make fragment"><code># regenerate all results
-all : results/moby_dick.csv results/jane_eyre.csv
-
-...</code></pre>
-<div class="fragment">
-<p>Then type <code>make all</code></p>
-</div>
-</section>
-<section id="other-phony-target-clean" class="level2">
-<h2 class="anchored" data-anchor-id="other-phony-target-clean">Other phony target: <code>clean</code></h2>
-<p>By convention a clean target provides rules to remove results/generated outputs</p>
-<pre class="make fragment"><code># remove all generated files
-clean : 
-    rm -rf results/*.csv</code></pre>
-<div class="fragment">
-<p>Then type <code>make clean</code>. Safer than manually typing!</p>
-</div>
-<div class="fragment">
-<p>Problem if file/directory named <code>clean</code>. Avoid this by explicitly telling phony targets at top of file:</p>
-<pre class="make"><code>.PHONY : all clean</code></pre>
-</div>
-</section>
-<section id="add-programs-to-prerequisites" class="level2">
-<h2 class="anchored" data-anchor-id="add-programs-to-prerequisites">Add programs to prerequisites</h2>
-<div class="fragment">
-<p>The results also depend on the programs used to generate them, so add to prerequisites:</p>
-</div>
-<pre class="make fragment"><code># regenerate results for "Moby Dick"
-results/moby_dick.csv : data/moby_dick.txt src/countwords.py
-    python src/countwords.py data/moby_dick.txt &gt; results/moby_dick.csv
-
-# regenerate results for "Jane Eyre"
-results/jane_eyre.csv : data/jane_eyre.txt src/countwords.py
-    python src/countwords.py data/jane_eyre.txt &gt; results/jane_eyre.csv</code></pre>
-</section>
-<section id="reducing-repetition-variables" class="level2">
-<h2 class="anchored" data-anchor-id="reducing-repetition-variables">Reducing repetition: variables</h2>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Makefile</strong></pre>
-</div>
-<pre class="make fragment" data-filename="Makefile"><code>.PHONY : all clean
-
-COUNT=src/countwords.py 
-RUN_COUNT=python $(COUNT)
-
-# regenerate all results
-all : results/moby_dick.csv results/jane_eyre.csv
-
-# regenerate results for "Moby Dick"
-results/moby_dick.csv : data/moby_dick.txt $(COUNT)
-    $(RUN_COUNT) data/moby_dick.txt &gt; results/moby_dick.csv
-
-# regenerate results for "Jane Eyre"
-results/jane_eyre.csv : data/jane_eyre.txt $(COUNT)
-    $(RUN_COUNT) data/jane_eyre.txt &gt; results/jane_eyre.csv
-
-# remove all generated files
-clean :
-    rm -f results/*.csv</code></pre>
-</div>
-</section>
-<section id="automatic-variables" class="level2">
-<h2 class="anchored" data-anchor-id="automatic-variables">Automatic variables</h2>
-<div class="fragment">
-<p>Automatic variable for target of the rule: <code>$@</code></p>
-</div>
-<pre class="make fragment"><code># regenerate results for "Moby Dick"
-results/moby_dick.csv : data/moby_dick.txt $(COUNT)
-    $(RUN_COUNT) data/moby_dick.txt &gt; $@</code></pre>
-<div class="fragment">
-<p>The first prerequisite of the rule: <code>$&lt;</code></p>
-</div>
-<pre class="make fragment"><code># regenerate results for "Moby Dick"
-results/moby_dick.csv : data/moby_dick.txt $(COUNT)
-    $(RUN_COUNT) $&lt; &gt; $@</code></pre>
-<div class="fragment">
-<p>Also: all prerequisites of the rule: <code>$^</code></p>
-</div>
-</section>
-<section id="generic-rules" class="level2">
-<h2 class="anchored" data-anchor-id="generic-rules">Generic rules</h2>
-<div class="fragment">
-<p>Create pattern rule using wildcard: <code>%</code></p>
-</div>
-<pre class="make fragment"><code>results/%.csv : data/%.txt $(COUNT)
-    $(RUN_COUNT) $&lt; &gt; $@</code></pre>
-</section>
+<section id="open-science-best-practices" class="level1">
+<h1>Open science best practices</h1>
 <section id="section" class="level2">
 <h2 class="anchored" data-anchor-id="section"></h2>
-<p>So full Makefile is:</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Makefile</strong></pre>
-</div>
-<pre class="make fragment" data-filename="Makefile"><code>.PHONY : all clean 
-
-COUNT=src/countwords.py 
-RUN_COUNT=python $(COUNT)
-
-# regenerate all results
-all : results/moby_dick.csv results/jane_eyre.csv \
-  results/time_machine.csv
-
-# regenerate results for any book
-results/%.csv : data/%.txt $(COUNT)
-    $(RUN_COUNT) $&lt; &gt; $@
-
-# remove all generated files
-clean :
-    rm -f results/*.csv</code></pre>
-</div>
-</section>
-<section id="define-sets-of-files" class="level2">
-<h2 class="anchored" data-anchor-id="define-sets-of-files">Define sets of files</h2>
-<p>Use variable to list all results files present:</p>
-<pre class="make fragment"><code>RESULTS=results/*.csv
-all : $(RESULTS)</code></pre>
 <div class="fragment">
-<p>But, only works if results already exist. Instead, use list of files <code>data/</code> directory.</p>
+<p>Sharing software and data openly has clear benefits to other <em>and</em> yourself.</p>
 </div>
-<pre class="make fragment"><code>DATA=$(wildcard data/*.txt)</code></pre>
 <div class="fragment">
-<p>Use pattern substitution to create corresponding output files:</p>
+<p>A paper that isn’t accompanied by the software or data produced is just <strong>advertising</strong>. (<a href="http://sepwww.stanford.edu/doku.php?id=sep:research:reproducible:seg92">Claerbout &amp; Karrenbach, 1992</a>)</p>
 </div>
-<pre class="make fragment"><code>RESULTS=$(patsubst data/%.txt,results/%.csv,$(DATA))</code></pre>
-</section>
-<section id="settings-target" class="level2">
-<h2 class="anchored" data-anchor-id="settings-target"><code>settings</code> target</h2>
-<p>Use <code>settings</code> target to print variables, using <code>@</code> to avoid repeating command in output:</p>
-<pre class="make fragment"><code># ... rest of Makefile
-
-# show variables' values
-settings :
-    @echo COUNT: $(COUNT)
-    @echo DATA: $(DATA)
-    @echo RESULTS: $(RESULTS)</code></pre>
-</section>
-<section id="further-streamlining" class="level2">
-<h2 class="anchored" data-anchor-id="further-streamlining">Further streamlining</h2>
-<p>Remove <code>RUN_COUNT</code> variable:</p>
-<pre class="make fragment"><code># regenerate results for any book
-results/%.csv : data/%.txt $(COUNT)
-    python $(COUNT) $&lt; &gt; $@</code></pre>
 <div class="fragment">
-<p>Since all depends on <code>$(RESULTS)</code> we can regenerate in one step:</p>
+<p>People find reproducible results more trustworthy…</p>
 </div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash fragment code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> clean</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="documenting-a-makefile" class="level2">
-<h2 class="anchored" data-anchor-id="documenting-a-makefile">Documenting a Makefile</h2>
 <div class="fragment">
-<p>Create a phony target <code>help</code> to print commands:</p>
+<p>…and cite you more! (<a href="https://doi.org/10.7717/peerj.175">Piwowar &amp; Vision, 2013</a>)</p>
 </div>
-<pre class="make fragment"><code>.PHONY: all clean help settings
-
-# ... other definitions ... 
-
-# show help
-help :
-    @echo "all : regenerate all results."
-    @echo "results/*.csv : regenerate result for any book."
-    @echo "clean : remove all generated files."
-    @echo "settings : show variables' values."
-    @echo "help : show this message."</code></pre>
 <div class="fragment">
-<p>Problem with this? It requires manual updates.</p>
+<p>Reduce duplicated effort and increase impact.</p>
 </div>
 </section>
-<section id="auto-documenting-a-makefile" class="level2 smaller">
-<h2 class="smaller anchored" data-anchor-id="auto-documenting-a-makefile">“Auto”-documenting a Makefile</h2>
-<div class="fragment">
-<p>Use <code>##</code> to mark lines to display and <code>grep</code> to pull lines:</p>
-</div>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Makefile</strong></pre>
-</div>
-<pre class="make fragment" data-filename="Makefile"><code>.PHONY: all clean help settings
-
-COUNT=src/countwords.py 
-DATA=$(wildcard data/*.txt) 
-RESULTS=$(patsubst data/%.txt,results/%.csv,$(DATA))
-
-## all : regenerate all results.
-all : $(RESULTS)
-
-## results/%.csv : regenerate result for any book.
-results/%.csv : data/%.txt $(COUNT)
-    python $(COUNT) $&lt; &gt; $@
-
-## clean : remove all generated files.
-clean :
-    rm -f $(RESULTS)
-
-## settings : show variables' names
-settings :
-    @echo COUNT: $(COUNT)
-    @echo DATA: $(DATA)
-    @echo RESULTS: $(RESULTS)
-
-## help : show this message
-help :
-    @grep '^##' ./Makefile</code></pre>
-</div>
-</section>
-</section>
-<section id="other-uses-for-make" class="level1">
-<h1>Other uses for Make ?</h1>
+<section id="open-source-software" class="level2">
+<h2 class="anchored" data-anchor-id="open-source-software">Open source software</h2>
+<p>We’ve talked about:</p>
 <ul>
-<li>Use Make to automate analyses</li>
-<li>You could also include building a LaTeX document</li>
+<li>environment management</li>
+<li>version control</li>
+<li>licensing</li>
+<li>documentation</li>
+<li>testing</li>
+<li>packaging and distribution</li>
+<li>software design practices</li>
+<li>optimizing code</li>
 </ul>
-<section id="example-with-latex" class="level2 smaller">
-<h2 class="smaller anchored" data-anchor-id="example-with-latex">Example with LaTeX</h2>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Makefile</strong></pre>
-</div>
-<pre class="make" data-filename="Makefile"><code>.PHONY: all paper clean help settings
-
-COUNT=src/countwords.py 
-DATA=$(wildcard data/*.txt) 
-RESULTS=$(patsubst data/%.txt,results/%.csv,$(DATA))
-
-## all : regenerate paper and all results.
-all : paper.pdf $(RESULTS)
-
-## results/%.csv : regenerate result for any book.
-results/%.csv : data/%.txt $(COUNT)
-    python $(COUNT) $&lt; &gt; $@
-
-## paper.pdf : regenerate paper.
-paper.pdf : paper.tex paper.bib $(RESULTS)
-    latexmk -pdf $&lt;
-
-## clean : remove all generated files.
-clean :
-    rm -f $(RESULTS)
-    latexmk -c
-
-## settings : show variables' names
-settings :
-    @echo COUNT: $(COUNT)
-    @echo DATA: $(DATA)
-    @echo RESULTS: $(RESULTS)
-
-## help : show this message
-help :
-    @grep '^##' ./Makefile</code></pre>
-</div>
-
-
 </section>
+<section id="great-all-done" class="level2 nostretch">
+<h2 class="nostretch anchored" data-anchor-id="great-all-done">Great! All done?</h2>
+<div class="fragment">
+<p><img src="./images/stop-sign.png" class="img-fluid" style="width:30.0%"></p>
+</div>
+<div class="fragment">
+<p>For research, we need one more step: <strong>archival</strong> of software and/or data.</p>
+</div>
+<div class="fragment">
+<p>Consider: what if you cite this, then someone modifies or deletes it?</p>
+</div>
+</section>
+<section id="archiving" class="level2">
+<h2 class="anchored" data-anchor-id="archiving">Archiving</h2>
+<p><img src="./images/archiving.png" class="img-fluid"></p>
+</section>
+<section id="live-demo-connect-github-to-zenodo" class="level2">
+<h2 class="anchored" data-anchor-id="live-demo-connect-github-to-zenodo">Live demo: connect GitHub to Zenodo</h2>
+<div class="fragment">
+<p><img src="./images/live-demo-meme.jpeg" class="img-fluid"></p>
+</div>
+</section>
+</section>
+<section id="software-citation" class="level1">
+<h1>Software citation</h1>
+<section id="modern-science-and-engineering-research-depend-on-software." class="level2">
+<h2 class="anchored" data-anchor-id="modern-science-and-engineering-research-depend-on-software.">Modern science and engineering research depend on software.</h2>
+<div class="fragment">
+<p>2009 survey: 91% of scientists consider software “important” or “very important” to research. (<a href="https://doi.org/10.1109/SECSE.2009.5069155">Hannay et al.&nbsp;2009</a>)</p>
+</div>
+<div class="fragment">
+<p>But, 40–70% of software used is not cited. (<a href="https://doi.org/10.1016/j.joi.2015.07.012">Pan et al.&nbsp;2015</a>, <a href="https://doi.org/10.1002/asi.23538">Howison et al.&nbsp;2016</a>)</p>
+</div>
+</section>
+<section id="citing-software-data-is-important." class="level2">
+<h2 class="anchored" data-anchor-id="citing-software-data-is-important.">Citing software &amp; data is important.</h2>
+<div class="fragment">
+<p>Our research results depend on software and data—different versions of software and data changes our answers.</p>
+</div>
+<div class="fragment">
+<p>Without proper citations, your work is not reproducible.</p>
+</div>
+<div class="fragment">
+<p>Also, academia relies on citations for credit. (for better or worse)</p>
+</div>
+</section>
+<section id="software-citation-principles" class="level2">
+<h2 class="anchored" data-anchor-id="software-citation-principles">Software citation principles</h2>
+<p><img src="./images/software-citation-paper.png" class="img-fluid"></p>
+<p>Smith AM, Katz DS, Niemeyer KE, FORCE11 Software Citation Working Group. (2016) Software citation principles. <em>PeerJ Computer Science</em> 2:e86 <a href="https://doi.org/10.7717/peerj-cs.86">https://doi.org/10.7717/peerj-cs.86</a></p>
+</section>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1"></h2>
+<p><img src="./images/software-citation-principles.png" class="img-fluid"></p>
+</section>
+<section id="software-citation-principles-1" class="level2">
+<h2 class="anchored" data-anchor-id="software-citation-principles-1">Software citation principles</h2>
+<ol class="example" type="1">
+<li><strong>Importance</strong>: software as important as other research products</li>
+<li><strong>Credit &amp; attribution</strong>: citations should facilitate scholarly credit and attribution to all contributors</li>
+<li><strong>Unique identification</strong>: citation should include machine actionable, globally unique, interoperable, and recognized identification method</li>
+</ol>
+</section>
+<section id="software-citation-principles-2" class="level2">
+<h2 class="anchored" data-anchor-id="software-citation-principles-2">Software citation principles</h2>
+<ol start="4" class="example" type="1">
+<li><strong>Persistence</strong>: Unique identifiers and metadata should persist</li>
+<li><strong>Accessibility</strong>: Citations should facilitate access to software and associated metadata</li>
+<li><strong>Specificity</strong>: Citations should facilitate identification of, and access to, specific version of software used</li>
+</ol>
+</section>
+<section id="how-to-cite" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-cite">How to cite?</h2>
+<div class="fragment" data-fragment-index="1">
+<p>Name/description</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>Authors/developers</p>
+</div>
+<div class="fragment fade-in" data-fragment-index="3">
+<div class="fragment semi-fade-out" data-fragment-index="4">
+<p>DOI or other unique/persistent identifier</p>
+</div>
+</div>
+<div class="fragment" data-fragment-index="4">
+<p>Version number/commit hash</p>
+</div>
+<div class="fragment" data-fragment-index="5">
+<p>Location (e.g., GitHub repo)</p>
+</div>
+<div class="fragment" data-fragment-index="6">
+<p>(If there’s a paper describing it, cite that <em>too</em>.)</p>
+</div>
+</section>
+<section id="where-to-cite" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="where-to-cite">Where to cite?</h2>
+<div class="fragment">
+<p>In the text with the references/bibliography.</p>
+</div>
+<div class="columns fragment">
+<div class="column" style="width:50%;">
+<p><img src="./images/paper-snip1.png" class="img-fluid" style="width:90.0%"></p>
+<p>KE Niemeyer, “PyTeCK: a Python-based automatic testing package for chemical kinetic models”. <em>Proceedings of SciPy 2016</em>. <a href="https://doi.org/10.25080/Majora-629e541a-00c">https://doi.org/10.25080/Majora-629e541a-00c</a></p>
+</div><div class="column" style="width:50%;">
+<p><img src="./images/pyjac-paper.png" class="img-fluid" style="width:90.0%"></p>
+<p>KE Niemeyer, NJ Curtis, &amp; CJ Sung. “pyJac: analytical Jacobian generator for chemical kinetics” (2017) <em>Computer Physics Communications</em>, 215:188–203. <a href="https://doi.org/10.1016/j.cpc.2017.02.004">https://doi.org/10.1016/j.cpc.2017.02.004</a></p>
+</div>
+</div>
+</section>
+</section>
+<section id="publishing-your-software" class="level1 smaller">
+<h1 class="smaller">Publishing your software</h1>
+<div class="fragment">
+<p>You’ve put all this effort into crafting your research software following best practices. How to get academic credit for this?</p>
+</div>
+<ul>
+<li>Mention in research article</li>
+<li>Submit to domain-specific software journal: <em>Computer Physics Communications</em>, <em>ACM Transactions on Mathematical Software</em>, <em>Journal of Statistical Software</em>, <em>Nature Methods</em>, <em>Geoscientific Model Development</em></li>
+<li>Archive independently</li>
+<li>Submit to <em>Journal of Open Source Software</em></li>
+</ul>
+<section id="journal-of-open-source-software-joss" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="journal-of-open-source-software-joss">Journal of Open Source Software (JOSS)</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
+<ul>
+<li><a href="https://joss.theoj.org" class="uri">https://joss.theoj.org</a></li>
+<li>Developer-friendly journal for research software packages</li>
+<li>Affiliate of <a href="https://opensource.org/">Open Source Initiative</a></li>
+<li>Open access, no fees: <a href="https://en.wikipedia.org/wiki/Open_access#Diamond/platinum_OA">diamond/platinum open access journal</a></li>
+</ul>
+</div><div class="column" style="width:30%;">
+<p><img src="https://raw.githubusercontent.com/openjournals/digital-assets/master/joss/logo/JOSS_1000x1000.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="fragment">
+<blockquote class="blockquote">
+<p>“If you’ve already licensed your code and have good documentation then we expect that it should take less than an hour to prepare and submit your paper to JOSS.”</p>
+</blockquote>
+</div>
+</section>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2"></h2>
+<p><img src="./images/JOSS-flowchart-updated.png" class="img-fluid"></p>
+</section>
+<section id="joss-paper-submission" class="level2">
+<h2 class="anchored" data-anchor-id="joss-paper-submission">JOSS paper submission</h2>
+<p><img src="./images/joss-submission.png" class="img-fluid"></p>
+</section>
+<section id="joss-paper-reviews" class="level2">
+<h2 class="anchored" data-anchor-id="joss-paper-reviews">JOSS paper reviews</h2>
+<p><img src="./images/joss-reviews.png" class="img-fluid"></p>
+</section>
+<section id="joss-review" class="level2">
+<h2 class="anchored" data-anchor-id="joss-review">JOSS review</h2>
+<p><img src="./images/joss-paper-review.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="reproducibility-best-practices" class="level1">
+<h1>Reproducibility best practices</h1>
+<section id="repro-packs" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="repro-packs">“Repro-packs”</h2>
+<p>Lorena Barba describes <a href="http://blogs.nature.com/naturejobs/2017/04/17/techblog-my-digital-toolbox-lorena-barba/">“reproducibility packages”</a> associated with papers, sharing figures under CC-BY:</p>
+<blockquote class="blockquote">
+<p>“For every figure that presents some result, we bundle the files needed to reproduce it — input or configuration files used to run the simulation(s) behind the result; code to process raw data into derived data; and scripts to create output graphs — and deposit them together with the figure into an open-data repository, such as Figshare. Figshare assigns the bundle a DOI, which we then include in the figure caption so readers can easily find the data and re-create the result. Our lab uses these packages as test beds for our in-house software, to verify that the results haven’t been compromised by software modifications. And because we maintain a public history of all changes, we achieve what one of my students calls ‘unimpeachable provenance’.”</p>
+</blockquote>
+</section>
+<section id="my-repro-pack-practice" class="level2">
+<h2 class="anchored" data-anchor-id="my-repro-pack-practice">My repro-pack practice</h2>
+<ol type="1">
+<li>Produce a single “repro-pack” for an entire paper, which contains:</li>
+</ol>
+<ul>
+<li>Python plotting scripts and associated results data</li>
+<li>Figures (PDFs for plots, always)</li>
+<li>Any other relevant data: input files, configuration files, etc.</li>
+</ul>
+<ol start="2" type="1">
+<li>Upload to Zenodo under CC-BY license</li>
+<li>Cite using the resulting DOI in the associated paper(s)</li>
+</ol>
+</section>
+<section id="benefits" class="level2">
+<h2 class="anchored" data-anchor-id="benefits">Benefits</h2>
+<ul>
+<li>Improving reproducibility and impact of your work</li>
+<li>Reviewers will love you with this one great trick!</li>
+<li>It also lets you reuse your figures without violating the journal copyright. (Yes, when published, the journal owns the paper and everything in it that isn’t licensed from somewhere else.)</li>
+</ul>
+</section>
+<section id="how-to-citemention" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="how-to-citemention">How to cite/mention</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img src="images/repropack-reference.png" class="img-fluid"></p>
+<p><img src="images/repropack-citation.png" class="img-fluid"></p>
+<p>CP Stone, AT Alferman, &amp; KE Niemeyer. 2018. “Accelerating finite-rate chemical kinetics with coprocessors: comparing vectorization methods on GPUs, MICs, and CPUs.” <em>Computer Physics Communications</em>, 226:18–29. <a href="https://doi.org/10.1016/j.cpc.2018.01.015">https://doi.org/10.1016/j.cpc.2018.01.015</a></p>
+</div><div class="column" style="width:50%;">
+<p><img src="images/behnoudfar-PoF-repropack.png" class="img-fluid"></p>
+<p><img src="images/behnoudfar-PoF-citations.png" class="img-fluid"></p>
+<p>D Behnoudfar &amp; KE Niemeyer. 2025. “A single-domain approach for modeling flow in and around porous media applied to buoyant reacting plume formation and ignition.” <em>Physics of Fluids</em>, 37:012111. <a href="https://doi.org/10.1063/5.0248978">https://doi.org/10.1063/5.0248978</a></p>
+</div>
+</div>
+</section>
+<section id="section-3" class="level2">
+<h2 class="anchored" data-anchor-id="section-3"></h2>
+<p><img src="images/repropack-file-layout.png" class="img-fluid"></p>
+</section>
+<section id="best-practice-example" class="level2">
+<h2 class="anchored" data-anchor-id="best-practice-example">Best practice example</h2>
+<ul>
+<li>Source code at <a href="https://github.com/SLACKHA/pyJac">github.com/SLACKHA/pyJac</a> has <code>README</code> with basic usage</li>
+<li>Full documentation website with API docs, installation guide, and examples: <a href="https://slackha.github.io/pyJac/">slackha.github.io/pyJac/</a></li>
+<li>Functional and performance testing suites built-in</li>
+<li>Software paper published with full theory details (<a href="https://doi.org/10.1016/j.cpc.2017.02.004">https://doi.org/10.1016/j.cpc.2017.02.004</a>)</li>
+<li>full source of paper also available via <a href="niemeyer-research-group.github.io/pyJac-paper/">niemeyer-research-group.github.io/pyJac-paper/</a></li>
+<li>Data, figures, and figure scripts from paper available openly via Figshare: <a href="https://doi.org/10.6084/m9.figshare.4578010">https://doi.org/10.6084/m9.figshare.4578010</a></li>
+</ul>
+</section>
+</section>
+<section id="publishing-and-open-access" class="level1">
+<h1>Publishing and open access</h1>
+<section id="open-access-journals" class="level2">
+<h2 class="anchored" data-anchor-id="open-access-journals">Open-access journals</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img src="./images/goldOA.png" class="img-fluid"></p>
+</div><div class="column" style="width:50%;">
+<p>Open Access (OA)</p>
+<div class="fragment">
+<p>Meaning: research output that is free to access/read</p>
+</div>
+</div>
+</div>
+</section>
+<section id="types-of-open-access" class="level2">
+<h2 class="anchored" data-anchor-id="types-of-open-access">Types of open access</h2>
+<div class="columns">
+<div class="column fragment" style="width:50%;">
+<p><img src="./images/greenOA.png" class="img-fluid"></p>
+<p>Green OA</p>
+<p>self archiving</p>
+</div><div class="column fragment" style="width:50%;">
+<p><img src="./images/goldOA.png" class="img-fluid"></p>
+<p>Gold OA</p>
+<p>open access journal</p>
+</div>
+</div>
+</section>
+<section id="gold-oa" class="level2">
+<h2 class="anchored" data-anchor-id="gold-oa">Gold OA</h2>
+<div class="fragment">
+<p>Either fully open journal (ok) or hybrid (bad).</p>
+</div>
+<div class="fragment">
+<p>Typically—though not always—both require article processing charge (APC).</p>
+</div>
+<div class="fragment">
+<p><a href="https://guides.library.oregonstate.edu/c.php?g=285945&amp;p=5909778">Oregon State University Library program</a> covers fees for <em>PeerJ</em> journals.</p>
+</div>
+</section>
+<section id="green-oa" class="level2">
+<h2 class="anchored" data-anchor-id="green-oa">Green OA</h2>
+<div class="fragment">
+<p>Meaning: publish in traditional (closed) venue, but also make available openly.</p>
+</div>
+<div class="fragment">
+<p>Where? eprint/preprint archives.</p>
+</div>
+<div class="columns">
+<div class="column fragment" style="width:25%;">
+<p><img src="./images/arxiv-logo.jpg" class="img-fluid"></p>
+</div><div class="column fragment" style="width:25%;">
+<p><img src="./images/engrxiv-logo.png" class="img-fluid"></p>
+</div><div class="column fragment" style="width:25%;">
+<p><img src="./images/zenodo-logo.png" class="img-fluid"></p>
+</div><div class="column fragment" style="width:25%;">
+<p><img src="./images/scholars-archive.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="osu-open-access-policy" class="level2">
+<h2 class="anchored" data-anchor-id="osu-open-access-policy">OSU Open Access policy</h2>
+<p>Oregon State has an <a href="https://library.oregonstate.edu/open-access">Open Access policy</a>:</p>
+<blockquote class="blockquote">
+<p>In recognition of Oregon State University’s land-grant mission, the Faculty is committed to disseminating its research and scholarship as widely as possible. In addition to the public benefit of such dissemination, this policy is intended to serve faculty interests by promoting greater reach and impact for articles. The policy directs faculty to submit an electronic copy of the author’s accepted (post-peer review, pre-typeset) manuscript of their articles to OSU Libraries for dissemination via the <a href="http://ir.library.oregonstate.edu/">ScholarsArchive@OSU</a> institutional repository.</p>
+</blockquote>
+</section>
+<section id="section-4" class="level2">
+<h2 class="anchored" data-anchor-id="section-4"></h2>
+<div class="columns">
+<div class="column" style="width:43%;">
+<p><img src="./images/behnoudfar-PoF-journal.png" class="img-fluid"> Journal version</p>
+</div><div class="column" style="width:50%;">
+<p><img src="./images/behnoudfar-PoF-arxiv.png" class="img-fluid"></p>
+<p>Author-accepted version</p>
+</div>
+</div>
+</section>
+<section id="section-5" class="level2">
+<h2 class="anchored" data-anchor-id="section-5"></h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Don’t post the journal version of a paper online!</p>
+</div>
+</div>
+<div class="fragment">
+<p>In general when publishing an article, you transfer copyright of the content to the journal.</p>
+</div>
+<div class="fragment">
+<p>Protect yourself by self-archiving the author-accepted text and figures (via a repropack!).</p>
+</div>
+</section>
+</section>
+<section id="questions" class="level1">
+<h1>Questions?</h1>
+
+
 </section>
 
 </main> <!-- /main -->

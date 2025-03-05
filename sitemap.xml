@@ -2,106 +2,114 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/packaging-distribution-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.639Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.836Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/packaging-distribution.html</loc>
-    <lastmod>2025-02-26T17:21:15.639Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.836Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/files-command-line-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.587Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.756Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/files-command-line.html</loc>
-    <lastmod>2025-02-26T17:21:15.587Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.756Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/parallel-computing-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.640Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.836Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/parallel-computing.html</loc>
-    <lastmod>2025-02-26T17:21:15.640Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.836Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/performance-python-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.644Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.840Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/performance-python.html</loc>
-    <lastmod>2025-02-26T17:21:15.644Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.840Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/classes-objects-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.583Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.752Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/classes-objects.html</loc>
-    <lastmod>2025-02-26T17:21:15.583Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.752Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/remote-version-control-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.644Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.840Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/remote-version-control.html</loc>
-    <lastmod>2025-02-26T17:21:15.644Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.840Z</lastmod>
   </url>
   <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/index.html</loc>
-    <lastmod>2025-02-26T17:21:15.639Z</lastmod>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/open-science-revealjs.html</loc>
+    <lastmod>2025-03-05T07:22:24.835Z</lastmod>
   </url>
   <url>
-    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/testing-continuous-integration.html</loc>
-    <lastmod>2025-02-26T17:21:15.644Z</lastmod>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/open-science.html</loc>
+    <lastmod>2025-03-05T07:22:24.835Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/testing-continuous-integration-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.644Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.841Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/testing-continuous-integration.html</loc>
+    <lastmod>2025-03-05T07:22:24.841Z</lastmod>
+  </url>
+  <url>
+    <loc>https://SoftwareDevEngResearch.github.io/software-development-research/index.html</loc>
+    <lastmod>2025-03-05T07:22:24.835Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/automation-make.html</loc>
-    <lastmod>2025-02-26T17:21:15.583Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.752Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/automation-make-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.583Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.752Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/about.html</loc>
-    <lastmod>2025-02-26T17:21:15.583Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.752Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/version-control.html</loc>
-    <lastmod>2025-02-26T17:21:15.644Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.841Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/version-control-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.644Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.841Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/documentation.html</loc>
-    <lastmod>2025-02-26T17:21:15.586Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.756Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/documentation-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.586Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.756Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/managing-environment.html</loc>
-    <lastmod>2025-02-26T17:21:15.639Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.835Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/managing-environment-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.639Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.835Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/getting-started.html</loc>
-    <lastmod>2025-02-26T17:21:15.587Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.756Z</lastmod>
   </url>
   <url>
     <loc>https://SoftwareDevEngResearch.github.io/software-development-research/getting-started-revealjs.html</loc>
-    <lastmod>2025-02-26T17:21:15.587Z</lastmod>
+    <lastmod>2025-03-05T07:22:24.756Z</lastmod>
   </url>
 </urlset>

@@ -2862,14 +2862,686 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Software Development for Research",
+    "objectID": "open-science-revealjs.html#section",
+    "href": "open-science-revealjs.html#section",
+    "title": "Open science, software citation, reproducibility best practices",
     "section": "",
-    "text": "This online resource contains lecture materials from the Oregon State University course ENGR 570 “Software Development for Research”, created by Prof. Kyle Niemeyer.\nThis material is shared openly via the CC BY 4.0 license, and was develoepd using Quarto.",
+    "text": "Sharing software and data openly has clear benefits to other and yourself.\n\n\nA paper that isn’t accompanied by the software or data produced is just advertising. (Claerbout & Karrenbach, 1992)\n\n\nPeople find reproducible results more trustworthy…\n\n\n…and cite you more! (Piwowar & Vision, 2013)\n\n\nReduce duplicated effort and increase impact."
+  },
+  {
+    "objectID": "open-science-revealjs.html#open-source-software",
+    "href": "open-science-revealjs.html#open-source-software",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Open source software",
+    "text": "Open source software\nWe’ve talked about:\n\nenvironment management\nversion control\nlicensing\ndocumentation\ntesting\npackaging and distribution\nsoftware design practices\noptimizing code"
+  },
+  {
+    "objectID": "open-science-revealjs.html#great-all-done",
+    "href": "open-science-revealjs.html#great-all-done",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Great! All done?",
+    "text": "Great! All done?\n\n\n\n\nFor research, we need one more step: archival of software and/or data.\n\n\nConsider: what if you cite this, then someone modifies or deletes it?"
+  },
+  {
+    "objectID": "open-science-revealjs.html#archiving",
+    "href": "open-science-revealjs.html#archiving",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Archiving",
+    "text": "Archiving"
+  },
+  {
+    "objectID": "open-science-revealjs.html#live-demo-connect-github-to-zenodo",
+    "href": "open-science-revealjs.html#live-demo-connect-github-to-zenodo",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Live demo: connect GitHub to Zenodo",
+    "text": "Live demo: connect GitHub to Zenodo"
+  },
+  {
+    "objectID": "open-science-revealjs.html#modern-science-and-engineering-research-depend-on-software.",
+    "href": "open-science-revealjs.html#modern-science-and-engineering-research-depend-on-software.",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Modern science and engineering research depend on software.",
+    "text": "Modern science and engineering research depend on software.\n\n2009 survey: 91% of scientists consider software “important” or “very important” to research. (Hannay et al. 2009)\n\n\nBut, 40–70% of software used is not cited. (Pan et al. 2015, Howison et al. 2016)"
+  },
+  {
+    "objectID": "open-science-revealjs.html#citing-software-data-is-important.",
+    "href": "open-science-revealjs.html#citing-software-data-is-important.",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Citing software & data is important.",
+    "text": "Citing software & data is important.\n\nOur research results depend on software and data—different versions of software and data changes our answers.\n\n\nWithout proper citations, your work is not reproducible.\n\n\nAlso, academia relies on citations for credit. (for better or worse)"
+  },
+  {
+    "objectID": "open-science-revealjs.html#software-citation-principles",
+    "href": "open-science-revealjs.html#software-citation-principles",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Software citation principles",
+    "text": "Software citation principles\n\nSmith AM, Katz DS, Niemeyer KE, FORCE11 Software Citation Working Group. (2016) Software citation principles. PeerJ Computer Science 2:e86 https://doi.org/10.7717/peerj-cs.86"
+  },
+  {
+    "objectID": "open-science-revealjs.html#software-citation-principles-1",
+    "href": "open-science-revealjs.html#software-citation-principles-1",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Software citation principles",
+    "text": "Software citation principles\n\nImportance: software as important as other research products\nCredit & attribution: citations should facilitate scholarly credit and attribution to all contributors\nUnique identification: citation should include machine actionable, globally unique, interoperable, and recognized identification method"
+  },
+  {
+    "objectID": "open-science-revealjs.html#software-citation-principles-2",
+    "href": "open-science-revealjs.html#software-citation-principles-2",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Software citation principles",
+    "text": "Software citation principles\n\nPersistence: Unique identifiers and metadata should persist\nAccessibility: Citations should facilitate access to software and associated metadata\nSpecificity: Citations should facilitate identification of, and access to, specific version of software used"
+  },
+  {
+    "objectID": "open-science-revealjs.html#how-to-cite",
+    "href": "open-science-revealjs.html#how-to-cite",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "How to cite?",
+    "text": "How to cite?\n\nName/description\n\n\nAuthors/developers\n\n\n\nDOI or other unique/persistent identifier\n\n\n\nVersion number/commit hash\n\n\nLocation (e.g., GitHub repo)\n\n\n(If there’s a paper describing it, cite that too.)"
+  },
+  {
+    "objectID": "open-science-revealjs.html#where-to-cite",
+    "href": "open-science-revealjs.html#where-to-cite",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Where to cite?",
+    "text": "Where to cite?\n\nIn the text with the references/bibliography.\n\n\n\n\nKE Niemeyer, “PyTeCK: a Python-based automatic testing package for chemical kinetic models”. Proceedings of SciPy 2016. https://doi.org/10.25080/Majora-629e541a-00c\n\n\nKE Niemeyer, NJ Curtis, & CJ Sung. “pyJac: analytical Jacobian generator for chemical kinetics” (2017) Computer Physics Communications, 215:188–203. https://doi.org/10.1016/j.cpc.2017.02.004"
+  },
+  {
+    "objectID": "open-science-revealjs.html#journal-of-open-source-software-joss",
+    "href": "open-science-revealjs.html#journal-of-open-source-software-joss",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Journal of Open Source Software (JOSS)",
+    "text": "Journal of Open Source Software (JOSS)\n\n\n\nhttps://joss.theoj.org\nDeveloper-friendly journal for research software packages\nAffiliate of Open Source Initiative\nOpen access, no fees: diamond/platinum open access journal\n\n\n\n\n\n\n“If you’ve already licensed your code and have good documentation then we expect that it should take less than an hour to prepare and submit your paper to JOSS.”"
+  },
+  {
+    "objectID": "open-science-revealjs.html#joss-paper-submission",
+    "href": "open-science-revealjs.html#joss-paper-submission",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "JOSS paper submission",
+    "text": "JOSS paper submission"
+  },
+  {
+    "objectID": "open-science-revealjs.html#joss-paper-reviews",
+    "href": "open-science-revealjs.html#joss-paper-reviews",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "JOSS paper reviews",
+    "text": "JOSS paper reviews"
+  },
+  {
+    "objectID": "open-science-revealjs.html#joss-review",
+    "href": "open-science-revealjs.html#joss-review",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "JOSS review",
+    "text": "JOSS review"
+  },
+  {
+    "objectID": "open-science-revealjs.html#repro-packs",
+    "href": "open-science-revealjs.html#repro-packs",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "“Repro-packs”",
+    "text": "“Repro-packs”\nLorena Barba describes “reproducibility packages” associated with papers, sharing figures under CC-BY:\n\n“For every figure that presents some result, we bundle the files needed to reproduce it — input or configuration files used to run the simulation(s) behind the result; code to process raw data into derived data; and scripts to create output graphs — and deposit them together with the figure into an open-data repository, such as Figshare. Figshare assigns the bundle a DOI, which we then include in the figure caption so readers can easily find the data and re-create the result. Our lab uses these packages as test beds for our in-house software, to verify that the results haven’t been compromised by software modifications. And because we maintain a public history of all changes, we achieve what one of my students calls ‘unimpeachable provenance’.”"
+  },
+  {
+    "objectID": "open-science-revealjs.html#my-repro-pack-practice",
+    "href": "open-science-revealjs.html#my-repro-pack-practice",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "My repro-pack practice",
+    "text": "My repro-pack practice\n\nProduce a single “repro-pack” for an entire paper, which contains:\n\n\nPython plotting scripts and associated results data\nFigures (PDFs for plots, always)\nAny other relevant data: input files, configuration files, etc.\n\n\nUpload to Zenodo under CC-BY license\nCite using the resulting DOI in the associated paper(s)"
+  },
+  {
+    "objectID": "open-science-revealjs.html#benefits",
+    "href": "open-science-revealjs.html#benefits",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Benefits",
+    "text": "Benefits\n\nImproving reproducibility and impact of your work\nReviewers will love you with this one great trick!\nIt also lets you reuse your figures without violating the journal copyright. (Yes, when published, the journal owns the paper and everything in it that isn’t licensed from somewhere else.)"
+  },
+  {
+    "objectID": "open-science-revealjs.html#how-to-citemention",
+    "href": "open-science-revealjs.html#how-to-citemention",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "How to cite/mention",
+    "text": "How to cite/mention\n\n\n\n\nCP Stone, AT Alferman, & KE Niemeyer. 2018. “Accelerating finite-rate chemical kinetics with coprocessors: comparing vectorization methods on GPUs, MICs, and CPUs.” Computer Physics Communications, 226:18–29. https://doi.org/10.1016/j.cpc.2018.01.015\n\n\n\nD Behnoudfar & KE Niemeyer. 2025. “A single-domain approach for modeling flow in and around porous media applied to buoyant reacting plume formation and ignition.” Physics of Fluids, 37:012111. https://doi.org/10.1063/5.0248978"
+  },
+  {
+    "objectID": "open-science-revealjs.html#best-practice-example",
+    "href": "open-science-revealjs.html#best-practice-example",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Best practice example",
+    "text": "Best practice example\n\nSource code at github.com/SLACKHA/pyJac has README with basic usage\nFull documentation website with API docs, installation guide, and examples: slackha.github.io/pyJac/\nFunctional and performance testing suites built-in\nSoftware paper published with full theory details (https://doi.org/10.1016/j.cpc.2017.02.004)\nfull source of paper also available via niemeyer-research-group.github.io/pyJac-paper/\nData, figures, and figure scripts from paper available openly via Figshare: https://doi.org/10.6084/m9.figshare.4578010"
+  },
+  {
+    "objectID": "open-science-revealjs.html#open-access-journals",
+    "href": "open-science-revealjs.html#open-access-journals",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Open-access journals",
+    "text": "Open-access journals\n\n\n\n\nOpen Access (OA)\n\nMeaning: research output that is free to access/read"
+  },
+  {
+    "objectID": "open-science-revealjs.html#types-of-open-access",
+    "href": "open-science-revealjs.html#types-of-open-access",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Types of open access",
+    "text": "Types of open access\n\n\n\nGreen OA\nself archiving\n\n\nGold OA\nopen access journal"
+  },
+  {
+    "objectID": "open-science-revealjs.html#gold-oa",
+    "href": "open-science-revealjs.html#gold-oa",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Gold OA",
+    "text": "Gold OA\n\nEither fully open journal (ok) or hybrid (bad).\n\n\nTypically—though not always—both require article processing charge (APC).\n\n\nOregon State University Library program covers fees for PeerJ journals."
+  },
+  {
+    "objectID": "open-science-revealjs.html#green-oa",
+    "href": "open-science-revealjs.html#green-oa",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Green OA",
+    "text": "Green OA\n\nMeaning: publish in traditional (closed) venue, but also make available openly.\n\n\nWhere? eprint/preprint archives."
+  },
+  {
+    "objectID": "open-science-revealjs.html#osu-open-access-policy",
+    "href": "open-science-revealjs.html#osu-open-access-policy",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "OSU Open Access policy",
+    "text": "OSU Open Access policy\nOregon State has an Open Access policy:\n\nIn recognition of Oregon State University’s land-grant mission, the Faculty is committed to disseminating its research and scholarship as widely as possible. In addition to the public benefit of such dissemination, this policy is intended to serve faculty interests by promoting greater reach and impact for articles. The policy directs faculty to submit an electronic copy of the author’s accepted (post-peer review, pre-typeset) manuscript of their articles to OSU Libraries for dissemination via the ScholarsArchive@OSU institutional repository."
+  },
+  {
+    "objectID": "open-science-revealjs.html#section-4",
+    "href": "open-science-revealjs.html#section-4",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "",
+    "text": "Journal version\n\n\nAuthor-accepted version"
+  },
+  {
+    "objectID": "open-science-revealjs.html#section-5",
+    "href": "open-science-revealjs.html#section-5",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "",
+    "text": "Warning\n\n\nDon’t post the journal version of a paper online!\n\n\n\n\nIn general when publishing an article, you transfer copyright of the content to the journal.\n\n\nProtect yourself by self-archiving the author-accepted text and figures (via a repropack!)."
+  },
+  {
+    "objectID": "open-science.html",
+    "href": "open-science.html",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "",
+    "text": "Software archival\nSoftware citation\nVenues for sharing and publication\nBest practices for reproducibility",
     "crumbs": [
-      "Home"
+      "Open science, software citation, reproducibility best practices"
     ]
+  },
+  {
+    "objectID": "open-science.html#section",
+    "href": "open-science.html#section",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "",
+    "text": "Sharing software and data openly has clear benefits to other and yourself.\n\n\nA paper that isn’t accompanied by the software or data produced is just advertising. (Claerbout & Karrenbach, 1992)\n\n\nPeople find reproducible results more trustworthy…\n\n\n…and cite you more! (Piwowar & Vision, 2013)\n\n\nReduce duplicated effort and increase impact.",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#open-source-software",
+    "href": "open-science.html#open-source-software",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Open source software",
+    "text": "Open source software\nWe’ve talked about:\n\nenvironment management\nversion control\nlicensing\ndocumentation\ntesting\npackaging and distribution\nsoftware design practices\noptimizing code",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#great-all-done",
+    "href": "open-science.html#great-all-done",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Great! All done?",
+    "text": "Great! All done?\n\n\n\n\nFor research, we need one more step: archival of software and/or data.\n\n\nConsider: what if you cite this, then someone modifies or deletes it?",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#archiving",
+    "href": "open-science.html#archiving",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Archiving",
+    "text": "Archiving",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#live-demo-connect-github-to-zenodo",
+    "href": "open-science.html#live-demo-connect-github-to-zenodo",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Live demo: connect GitHub to Zenodo",
+    "text": "Live demo: connect GitHub to Zenodo",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#modern-science-and-engineering-research-depend-on-software.",
+    "href": "open-science.html#modern-science-and-engineering-research-depend-on-software.",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Modern science and engineering research depend on software.",
+    "text": "Modern science and engineering research depend on software.\n\n2009 survey: 91% of scientists consider software “important” or “very important” to research. (Hannay et al. 2009)\n\n\nBut, 40–70% of software used is not cited. (Pan et al. 2015, Howison et al. 2016)",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#citing-software-data-is-important.",
+    "href": "open-science.html#citing-software-data-is-important.",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Citing software & data is important.",
+    "text": "Citing software & data is important.\n\nOur research results depend on software and data—different versions of software and data changes our answers.\n\n\nWithout proper citations, your work is not reproducible.\n\n\nAlso, academia relies on citations for credit. (for better or worse)",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#software-citation-principles",
+    "href": "open-science.html#software-citation-principles",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Software citation principles",
+    "text": "Software citation principles\n\nSmith AM, Katz DS, Niemeyer KE, FORCE11 Software Citation Working Group. (2016) Software citation principles. PeerJ Computer Science 2:e86 https://doi.org/10.7717/peerj-cs.86",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#software-citation-principles-1",
+    "href": "open-science.html#software-citation-principles-1",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Software citation principles",
+    "text": "Software citation principles\n\nImportance: software as important as other research products\nCredit & attribution: citations should facilitate scholarly credit and attribution to all contributors\nUnique identification: citation should include machine actionable, globally unique, interoperable, and recognized identification method",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#software-citation-principles-2",
+    "href": "open-science.html#software-citation-principles-2",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Software citation principles",
+    "text": "Software citation principles\n\nPersistence: Unique identifiers and metadata should persist\nAccessibility: Citations should facilitate access to software and associated metadata\nSpecificity: Citations should facilitate identification of, and access to, specific version of software used",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#how-to-cite",
+    "href": "open-science.html#how-to-cite",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "How to cite?",
+    "text": "How to cite?\n\nName/description\n\n\nAuthors/developers\n\n\n\nDOI or other unique/persistent identifier\n\n\n\nVersion number/commit hash\n\n\nLocation (e.g., GitHub repo)\n\n\n(If there’s a paper describing it, cite that too.)",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#where-to-cite",
+    "href": "open-science.html#where-to-cite",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Where to cite?",
+    "text": "Where to cite?\n\nIn the text with the references/bibliography.\n\n\n\n\nKE Niemeyer, “PyTeCK: a Python-based automatic testing package for chemical kinetic models”. Proceedings of SciPy 2016. https://doi.org/10.25080/Majora-629e541a-00c\n\n\nKE Niemeyer, NJ Curtis, & CJ Sung. “pyJac: analytical Jacobian generator for chemical kinetics” (2017) Computer Physics Communications, 215:188–203. https://doi.org/10.1016/j.cpc.2017.02.004",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#journal-of-open-source-software-joss",
+    "href": "open-science.html#journal-of-open-source-software-joss",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Journal of Open Source Software (JOSS)",
+    "text": "Journal of Open Source Software (JOSS)\n\n\n\nhttps://joss.theoj.org\nDeveloper-friendly journal for research software packages\nAffiliate of Open Source Initiative\nOpen access, no fees: diamond/platinum open access journal\n\n\n\n\n\n\n\n“If you’ve already licensed your code and have good documentation then we expect that it should take less than an hour to prepare and submit your paper to JOSS.”",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#joss-paper-submission",
+    "href": "open-science.html#joss-paper-submission",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "JOSS paper submission",
+    "text": "JOSS paper submission",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#joss-paper-reviews",
+    "href": "open-science.html#joss-paper-reviews",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "JOSS paper reviews",
+    "text": "JOSS paper reviews",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#joss-review",
+    "href": "open-science.html#joss-review",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "JOSS review",
+    "text": "JOSS review",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#repro-packs",
+    "href": "open-science.html#repro-packs",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "“Repro-packs”",
+    "text": "“Repro-packs”\nLorena Barba describes “reproducibility packages” associated with papers, sharing figures under CC-BY:\n\n“For every figure that presents some result, we bundle the files needed to reproduce it — input or configuration files used to run the simulation(s) behind the result; code to process raw data into derived data; and scripts to create output graphs — and deposit them together with the figure into an open-data repository, such as Figshare. Figshare assigns the bundle a DOI, which we then include in the figure caption so readers can easily find the data and re-create the result. Our lab uses these packages as test beds for our in-house software, to verify that the results haven’t been compromised by software modifications. And because we maintain a public history of all changes, we achieve what one of my students calls ‘unimpeachable provenance’.”",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#my-repro-pack-practice",
+    "href": "open-science.html#my-repro-pack-practice",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "My repro-pack practice",
+    "text": "My repro-pack practice\n\nProduce a single “repro-pack” for an entire paper, which contains:\n\n\nPython plotting scripts and associated results data\nFigures (PDFs for plots, always)\nAny other relevant data: input files, configuration files, etc.\n\n\nUpload to Zenodo under CC-BY license\nCite using the resulting DOI in the associated paper(s)",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#benefits",
+    "href": "open-science.html#benefits",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Benefits",
+    "text": "Benefits\n\nImproving reproducibility and impact of your work\nReviewers will love you with this one great trick!\nIt also lets you reuse your figures without violating the journal copyright. (Yes, when published, the journal owns the paper and everything in it that isn’t licensed from somewhere else.)",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#how-to-citemention",
+    "href": "open-science.html#how-to-citemention",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "How to cite/mention",
+    "text": "How to cite/mention\n\n\n\n\nCP Stone, AT Alferman, & KE Niemeyer. 2018. “Accelerating finite-rate chemical kinetics with coprocessors: comparing vectorization methods on GPUs, MICs, and CPUs.” Computer Physics Communications, 226:18–29. https://doi.org/10.1016/j.cpc.2018.01.015\n\n\n\nD Behnoudfar & KE Niemeyer. 2025. “A single-domain approach for modeling flow in and around porous media applied to buoyant reacting plume formation and ignition.” Physics of Fluids, 37:012111. https://doi.org/10.1063/5.0248978",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#best-practice-example",
+    "href": "open-science.html#best-practice-example",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Best practice example",
+    "text": "Best practice example\n\nSource code at github.com/SLACKHA/pyJac has README with basic usage\nFull documentation website with API docs, installation guide, and examples: slackha.github.io/pyJac/\nFunctional and performance testing suites built-in\nSoftware paper published with full theory details (https://doi.org/10.1016/j.cpc.2017.02.004)\nfull source of paper also available via niemeyer-research-group.github.io/pyJac-paper/\nData, figures, and figure scripts from paper available openly via Figshare: https://doi.org/10.6084/m9.figshare.4578010",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#open-access-journals",
+    "href": "open-science.html#open-access-journals",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Open-access journals",
+    "text": "Open-access journals\n\n\n\n\nOpen Access (OA)\n\nMeaning: research output that is free to access/read",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#types-of-open-access",
+    "href": "open-science.html#types-of-open-access",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Types of open access",
+    "text": "Types of open access\n\n\n\nGreen OA\nself archiving\n\n\nGold OA\nopen access journal",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#gold-oa",
+    "href": "open-science.html#gold-oa",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Gold OA",
+    "text": "Gold OA\n\nEither fully open journal (ok) or hybrid (bad).\n\n\nTypically—though not always—both require article processing charge (APC).\n\n\nOregon State University Library program covers fees for PeerJ journals.",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#green-oa",
+    "href": "open-science.html#green-oa",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "Green OA",
+    "text": "Green OA\n\nMeaning: publish in traditional (closed) venue, but also make available openly.\n\n\nWhere? eprint/preprint archives.",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#osu-open-access-policy",
+    "href": "open-science.html#osu-open-access-policy",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "OSU Open Access policy",
+    "text": "OSU Open Access policy\nOregon State has an Open Access policy:\n\nIn recognition of Oregon State University’s land-grant mission, the Faculty is committed to disseminating its research and scholarship as widely as possible. In addition to the public benefit of such dissemination, this policy is intended to serve faculty interests by promoting greater reach and impact for articles. The policy directs faculty to submit an electronic copy of the author’s accepted (post-peer review, pre-typeset) manuscript of their articles to OSU Libraries for dissemination via the ScholarsArchive@OSU institutional repository.",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#section-4",
+    "href": "open-science.html#section-4",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "",
+    "text": "Journal version\n\n\nAuthor-accepted version",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "open-science.html#section-5",
+    "href": "open-science.html#section-5",
+    "title": "Open science, software citation, reproducibility best practices",
+    "section": "",
+    "text": "Warning\n\n\n\nDon’t post the journal version of a paper online!\n\n\n\nIn general when publishing an article, you transfer copyright of the content to the journal.\n\n\nProtect yourself by self-archiving the author-accepted text and figures (via a repropack!).",
+    "crumbs": [
+      "Open science, software citation, reproducibility best practices"
+    ]
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#testing-your-code-1",
+    "href": "testing-continuous-integration-revealjs.html#testing-your-code-1",
+    "title": "Testing and continuous integration",
+    "section": "Testing your code",
+    "text": "Testing your code\n\nwhen to test: always.\n\n\nwhere to test: external test suite.\n\n\nExample: tests subdirectory inside package.\n\n\nPerfect is the enemy of good; a basic level of tests is better than nothing. But a rigorous test suite will save you time and potential problems in the long run."
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#why-test",
+    "href": "testing-continuous-integration-revealjs.html#why-test",
+    "title": "Testing and continuous integration",
+    "section": "Why test?",
+    "text": "Why test?\n\nTesting is a core principle of scientific software; it ensures results are trustworthy.\n\n\nScientific and engineering software is used for planes, power plants, satellites, and decisionmaking. Thus, correctness of this software is pretty important.\n\n\nAnd we all know how easy it is to have mistakes in code without realizing it…"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#testing-important-for-contributions",
+    "href": "testing-continuous-integration-revealjs.html#testing-important-for-contributions",
+    "title": "Testing and continuous integration",
+    "section": "Testing important for contributions",
+    "text": "Testing important for contributions\n\nAs a contributor, how do I know if my PR hasn’t broken anything?\nAs a commiter, how do I know if your PR is ok?\nUnit tests are often a great repository of how different features of a library actually work"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#what-and-how-to-test",
+    "href": "testing-continuous-integration-revealjs.html#what-and-how-to-test",
+    "title": "Testing and continuous integration",
+    "section": "What and how to test?",
+    "text": "What and how to test?\ndef kepler_loc(p1, p2, dt, t):\n    '''Use Kepler's Laws to predict location of celestial body'''\n    ...\n    return p3\ndef test_kepler_loc():\n    p1 = jupiter(two_days_ago)\n    p2 = jupiter(yesterday)\n    exp = jupiter(today)\n    obs = kepler_loc(p1, p2, 1, 1)\n    if exp != obs:\n        raise ValueError(\"Jupiter is not where it should be!\")"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#what-is-a-test",
+    "href": "testing-continuous-integration-revealjs.html#what-is-a-test",
+    "title": "Testing and continuous integration",
+    "section": "What is a test?",
+    "text": "What is a test?\n\nTests compare expected outputs versus observed outputs for known inputs. They do not inspect the body of the function directly. In fact, the body of a function does not even have to exist for a valid test to be written.\n\ndef test_func():\n    exp = get_expected()\n    obs = func(*args, **kwargs)\n    assert exp == obs"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#good-idea-test-through-assertions",
+    "href": "testing-continuous-integration-revealjs.html#good-idea-test-through-assertions",
+    "title": "Testing and continuous integration",
+    "section": "Good idea: test through assertions",
+    "text": "Good idea: test through assertions\nFor exactness:\ndef test_kepler_loc():\n    p1 = jupiter(two_days_ago)\n    p2 = jupiter(yesterday)\n    exp = jupiter(today)\n    obs = kepler_loc(p1, p2, 1, 1)\n    assert exp == obs\nFor approximate exactness:\nimport numpy as np\ndef test_kepler_loc():\n    p1 = jupiter(two_days_ago)\n    p2 = jupiter(yesterday)\n    exp = jupiter(today)\n    obs = kepler_loc(p1, p2, 1, 1)\n    assert np.allclose(exp, obs)"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#test-using-pytest",
+    "href": "testing-continuous-integration-revealjs.html#test-using-pytest",
+    "title": "Testing and continuous integration",
+    "section": "Test using pytest",
+    "text": "Test using pytest\n# content of test_sample.py\ndef inc(x):\n    return x + 1\n\ndef test_answer():\n    assert inc(3) == 5\n$ pytest\n\npytest finds all testing modules and functions, and runs them."
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#example",
+    "href": "testing-continuous-integration-revealjs.html#example",
+    "title": "Testing and continuous integration",
+    "section": "Example",
+    "text": "Example\n$ tree simple_packaging\nsimple-packaging\n├── LICENSE\n├── README.md\n├── pyproject.toml\n├── src\n│   └── rosen\n│       ├── __init__.py\n│       ├── _version.py\n│       └── example.py\n└── tests\n    └── test_example.py\n\n4 directories, 7 files\n$ pip install -e .\n$ pytest tests"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#kinds-of-tests",
+    "href": "testing-continuous-integration-revealjs.html#kinds-of-tests",
+    "title": "Testing and continuous integration",
+    "section": "Kinds of tests",
+    "text": "Kinds of tests\n\nunit test: interrogate individual functions and methods\nintegration test: verify that multiple pieces of the code work together\nregression test: confirm that results match prior code results (“blessed” results, assumed correct)"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#section",
+    "href": "testing-continuous-integration-revealjs.html#section",
+    "title": "Testing and continuous integration",
+    "section": "",
+    "text": "Developers warn against having unit tests without any integration tests…\n\n\n\n\n\nSources: twitter/@ThePracticalDev, twitter/@withzombies"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#testing-numbers",
+    "href": "testing-continuous-integration-revealjs.html#testing-numbers",
+    "title": "Testing and continuous integration",
+    "section": "Testing numbers",
+    "text": "Testing numbers\n\nWhen testing using integers, use assert a == b\nWhen testing using floating-point numbers, use a == pytest.approx(b) or np.allclose(a,b), for both scalars and arrays/lists\nBoth approx() and allclose allow you to specify relative and absolute tolerances"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#test-generators-handy",
+    "href": "testing-continuous-integration-revealjs.html#test-generators-handy",
+    "title": "Testing and continuous integration",
+    "section": "Test generators (handy)",
+    "text": "Test generators (handy)\nimport numpy as np\nimport pytest\n\n# contents of add.py\ndef add2(x, y):\n    return x + y\n\nclass Test(object):\n@pytest.mark.parametrize('exp, x, y', [\n    (4, 2, 2),\n    (5, -5, 10),\n    (42, 40, 2),\n    (-128, 0, -128),\n])\ndef test_add2(self, x, y, exp):\n    obs = add2(x, y)\n    assert pytest.approx(obs) == exp"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#types-of-unit-tests",
+    "href": "testing-continuous-integration-revealjs.html#types-of-unit-tests",
+    "title": "Testing and continuous integration",
+    "section": "Types of unit tests",
+    "text": "Types of unit tests\n\nInterior tests: precise points/values do not matter\nedge test: test examines beginning or end of a range\nBest practice: test all edges and at least one interior point."
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#corner-cases",
+    "href": "testing-continuous-integration-revealjs.html#corner-cases",
+    "title": "Testing and continuous integration",
+    "section": "Corner cases",
+    "text": "Corner cases\nTwo or more edge cases combined:\nimport numpy as np\n\ndef sinc2d(x, y):\n    '''(Describe the function here)'''\n    if x == 0.0 and y == 0.0:\n        return 1.0\n    elif x == 0.0:\n        return np.sin(y) / y\n    elif y == 0.0:\n        return np.sin(x) / x\n    else:\n        return (np.sin(x) / x) * (np.sin(y) / y)"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#corner-cases-1",
+    "href": "testing-continuous-integration-revealjs.html#corner-cases-1",
+    "title": "Testing and continuous integration",
+    "section": "Corner cases",
+    "text": "Corner cases\nimport numpy as np\nfrom pytest import approx\nfrom mod import sinc2d\n\ndef test_internal():\n    exp = (2.0 / np.pi) * (-2.0 / (3.0 * np.pi))\n    obs = sinc2d(np.pi / 2.0, 3.0 * np.pi / 2.0)\n    assert exp == approx(obs)\ndef test_edge_x():\n    exp = (-2.0 / (3.0 * np.pi))\n    obs = sinc2d(0.0, 3.0 * np.pi / 2.0)\n    assert exp == approx(obs)\ndef test_edge_y():\n    exp = (2.0 / np.pi)\n    obs = sinc2d(np.pi / 2.0, 0.0)\n    assert exp == approx(obs)\ndef test_corner():\n    exp = 1.0\n    obs = sinc2d(0.0, 0.0)\n    assert exp == approx(obs)"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#initial-version",
+    "href": "testing-continuous-integration-revealjs.html#initial-version",
+    "title": "Testing and continuous integration",
+    "section": "Initial version",
+    "text": "Initial version\nfrom pytest import approx\nfrom mod import std\n\ndef test_std1():\n    obs = std([0.0, 2.0])\n    exp = 1.0\n    assert exp == approx(obs)\ndef std(vals):\n    # this must be cheating.\n    return 1.0"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#improved-version",
+    "href": "testing-continuous-integration-revealjs.html#improved-version",
+    "title": "Testing and continuous integration",
+    "section": "Improved version",
+    "text": "Improved version\nfrom pytest import approx\nfrom mod import std\n\ndef test_std1():\n    obs = std([0.0, 2.0])\n    exp = 1.0\n    assert exp == approx(obs)\n\ndef test_std2():\n    obs = std()\n    exp = 0.0\n    assert exp == approx(obs)\n\ndef test_std3():\n    obs = std([0.0, 4.0])\n    exp = 2.0\n    assert exp == approx(obs)\ndef std(vals):\n    # a bit better, but still not quite generic\n    if len(vals) == 0:\n        return 0.0\n    return vals[-1] / 2.0"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#final-version",
+    "href": "testing-continuous-integration-revealjs.html#final-version",
+    "title": "Testing and continuous integration",
+    "section": "Final version",
+    "text": "Final version\nfrom pytest import approx\nfrom mod import std\n\ndef test_std1():\n    obs = std([0.0, 2.0])\n    exp = 1.0\n    assert exp == approx(obs)\n\ndef test_std2():\n    obs = std()\n    exp = 0.0\n    assert exp == approx(obs)\n\ndef test_std3():\n    obs = std([0.0, 4.0])\n    exp = 2.0\n    assert exp == approx(obs)\n\ndef test_std4():\n    obs = std([1.0, 1.0, 1.0])\n    exp = 0.0\n    assert exp == approx(obs)\ndef std(vals):\n    # finally some math\n    n = len(vals)\n    if n == 0:\n        return 0.0\n    mu = sum(vals) / n\n    var = 0.0\n    for val in vals:\n        var = var + (val - mu)**2\n    return (var / n)**0.5"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#summary-tdd",
+    "href": "testing-continuous-integration-revealjs.html#summary-tdd",
+    "title": "Testing and continuous integration",
+    "section": "Summary: TDD",
+    "text": "Summary: TDD\n\nCan be a helpful concept for writing code, when you know what you want your code to do.\nGood idea to write tests early and often"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#pytest-cov",
+    "href": "testing-continuous-integration-revealjs.html#pytest-cov",
+    "title": "Testing and continuous integration",
+    "section": "pytest-cov",
+    "text": "pytest-cov\nInstructions:\n\nInstall pytest-cov using pip install pytest-cov\npytest -vv --cov./\nLook at your coverage; are you at or near 100%?\nGet more detailed information by having it create a report: pytest -vv --cov=./ --cov-report html"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#test-coverage-example",
+    "href": "testing-continuous-integration-revealjs.html#test-coverage-example",
+    "title": "Testing and continuous integration",
+    "section": "Test coverage example",
+    "text": "Test coverage example\n# content of test_sample.py\ndef inc(x):\n    if x &lt; 0:\n        return x - 1\n    return x + 1\n\ndef test_answer():\n    assert inc(3) == 4\n$ pytest -vv test_sample.py --cov=./\n\ntest_sample.py::test_answer PASSED\n\n---------- coverage: platform darwin, python 3.13.1-final-0 -----------\nName      Stmts   Miss  Cover\n-----------------------------\ntest_sample.py       6      1    83%"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#increasing-coverage",
+    "href": "testing-continuous-integration-revealjs.html#increasing-coverage",
+    "title": "Testing and continuous integration",
+    "section": "Increasing coverage",
+    "text": "Increasing coverage\n# content of test_sample.py\ndef inc(x):\n    if x &lt; 0:\n        return x - 1\n    return x + 1\n\ndef test_answer():\n    assert inc(3) == 4\n\ndef test_answer_negative():\n    assert inc(-2) == -3\n$ pytest -vv test_sample.py --cov=./\n\ntest_sample.py::test_answer PASSED\ntest_sample.py::test_answer_negative PASSED\n\n---------- coverage: platform darwin, python 3.13.1-final-0 -----------\nName      Stmts   Miss  Cover\n-----------------------------\ntest_sample.py       8      0   100%"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#test-coverage-overviewtakeaways",
+    "href": "testing-continuous-integration-revealjs.html#test-coverage-overviewtakeaways",
+    "title": "Testing and continuous integration",
+    "section": "Test coverage overview/takeaways",
+    "text": "Test coverage overview/takeaways\n\nWork towards 100% coverage, but don’t obsess over it.\n\n\nUse coverage to help identiy missing edge/corner cases."
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#importance-of-testing-ci-for-research-software",
+    "href": "testing-continuous-integration-revealjs.html#importance-of-testing-ci-for-research-software",
+    "title": "Testing and continuous integration",
+    "section": "Importance of testing + CI for research software",
+    "text": "Importance of testing + CI for research software\n\n10.1021/acs.orglett.9b03216"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#section-1",
+    "href": "testing-continuous-integration-revealjs.html#section-1",
+    "title": "Testing and continuous integration",
+    "section": "",
+    "text": "Recent paper found that calculating nuclear magnetic resonance chemical shifts on different operating systems lead to different outputs!\n\n\nUsing Python scripts published in Nature Protocols in 2014, cited over 130 times.\n\n\nError due to differences in file sorting across platforms…\n\n\nCould have easily been caught with a CI system that tested on multiple platforms."
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#github-actions",
+    "href": "testing-continuous-integration-revealjs.html#github-actions",
+    "title": "Testing and continuous integration",
+    "section": "GitHub Actions",
+    "text": "GitHub Actions\n\nGitHub now provides a free CI system called GitHub Actions\n\n$ mkdir -p .github/workflows\n$ touch .github/workflows/run-tests.yml"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#section-2",
+    "href": "testing-continuous-integration-revealjs.html#section-2",
+    "title": "Testing and continuous integration",
+    "section": "",
+    "text": "name: Python package\n\non:\n  push:\n    branches: [ main ]\n  pull_request:\n    branches: [ main ]\n\njobs:\n  build:\n    strategy:\n      fail-fast: false\n      matrix:\n        os: [ubuntu-latest, macos-latest, windows-latest]\n        python-version: [\"3.9\", \"3.10\", \"3.11\"]\n\n    runs-on: ${{ matrix.os }}\n    steps:\n    - uses: actions/checkout@v4\n    - name: Set up Python ${{ matrix.python-version }}\n      uses: actions/setup-python@v3\n      with:\n        python-version: ${{ matrix.python-version }}\n    - name: Install dependencies\n      run: |\n        python -m pip install --upgrade pip\n        pip install .\n        pip install flake8 pytest\n    - name: Lint with flake8\n      run: |\n        # stop the build if there are Python syntax errors or undefined names\n        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics\n        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide\n        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics\n    - name: Test with pytest\n      run: |\n        pytest"
+  },
+  {
+    "objectID": "testing-continuous-integration-revealjs.html#fun-with-ci",
+    "href": "testing-continuous-integration-revealjs.html#fun-with-ci",
+    "title": "Testing and continuous integration",
+    "section": "Fun with CI",
+    "text": "Fun with CI\nYou can add badges to your README!\n![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)\n\nCan also add badge for test coverage: https://github.com/marketplace/actions/coverage-badge\n\n\nCI can also be used to build packages and deploy to PyPI, build documentation, etc."
   },
   {
     "objectID": "testing-continuous-integration.html",
@@ -3162,200 +3834,14 @@
     ]
   },
   {
-    "objectID": "testing-continuous-integration-revealjs.html#testing-your-code-1",
-    "href": "testing-continuous-integration-revealjs.html#testing-your-code-1",
-    "title": "Testing and continuous integration",
-    "section": "Testing your code",
-    "text": "Testing your code\n\nwhen to test: always.\n\n\nwhere to test: external test suite.\n\n\nExample: tests subdirectory inside package.\n\n\nPerfect is the enemy of good; a basic level of tests is better than nothing. But a rigorous test suite will save you time and potential problems in the long run."
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#why-test",
-    "href": "testing-continuous-integration-revealjs.html#why-test",
-    "title": "Testing and continuous integration",
-    "section": "Why test?",
-    "text": "Why test?\n\nTesting is a core principle of scientific software; it ensures results are trustworthy.\n\n\nScientific and engineering software is used for planes, power plants, satellites, and decisionmaking. Thus, correctness of this software is pretty important.\n\n\nAnd we all know how easy it is to have mistakes in code without realizing it…"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#testing-important-for-contributions",
-    "href": "testing-continuous-integration-revealjs.html#testing-important-for-contributions",
-    "title": "Testing and continuous integration",
-    "section": "Testing important for contributions",
-    "text": "Testing important for contributions\n\nAs a contributor, how do I know if my PR hasn’t broken anything?\nAs a commiter, how do I know if your PR is ok?\nUnit tests are often a great repository of how different features of a library actually work"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#what-and-how-to-test",
-    "href": "testing-continuous-integration-revealjs.html#what-and-how-to-test",
-    "title": "Testing and continuous integration",
-    "section": "What and how to test?",
-    "text": "What and how to test?\ndef kepler_loc(p1, p2, dt, t):\n    '''Use Kepler's Laws to predict location of celestial body'''\n    ...\n    return p3\ndef test_kepler_loc():\n    p1 = jupiter(two_days_ago)\n    p2 = jupiter(yesterday)\n    exp = jupiter(today)\n    obs = kepler_loc(p1, p2, 1, 1)\n    if exp != obs:\n        raise ValueError(\"Jupiter is not where it should be!\")"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#what-is-a-test",
-    "href": "testing-continuous-integration-revealjs.html#what-is-a-test",
-    "title": "Testing and continuous integration",
-    "section": "What is a test?",
-    "text": "What is a test?\n\nTests compare expected outputs versus observed outputs for known inputs. They do not inspect the body of the function directly. In fact, the body of a function does not even have to exist for a valid test to be written.\n\ndef test_func():\n    exp = get_expected()\n    obs = func(*args, **kwargs)\n    assert exp == obs"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#good-idea-test-through-assertions",
-    "href": "testing-continuous-integration-revealjs.html#good-idea-test-through-assertions",
-    "title": "Testing and continuous integration",
-    "section": "Good idea: test through assertions",
-    "text": "Good idea: test through assertions\nFor exactness:\ndef test_kepler_loc():\n    p1 = jupiter(two_days_ago)\n    p2 = jupiter(yesterday)\n    exp = jupiter(today)\n    obs = kepler_loc(p1, p2, 1, 1)\n    assert exp == obs\nFor approximate exactness:\nimport numpy as np\ndef test_kepler_loc():\n    p1 = jupiter(two_days_ago)\n    p2 = jupiter(yesterday)\n    exp = jupiter(today)\n    obs = kepler_loc(p1, p2, 1, 1)\n    assert np.allclose(exp, obs)"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#test-using-pytest",
-    "href": "testing-continuous-integration-revealjs.html#test-using-pytest",
-    "title": "Testing and continuous integration",
-    "section": "Test using pytest",
-    "text": "Test using pytest\n# content of test_sample.py\ndef inc(x):\n    return x + 1\n\ndef test_answer():\n    assert inc(3) == 5\n$ pytest\n\npytest finds all testing modules and functions, and runs them."
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#example",
-    "href": "testing-continuous-integration-revealjs.html#example",
-    "title": "Testing and continuous integration",
-    "section": "Example",
-    "text": "Example\n$ tree simple_packaging\nsimple-packaging\n├── LICENSE\n├── README.md\n├── pyproject.toml\n├── src\n│   └── rosen\n│       ├── __init__.py\n│       ├── _version.py\n│       └── example.py\n└── tests\n    └── test_example.py\n\n4 directories, 7 files\n$ pip install -e .\n$ pytest tests"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#kinds-of-tests",
-    "href": "testing-continuous-integration-revealjs.html#kinds-of-tests",
-    "title": "Testing and continuous integration",
-    "section": "Kinds of tests",
-    "text": "Kinds of tests\n\nunit test: interrogate individual functions and methods\nintegration test: verify that multiple pieces of the code work together\nregression test: confirm that results match prior code results (“blessed” results, assumed correct)"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#section",
-    "href": "testing-continuous-integration-revealjs.html#section",
-    "title": "Testing and continuous integration",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Software Development for Research",
     "section": "",
-    "text": "Developers warn against having unit tests without any integration tests…\n\n\n\n\n\nSources: twitter/@ThePracticalDev, twitter/@withzombies"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#testing-numbers",
-    "href": "testing-continuous-integration-revealjs.html#testing-numbers",
-    "title": "Testing and continuous integration",
-    "section": "Testing numbers",
-    "text": "Testing numbers\n\nWhen testing using integers, use assert a == b\nWhen testing using floating-point numbers, use a == pytest.approx(b) or np.allclose(a,b), for both scalars and arrays/lists\nBoth approx() and allclose allow you to specify relative and absolute tolerances"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#test-generators-handy",
-    "href": "testing-continuous-integration-revealjs.html#test-generators-handy",
-    "title": "Testing and continuous integration",
-    "section": "Test generators (handy)",
-    "text": "Test generators (handy)\nimport numpy as np\nimport pytest\n\n# contents of add.py\ndef add2(x, y):\n    return x + y\n\nclass Test(object):\n@pytest.mark.parametrize('exp, x, y', [\n    (4, 2, 2),\n    (5, -5, 10),\n    (42, 40, 2),\n    (-128, 0, -128),\n])\ndef test_add2(self, x, y, exp):\n    obs = add2(x, y)\n    assert pytest.approx(obs) == exp"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#types-of-unit-tests",
-    "href": "testing-continuous-integration-revealjs.html#types-of-unit-tests",
-    "title": "Testing and continuous integration",
-    "section": "Types of unit tests",
-    "text": "Types of unit tests\n\nInterior tests: precise points/values do not matter\nedge test: test examines beginning or end of a range\nBest practice: test all edges and at least one interior point."
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#corner-cases",
-    "href": "testing-continuous-integration-revealjs.html#corner-cases",
-    "title": "Testing and continuous integration",
-    "section": "Corner cases",
-    "text": "Corner cases\nTwo or more edge cases combined:\nimport numpy as np\n\ndef sinc2d(x, y):\n    '''(Describe the function here)'''\n    if x == 0.0 and y == 0.0:\n        return 1.0\n    elif x == 0.0:\n        return np.sin(y) / y\n    elif y == 0.0:\n        return np.sin(x) / x\n    else:\n        return (np.sin(x) / x) * (np.sin(y) / y)"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#corner-cases-1",
-    "href": "testing-continuous-integration-revealjs.html#corner-cases-1",
-    "title": "Testing and continuous integration",
-    "section": "Corner cases",
-    "text": "Corner cases\nimport numpy as np\nfrom pytest import approx\nfrom mod import sinc2d\n\ndef test_internal():\n    exp = (2.0 / np.pi) * (-2.0 / (3.0 * np.pi))\n    obs = sinc2d(np.pi / 2.0, 3.0 * np.pi / 2.0)\n    assert exp == approx(obs)\ndef test_edge_x():\n    exp = (-2.0 / (3.0 * np.pi))\n    obs = sinc2d(0.0, 3.0 * np.pi / 2.0)\n    assert exp == approx(obs)\ndef test_edge_y():\n    exp = (2.0 / np.pi)\n    obs = sinc2d(np.pi / 2.0, 0.0)\n    assert exp == approx(obs)\ndef test_corner():\n    exp = 1.0\n    obs = sinc2d(0.0, 0.0)\n    assert exp == approx(obs)"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#initial-version",
-    "href": "testing-continuous-integration-revealjs.html#initial-version",
-    "title": "Testing and continuous integration",
-    "section": "Initial version",
-    "text": "Initial version\nfrom pytest import approx\nfrom mod import std\n\ndef test_std1():\n    obs = std([0.0, 2.0])\n    exp = 1.0\n    assert exp == approx(obs)\ndef std(vals):\n    # this must be cheating.\n    return 1.0"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#improved-version",
-    "href": "testing-continuous-integration-revealjs.html#improved-version",
-    "title": "Testing and continuous integration",
-    "section": "Improved version",
-    "text": "Improved version\nfrom pytest import approx\nfrom mod import std\n\ndef test_std1():\n    obs = std([0.0, 2.0])\n    exp = 1.0\n    assert exp == approx(obs)\n\ndef test_std2():\n    obs = std()\n    exp = 0.0\n    assert exp == approx(obs)\n\ndef test_std3():\n    obs = std([0.0, 4.0])\n    exp = 2.0\n    assert exp == approx(obs)\ndef std(vals):\n    # a bit better, but still not quite generic\n    if len(vals) == 0:\n        return 0.0\n    return vals[-1] / 2.0"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#final-version",
-    "href": "testing-continuous-integration-revealjs.html#final-version",
-    "title": "Testing and continuous integration",
-    "section": "Final version",
-    "text": "Final version\nfrom pytest import approx\nfrom mod import std\n\ndef test_std1():\n    obs = std([0.0, 2.0])\n    exp = 1.0\n    assert exp == approx(obs)\n\ndef test_std2():\n    obs = std()\n    exp = 0.0\n    assert exp == approx(obs)\n\ndef test_std3():\n    obs = std([0.0, 4.0])\n    exp = 2.0\n    assert exp == approx(obs)\n\ndef test_std4():\n    obs = std([1.0, 1.0, 1.0])\n    exp = 0.0\n    assert exp == approx(obs)\ndef std(vals):\n    # finally some math\n    n = len(vals)\n    if n == 0:\n        return 0.0\n    mu = sum(vals) / n\n    var = 0.0\n    for val in vals:\n        var = var + (val - mu)**2\n    return (var / n)**0.5"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#summary-tdd",
-    "href": "testing-continuous-integration-revealjs.html#summary-tdd",
-    "title": "Testing and continuous integration",
-    "section": "Summary: TDD",
-    "text": "Summary: TDD\n\nCan be a helpful concept for writing code, when you know what you want your code to do.\nGood idea to write tests early and often"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#pytest-cov",
-    "href": "testing-continuous-integration-revealjs.html#pytest-cov",
-    "title": "Testing and continuous integration",
-    "section": "pytest-cov",
-    "text": "pytest-cov\nInstructions:\n\nInstall pytest-cov using pip install pytest-cov\npytest -vv --cov./\nLook at your coverage; are you at or near 100%?\nGet more detailed information by having it create a report: pytest -vv --cov=./ --cov-report html"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#test-coverage-example",
-    "href": "testing-continuous-integration-revealjs.html#test-coverage-example",
-    "title": "Testing and continuous integration",
-    "section": "Test coverage example",
-    "text": "Test coverage example\n# content of test_sample.py\ndef inc(x):\n    if x &lt; 0:\n        return x - 1\n    return x + 1\n\ndef test_answer():\n    assert inc(3) == 4\n$ pytest -vv test_sample.py --cov=./\n\ntest_sample.py::test_answer PASSED\n\n---------- coverage: platform darwin, python 3.13.1-final-0 -----------\nName      Stmts   Miss  Cover\n-----------------------------\ntest_sample.py       6      1    83%"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#increasing-coverage",
-    "href": "testing-continuous-integration-revealjs.html#increasing-coverage",
-    "title": "Testing and continuous integration",
-    "section": "Increasing coverage",
-    "text": "Increasing coverage\n# content of test_sample.py\ndef inc(x):\n    if x &lt; 0:\n        return x - 1\n    return x + 1\n\ndef test_answer():\n    assert inc(3) == 4\n\ndef test_answer_negative():\n    assert inc(-2) == -3\n$ pytest -vv test_sample.py --cov=./\n\ntest_sample.py::test_answer PASSED\ntest_sample.py::test_answer_negative PASSED\n\n---------- coverage: platform darwin, python 3.13.1-final-0 -----------\nName      Stmts   Miss  Cover\n-----------------------------\ntest_sample.py       8      0   100%"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#test-coverage-overviewtakeaways",
-    "href": "testing-continuous-integration-revealjs.html#test-coverage-overviewtakeaways",
-    "title": "Testing and continuous integration",
-    "section": "Test coverage overview/takeaways",
-    "text": "Test coverage overview/takeaways\n\nWork towards 100% coverage, but don’t obsess over it.\n\n\nUse coverage to help identiy missing edge/corner cases."
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#importance-of-testing-ci-for-research-software",
-    "href": "testing-continuous-integration-revealjs.html#importance-of-testing-ci-for-research-software",
-    "title": "Testing and continuous integration",
-    "section": "Importance of testing + CI for research software",
-    "text": "Importance of testing + CI for research software\n\n10.1021/acs.orglett.9b03216"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#section-1",
-    "href": "testing-continuous-integration-revealjs.html#section-1",
-    "title": "Testing and continuous integration",
-    "section": "",
-    "text": "Recent paper found that calculating nuclear magnetic resonance chemical shifts on different operating systems lead to different outputs!\n\n\nUsing Python scripts published in Nature Protocols in 2014, cited over 130 times.\n\n\nError due to differences in file sorting across platforms…\n\n\nCould have easily been caught with a CI system that tested on multiple platforms."
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#github-actions",
-    "href": "testing-continuous-integration-revealjs.html#github-actions",
-    "title": "Testing and continuous integration",
-    "section": "GitHub Actions",
-    "text": "GitHub Actions\n\nGitHub now provides a free CI system called GitHub Actions\n\n$ mkdir -p .github/workflows\n$ touch .github/workflows/run-tests.yml"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#section-2",
-    "href": "testing-continuous-integration-revealjs.html#section-2",
-    "title": "Testing and continuous integration",
-    "section": "",
-    "text": "name: Python package\n\non:\n  push:\n    branches: [ main ]\n  pull_request:\n    branches: [ main ]\n\njobs:\n  build:\n    strategy:\n      fail-fast: false\n      matrix:\n        os: [ubuntu-latest, macos-latest, windows-latest]\n        python-version: [\"3.9\", \"3.10\", \"3.11\"]\n\n    runs-on: ${{ matrix.os }}\n    steps:\n    - uses: actions/checkout@v4\n    - name: Set up Python ${{ matrix.python-version }}\n      uses: actions/setup-python@v3\n      with:\n        python-version: ${{ matrix.python-version }}\n    - name: Install dependencies\n      run: |\n        python -m pip install --upgrade pip\n        pip install .\n        pip install flake8 pytest\n    - name: Lint with flake8\n      run: |\n        # stop the build if there are Python syntax errors or undefined names\n        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics\n        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide\n        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics\n    - name: Test with pytest\n      run: |\n        pytest"
-  },
-  {
-    "objectID": "testing-continuous-integration-revealjs.html#fun-with-ci",
-    "href": "testing-continuous-integration-revealjs.html#fun-with-ci",
-    "title": "Testing and continuous integration",
-    "section": "Fun with CI",
-    "text": "Fun with CI\nYou can add badges to your README!\n![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)\n\nCan also add badge for test coverage: https://github.com/marketplace/actions/coverage-badge\n\n\nCI can also be used to build packages and deploy to PyPI, build documentation, etc."
+    "text": "This online resource contains lecture materials from the Oregon State University course ENGR 570 “Software Development for Research”, created by Prof. Kyle Niemeyer.\nThis material is shared openly via the CC BY 4.0 license, and was develoepd using Quarto.",
+    "crumbs": [
+      "Home"
+    ]
   },
   {
     "objectID": "automation-make.html",
