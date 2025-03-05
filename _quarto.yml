@@ -28,6 +28,7 @@ website:
       - performance-python.ipynb
       - parallel-computing.ipynb
       - automation-make.ipynb
+      - open-science.ipynb
 
 format:
   html:
